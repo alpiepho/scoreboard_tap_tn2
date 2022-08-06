@@ -1,7 +1,7 @@
-import 'dart:math';
+// import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:scoreboard_tap_tn2/constants.dart';
 import 'package:scoreboard_tap_tn2/engine.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -10,76 +10,84 @@ import 'package:url_launcher/url_launcher.dart';
 class SettingsModal extends StatefulWidget {
   late BuildContext context;
   late Engine engine;
-  late Function onReset;
-  late Function onClear;
-  late Function onSwap;
+  // late Function onReset;
+  // late Function onClear;
+  // late Function onSwap;
   late Function onDone;
   late Function onReflector;
-  late Function onComment;
+  // late Function onComment;
 
   SettingsModal(
     BuildContext context,
     Engine engine,
-    Function onReset,
-    Function onClear,
-    Function onSwap,
+    // Function onReset,
+    // Function onClear,
+    // Function onSwap,
     Function onDone,
     Function onReflector,
-    Function onComment,
+    // Function onComment,
   ) {
     this.context = context;
     this.engine = engine;
-    this.onReset = onReset;
-    this.onClear = onClear;
-    this.onSwap = onSwap;
+    // this.onReset = onReset;
+    // this.onClear = onClear;
+    // this.onSwap = onSwap;
     this.onDone = onDone;
     this.onReflector = onReflector;
-    this.onComment = onComment;
+    // this.onComment = onComment;
   }
 
   @override
-  _SettingsModal createState() => _SettingsModal(context, engine, onReset,
-      onClear, onSwap, onDone, onReflector, onComment);
+  _SettingsModal createState() => _SettingsModal(
+        context,
+        engine,
+        // onReset,
+        // onClear,
+        // onSwap,
+        onDone,
+        onReflector,
+        // onComment,
+      );
 }
 
 class _SettingsModal extends State<SettingsModal> {
   _SettingsModal(
     BuildContext context,
     Engine engine,
-    Function onReset,
-    Function onClear,
-    Function onSwap,
+    // Function onReset,
+    // Function onClear,
+    // Function onSwap,
     Function onDone,
     Function onReflector,
-    Function onComment,
+    // Function onComment,
   ) {
     this.context = context;
     this.engine = engine;
-    this.onReset = onReset;
-    this.onClear = onClear;
-    this.onSwap = onSwap;
+    // this.onReset = onReset;
+    // this.onClear = onClear;
+    // this.onSwap = onSwap;
     this.onDone = onDone;
     this.onReflector = onReflector;
-    this.onComment = onComment;
-    this._newColorTextLeft = this.engine.pendingColorTextLeft;
-    this._newColorBackgroundLeft = this.engine.pendingColorBackgroundLeft;
-    this._newColorTextRight = this.engine.pendingColorTextRight;
-    this._newColorBackgroundRight = this.engine.pendingColorBackgroundRight;
+    // this.onComment = onComment;
+    // this._newColorTextLeft = this.engine.pendingColorTextLeft;
+    // this._newColorBackgroundLeft = this.engine.pendingColorBackgroundLeft;
+    // this._newColorTextRight = this.engine.pendingColorTextRight;
+    // this._newColorBackgroundRight = this.engine.pendingColorBackgroundRight;
   }
 
   late BuildContext context;
   late Engine engine;
-  late Function onReset;
-  late Function onClear;
-  late Function onSwap;
+  // late Function onReset;
+  // late Function onClear;
+  // late Function onSwap;
   late Function onDone;
   late Function onReflector;
-  late Function onComment;
+  // late Function onComment;
 
-  late Color _newColorTextLeft;
-  late Color _newColorBackgroundLeft;
-  late Color _newColorTextRight;
-  late Color _newColorBackgroundRight;
+  // late Color _newColorTextLeft;
+  // late Color _newColorBackgroundLeft;
+  // late Color _newColorTextRight;
+  // late Color _newColorBackgroundRight;
 
   //late var selectedFont = "";
   //late List<String> allFonts;
@@ -87,138 +95,138 @@ class _SettingsModal extends State<SettingsModal> {
   late var selectedRate;
   late List<String> allRates;
 
-  void _fromEngine() async {
-    setState(() {
-      this._newColorTextLeft = this.engine.pendingColorTextLeft;
-      this._newColorBackgroundLeft = this.engine.pendingColorBackgroundLeft;
-      this._newColorTextRight = this.engine.pendingColorTextRight;
-      this._newColorBackgroundRight = this.engine.pendingColorBackgroundRight;
-    });
-  }
+  // void _fromEngine() async {
+  //   setState(() {
+  //     this._newColorTextLeft = this.engine.pendingColorTextLeft;
+  //     this._newColorBackgroundLeft = this.engine.pendingColorBackgroundLeft;
+  //     this._newColorTextRight = this.engine.pendingColorTextRight;
+  //     this._newColorBackgroundRight = this.engine.pendingColorBackgroundRight;
+  //   });
+  // }
 
-  void _onColorTextLeftChanged(Color color) {
-    this.engine.pendingColorTextLeft = color;
-    _fromEngine();
-  }
+  // void _onColorTextLeftChanged(Color color) {
+  //   this.engine.pendingColorTextLeft = color;
+  //   _fromEngine();
+  // }
 
-  void _onColorBackgroundLeftChanged(Color color) {
-    this.engine.pendingColorBackgroundLeft = color;
-    _fromEngine();
-  }
+  // void _onColorBackgroundLeftChanged(Color color) {
+  //   this.engine.pendingColorBackgroundLeft = color;
+  //   _fromEngine();
+  // }
 
-  void _onColorTextRightChanged(Color color) {
-    this.engine.pendingColorTextRight = color;
-    _fromEngine();
-  }
+  // void _onColorTextRightChanged(Color color) {
+  //   this.engine.pendingColorTextRight = color;
+  //   _fromEngine();
+  // }
 
-  void _onColorBackgroundRightChanged(Color color) {
-    this.engine.pendingColorBackgroundRight = color;
-    _fromEngine();
-  }
+  // void _onColorBackgroundRightChanged(Color color) {
+  //   this.engine.pendingColorBackgroundRight = color;
+  //   _fromEngine();
+  // }
 
-  void colorTextLeftEdit() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Pick a color!'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: _newColorTextLeft,
-              onColorChanged: _onColorTextLeftChanged,
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Done'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void colorTextLeftEdit() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Pick a color!'),
+  //         content: SingleChildScrollView(
+  //           child: ColorPicker(
+  //             pickerColor: _newColorTextLeft,
+  //             onColorChanged: _onColorTextLeftChanged,
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Done'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void colorBackgroundLeftEdit() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Pick a color!'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: _newColorBackgroundLeft,
-              onColorChanged: _onColorBackgroundLeftChanged,
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Done'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void colorBackgroundLeftEdit() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Pick a color!'),
+  //         content: SingleChildScrollView(
+  //           child: ColorPicker(
+  //             pickerColor: _newColorBackgroundLeft,
+  //             onColorChanged: _onColorBackgroundLeftChanged,
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Done'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void colorTextRightEdit() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Pick a color!'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: _newColorTextRight,
-              onColorChanged: _onColorTextRightChanged,
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Done'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void colorTextRightEdit() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Pick a color!'),
+  //         content: SingleChildScrollView(
+  //           child: ColorPicker(
+  //             pickerColor: _newColorTextRight,
+  //             onColorChanged: _onColorTextRightChanged,
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Done'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void colorBackgroundRightEdit() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Pick a color!'),
-          content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: _newColorBackgroundRight,
-              onColorChanged: _onColorBackgroundRightChanged,
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Done'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void colorBackgroundRightEdit() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Pick a color!'),
+  //         content: SingleChildScrollView(
+  //           child: ColorPicker(
+  //             pickerColor: _newColorBackgroundRight,
+  //             onColorChanged: _onColorBackgroundRightChanged,
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Done'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   void fontChanged(FontTypes fontType) async {
     this.engine.fontType = fontType;
@@ -266,32 +274,32 @@ class _SettingsModal extends State<SettingsModal> {
     );
   }
 
-  void onLastPointChanged() async {
-    if (!this.engine.lastPointEnabled) {
-      this.engine.lastPointEnabled = true;
-    } else {
-      this.engine.lastPointEnabled = false;
-    }
-    this.onDone();
-  }
+  // void onLastPointChanged() async {
+  //   if (!this.engine.lastPointEnabled) {
+  //     this.engine.lastPointEnabled = true;
+  //   } else {
+  //     this.engine.lastPointEnabled = false;
+  //   }
+  //   this.onDone();
+  // }
 
-  void onNotify7EnabledChanged() async {
-    if (!this.engine.notify7Enabled) {
-      this.engine.notify7Enabled = true;
-    } else {
-      this.engine.notify7Enabled = false;
-    }
-    this.onDone();
-  }
+  // void onNotify7EnabledChanged() async {
+  //   if (!this.engine.notify7Enabled) {
+  //     this.engine.notify7Enabled = true;
+  //   } else {
+  //     this.engine.notify7Enabled = false;
+  //   }
+  //   this.onDone();
+  // }
 
-  void onNotify8EnabledChanged() async {
-    if (!this.engine.notify8Enabled) {
-      this.engine.notify8Enabled = true;
-    } else {
-      this.engine.notify8Enabled = false;
-    }
-    this.onDone();
-  }
+  // void onNotify8EnabledChanged() async {
+  //   if (!this.engine.notify8Enabled) {
+  //     this.engine.notify8Enabled = true;
+  //   } else {
+  //     this.engine.notify8Enabled = false;
+  //   }
+  //   this.onDone();
+  // }
 
   void onZoomChanged() async {
     if (!this.engine.zoom) {
@@ -302,57 +310,57 @@ class _SettingsModal extends State<SettingsModal> {
     this.onDone();
   }
 
-  void onSetsShowChanged() async {
-    if (!this.engine.setsShow) {
-      this.engine.setsShow = true;
-    } else {
-      this.engine.setsShow = false;
-    }
-    this.onDone();
-  }
+  // void onSetsShowChanged() async {
+  //   if (!this.engine.setsShow) {
+  //     this.engine.setsShow = true;
+  //   } else {
+  //     this.engine.setsShow = false;
+  //   }
+  //   this.onDone();
+  // }
 
-  void onSets5Changed() async {
-    if (!this.engine.sets5) {
-      this.engine.sets5 = true;
-    } else {
-      this.engine.sets5 = false;
-    }
-    this.onDone();
-  }
+  // void onSets5Changed() async {
+  //   if (!this.engine.sets5) {
+  //     this.engine.sets5 = true;
+  //   } else {
+  //     this.engine.sets5 = false;
+  //   }
+  //   this.onDone();
+  // }
 
-  // TODO: these methods that change engine value should be callback functions from above
-  // like for score values
-  void onSetLeftIncrement() async {
-    var maxSets = this.engine.sets5 ? 5 : 3;
-    this.engine.setsLeft++;
-    this.engine.setsLeft = min(this.engine.setsLeft, maxSets);
-    this.onDone();
-  }
+  // // TODO: these methods that change engine value should be callback functions from above
+  // // like for score values
+  // void onSetLeftIncrement() async {
+  //   var maxSets = this.engine.sets5 ? 5 : 3;
+  //   this.engine.setsLeft++;
+  //   this.engine.setsLeft = min(this.engine.setsLeft, maxSets);
+  //   this.onDone();
+  // }
 
-  void onSetLeftDecriment() async {
-    this.engine.setsLeft--;
-    this.engine.setsLeft = max(this.engine.setsLeft, 0);
-    this.onDone();
-  }
+  // void onSetLeftDecriment() async {
+  //   this.engine.setsLeft--;
+  //   this.engine.setsLeft = max(this.engine.setsLeft, 0);
+  //   this.onDone();
+  // }
 
-  void onSetRightIncrement() async {
-    var maxSets = this.engine.sets5 ? 5 : 3;
-    this.engine.setsRight++;
-    this.engine.setsRight = min(this.engine.setsRight, maxSets);
-    this.onDone();
-  }
+  // void onSetRightIncrement() async {
+  //   var maxSets = this.engine.sets5 ? 5 : 3;
+  //   this.engine.setsRight++;
+  //   this.engine.setsRight = min(this.engine.setsRight, maxSets);
+  //   this.onDone();
+  // }
 
-  void onSetRightDecriment() async {
-    this.engine.setsRight--;
-    this.engine.setsRight = max(this.engine.setsRight, 0);
-    this.onDone();
-  }
+  // void onSetRightDecriment() async {
+  //   this.engine.setsRight--;
+  //   this.engine.setsRight = max(this.engine.setsRight, 0);
+  //   this.onDone();
+  // }
 
-  void onClearSets() async {
-    this.engine.setsLeft = 0;
-    this.engine.setsRight = 0;
-    this.onDone();
-  }
+  // void onClearSets() async {
+  //   this.engine.setsLeft = 0;
+  //   this.engine.setsRight = 0;
+  //   this.onDone();
+  // }
 
   Future<void> _launchUrl(String urlString) async {
     Uri _url = Uri.parse(urlString);
@@ -389,211 +397,211 @@ class _SettingsModal extends State<SettingsModal> {
         child: ListView(
           children: <Widget>[
             Divider(),
-            new ListTile(
-              title: new Text(
-                'Swap.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onSwap as void Function()?,
-            ),
-            new ListTile(
-              title: new Text(
-                'Add Set Left.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onSetLeftIncrement,
-            ),
-            new ListTile(
-              title: new Text(
-                'Sub Set Left.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onSetLeftDecriment,
-            ),
-            new ListTile(
-              title: new Text(
-                'Add Set Right.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onSetRightIncrement,
-            ),
-            new ListTile(
-              title: new Text(
-                'Sub Set Right.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onSetRightDecriment,
-            ),
-            new ListTile(
-              title: new Text(
-                'Clear Sets.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onClearSets,
-            ),
-            new ListTile(
-              title: new Text(
-                'Clear Scores.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onClear as void Function()?,
-            ),
-            Divider(),
-            new ListTile(
-              title: new Text(
-                'Reset All.',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onReset as void Function()?,
-            ),
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
-            new ListTile(
-              leading: null,
-              title: new TextFormField(
-                decoration: new InputDecoration.collapsed(
-                  hintText: 'Team Name',
-                ),
-                autofocus: false,
-                initialValue: engine.labelLeft,
-                onChanged: (text) => engine.pendingLabelLeft = text,
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.edit),
-            ),
-            new ListTile(
-              title: new Text(
-                'Text Color...',
-                style: kSettingsTextStyle,
-              ),
-              trailing: Container(
-                width: 30.0,
-                height: 30.0,
-                decoration: BoxDecoration(
-                    color: _newColorTextLeft,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-              ),
-              onTap: colorTextLeftEdit,
-            ),
-            new ListTile(
-              title: new Text(
-                'Background Color...',
-                style: kSettingsTextStyle,
-              ),
-              trailing: Container(
-                width: 30.0,
-                height: 30.0,
-                decoration: BoxDecoration(
-                    color: _newColorBackgroundLeft,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-              ),
-              onTap: colorBackgroundLeftEdit,
-            ),
-            Divider(),
-            new ListTile(
-              leading: null,
-              title: new TextFormField(
-                decoration:
-                    new InputDecoration.collapsed(hintText: 'Team Name'),
-                autofocus: false,
-                initialValue: engine.labelRight,
-                onChanged: (text) => engine.pendingLabelRight = text,
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.edit),
-            ),
-            new ListTile(
-              title: new Text(
-                'Text Color...',
-                style: kSettingsTextStyle,
-              ),
-              trailing: Container(
-                width: 30.0,
-                height: 30.0,
-                decoration: BoxDecoration(
-                    color: _newColorTextRight,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-              ),
-              onTap: colorTextRightEdit,
-            ),
-            new ListTile(
-              title: new Text(
-                'Background Color...',
-                style: kSettingsTextStyle,
-              ),
-              trailing: Container(
-                width: 30.0,
-                height: 30.0,
-                decoration: BoxDecoration(
-                    color: _newColorBackgroundRight,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-              ),
-              onTap: colorBackgroundRightEdit,
-            ),
-            new ListTile(
-              title: new Text(
-                'Save Team Settings.',
-                style: kSettingsTextEditStyle,
-              ),
-              //trailing: new Icon(Icons.done),
-              onTap: onDone as void Function()?,
-            ),
-            Divider(),
-            Divider(),
+            // new ListTile(
+            //   title: new Text(
+            //     'Swap.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onSwap as void Function()?,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Add Set Left.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onSetLeftIncrement,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Sub Set Left.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onSetLeftDecriment,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Add Set Right.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onSetRightIncrement,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Sub Set Right.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onSetRightDecriment,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Clear Sets.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onClearSets,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Clear Scores.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onClear as void Function()?,
+            // ),
+            // Divider(),
+            // new ListTile(
+            //   title: new Text(
+            //     'Reset All.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   onTap: onReset as void Function()?,
+            // ),
+            // Divider(),
+            // Divider(),
+            // Divider(),
+            // Divider(),
+            // new ListTile(
+            //   leading: null,
+            //   title: new TextFormField(
+            //     decoration: new InputDecoration.collapsed(
+            //       hintText: 'Team Name',
+            //     ),
+            //     autofocus: false,
+            //     initialValue: engine.labelLeft,
+            //     onChanged: (text) => engine.pendingLabelLeft = text,
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.edit),
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Text Color...',
+            //     style: kSettingsTextStyle,
+            //   ),
+            //   trailing: Container(
+            //     width: 30.0,
+            //     height: 30.0,
+            //     decoration: BoxDecoration(
+            //         color: _newColorTextLeft,
+            //         borderRadius: BorderRadius.all(Radius.circular(20))),
+            //   ),
+            //   onTap: colorTextLeftEdit,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Background Color...',
+            //     style: kSettingsTextStyle,
+            //   ),
+            //   trailing: Container(
+            //     width: 30.0,
+            //     height: 30.0,
+            //     decoration: BoxDecoration(
+            //         color: _newColorBackgroundLeft,
+            //         borderRadius: BorderRadius.all(Radius.circular(20))),
+            //   ),
+            //   onTap: colorBackgroundLeftEdit,
+            // ),
+            // Divider(),
+            // new ListTile(
+            //   leading: null,
+            //   title: new TextFormField(
+            //     decoration:
+            //         new InputDecoration.collapsed(hintText: 'Team Name'),
+            //     autofocus: false,
+            //     initialValue: engine.labelRight,
+            //     onChanged: (text) => engine.pendingLabelRight = text,
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.edit),
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Text Color...',
+            //     style: kSettingsTextStyle,
+            //   ),
+            //   trailing: Container(
+            //     width: 30.0,
+            //     height: 30.0,
+            //     decoration: BoxDecoration(
+            //         color: _newColorTextRight,
+            //         borderRadius: BorderRadius.all(Radius.circular(20))),
+            //   ),
+            //   onTap: colorTextRightEdit,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Background Color...',
+            //     style: kSettingsTextStyle,
+            //   ),
+            //   trailing: Container(
+            //     width: 30.0,
+            //     height: 30.0,
+            //     decoration: BoxDecoration(
+            //         color: _newColorBackgroundRight,
+            //         borderRadius: BorderRadius.all(Radius.circular(20))),
+            //   ),
+            //   onTap: colorBackgroundRightEdit,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Save Team Settings.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   //trailing: new Icon(Icons.done),
+            //   onTap: onDone as void Function()?,
+            // ),
             Divider(),
             Divider(),
-            new ListTile(
-              title: new Text(
-                'Last Point Marker.',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(engine.lastPointEnabled
-                  ? Icons.check_box
-                  : Icons.check_box_outline_blank),
-              onTap: onLastPointChanged,
-            ),
-            new ListTile(
-              title: new Text(
-                'Notify at 7.',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(engine.notify7Enabled
-                  ? Icons.check_box
-                  : Icons.check_box_outline_blank),
-              onTap: onNotify7EnabledChanged,
-            ),
-            new ListTile(
-              title: new Text(
-                'Notify at 8.',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(engine.notify8Enabled
-                  ? Icons.check_box
-                  : Icons.check_box_outline_blank),
-              onTap: onNotify8EnabledChanged,
-            ),
-            new ListTile(
-              title: new Text(
-                'Show Sets.',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(engine.setsShow
-                  ? Icons.check_box
-                  : Icons.check_box_outline_blank),
-              onTap: onSetsShowChanged,
-            ),
-            new ListTile(
-              title: new Text(
-                '5 Sets.',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(engine.sets5
-                  ? Icons.check_box
-                  : Icons.check_box_outline_blank),
-              onTap: onSets5Changed,
-            ),
+            Divider(),
+            Divider(),
+            // new ListTile(
+            //   title: new Text(
+            //     'Last Point Marker.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(engine.lastPointEnabled
+            //       ? Icons.check_box
+            //       : Icons.check_box_outline_blank),
+            //   onTap: onLastPointChanged,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Notify at 7.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(engine.notify7Enabled
+            //       ? Icons.check_box
+            //       : Icons.check_box_outline_blank),
+            //   onTap: onNotify7EnabledChanged,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Notify at 8.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(engine.notify8Enabled
+            //       ? Icons.check_box
+            //       : Icons.check_box_outline_blank),
+            //   onTap: onNotify8EnabledChanged,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Show Sets.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(engine.setsShow
+            //       ? Icons.check_box
+            //       : Icons.check_box_outline_blank),
+            //   onTap: onSetsShowChanged,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     '5 Sets.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(engine.sets5
+            //       ? Icons.check_box
+            //       : Icons.check_box_outline_blank),
+            //   onTap: onSets5Changed,
+            // ),
             Divider(),
             Divider(),
             Divider(),
@@ -629,7 +637,7 @@ class _SettingsModal extends State<SettingsModal> {
             Divider(),
             new ListTile(
               title: new Text(
-                "Reflector Settings (blank to disable):",
+                "Reflector Settings:",
                 style: kSettingsTextEditStyle,
               ),
             ),
@@ -665,27 +673,27 @@ class _SettingsModal extends State<SettingsModal> {
               //trailing: new Icon(Icons.done),
               onTap: onReflector as void Function()?,
             ),
-            Divider(),
-            new ListTile(
-              leading: null,
-              title: new TextFormField(
-                decoration: new InputDecoration.collapsed(
-                    hintText: 'Reflector Comment'),
-                autofocus: false,
-                initialValue: engine.reflectorComment,
-                onChanged: (text) => engine.reflectorComment = text,
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.edit),
-            ),
-            new ListTile(
-              title: new Text(
-                'Send Comment.',
-                style: kSettingsTextEditStyle,
-              ),
-              //trailing: new Icon(Icons.done),
-              onTap: onComment as void Function()?,
-            ),
+            // Divider(),
+            // new ListTile(
+            //   leading: null,
+            //   title: new TextFormField(
+            //     decoration: new InputDecoration.collapsed(
+            //         hintText: 'Reflector Comment'),
+            //     autofocus: false,
+            //     initialValue: engine.reflectorComment,
+            //     onChanged: (text) => engine.reflectorComment = text,
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.edit),
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Send Comment.',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   //trailing: new Icon(Icons.done),
+            //   onTap: onComment as void Function()?,
+            // ),
             Divider(),
             Divider(),
             Divider(),

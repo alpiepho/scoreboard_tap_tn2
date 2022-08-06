@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class TeamScoreCard extends StatelessWidget {
-  TeamScoreCard(
-      {required this.color,
-      required this.margin,
-      this.cardChild,
-      this.onPress,
-      this.onPan});
+  TeamScoreCard({
+    required this.color,
+    required this.margin,
+    this.cardChild,
+//    this.onPress,
+//    this.onPan,
+  });
 
   final Color color;
   final EdgeInsets margin;
   final Widget? cardChild;
-  final Function? onPress;
-  final Function? onPan;
+//  final Function? onPress;
+//  final Function? onPan;
 
   @override
   Widget build(BuildContext context) {

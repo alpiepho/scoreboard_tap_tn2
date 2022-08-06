@@ -84,12 +84,12 @@ Below are some lists of things yet to do and possible future changes.
 Thanks for trying out this applications.
 
 ## Todo and Future Changes
-- [ ] copy and modify for tap
-- [ ] review/update README
+- [x] copy and modify for tap
+- [x] review/update README
 - [ ] new install images
 - [ ] fix QR
-- [ ] strip down settings page
-- [ ] strip down engine
+- [x] strip down settings page
+- [x] strip down engine
 - [started] remove gesture from boxes
 - [ ] add refesh button
 - [ ] settings for stream mode
@@ -98,8 +98,10 @@ Thanks for trying out this applications.
 - [ ] stream color
 - [ ] latest only
 - [ ] read from reflector
+- [ ] show comment with dialog
 - [ ] send comments?
 - [ ] think about security of sending comments
+- [ ] review/clear commented out code
 
 - [ ] show QR for this app
 - [ ] show QR for ScoresTN2

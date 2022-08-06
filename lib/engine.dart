@@ -1,3 +1,5 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:scoreboard_tap_tn2/constants.dart';
 
@@ -12,12 +14,12 @@ class Engine {
   int valueLeft = 0;
   int valueRight = 0;
 
-  String pendingLabelLeft = "";
-  String pendingLabelRight = "";
-  Color pendingColorTextLeft = Colors.black;
-  Color pendingColorBackgroundLeft = Colors.red;
-  Color pendingColorTextRight = Colors.black;
-  Color pendingColorBackgroundRight = Colors.blueAccent;
+  // String pendingLabelLeft = "";
+  // String pendingLabelRight = "";
+  // Color pendingColorTextLeft = Colors.black;
+  // Color pendingColorBackgroundLeft = Colors.red;
+  // Color pendingColorTextRight = Colors.black;
+  // Color pendingColorBackgroundRight = Colors.blueAccent;
 
   FontTypes fontType = FontTypes.system;
 
@@ -26,14 +28,18 @@ class Engine {
   bool lastPointLeft = false;
   bool lastPointEnabled = true;
   bool zoom = false;
-  bool setsShow = false;
-  bool sets5 = false;
+  // bool setsShow = false;
+  // bool sets5 = false;
+  bool setsShow = true;
+  bool sets5 = true;
   int setsLeft = 0;
   int setsRight = 0;
 
   String scoreKeeper = "";
   String reflectorSite = "";
   String reflectorComment = "";
+
+  late List<String> list;
 
   Engine();
 
@@ -139,15 +145,78 @@ class Engine {
     colorTextRight = colorTextRight;
     colorBackgroundRight = colorBackgroundRight;
 
-    pendingColorTextLeft = colorTextLeft;
-    pendingColorBackgroundLeft = colorBackgroundLeft;
-    pendingColorTextRight = colorTextRight;
-    pendingColorBackgroundRight = colorBackgroundRight;
+    // pendingColorTextLeft = colorTextLeft;
+    // pendingColorBackgroundLeft = colorBackgroundLeft;
+    // pendingColorTextRight = colorTextRight;
+    // pendingColorBackgroundRight = colorBackgroundRight;
   }
 
   //
   // Public methods
   //
+
+  int parseReflectorHex(String part) {
+    int result = int.parse(part, radix: 16);
+    return result;
+  }
+
+  int parseReflectorInt(String part) {
+    int result = int.parse(part, radix: 16);
+    return result;
+  }
+
+  void parseLastRefelector() {
+    // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
+    //     0         1       2      3      4      5      6    7  8 9  10  11  12
+    // ie. timestamp,shannon,Them,Us,0,0,10, 8,0
+    //     0         1       2    3  4 5 6   7 8
+    // ie. timepstamp,shannon,{comment}
+    //     0         1        2
+    if (list.length > 0) {
+      List<String> parts = list.last.split(",");
+
+      if (parts.length == 13) {
+        colorBackgroundLeft = Color(parseReflectorHex(parts[2]));
+        colorTextLeft = Color(parseReflectorHex(parts[3]));
+        colorBackgroundRight = Color(parseReflectorHex(parts[4]));
+        colorTextRight = Color(parseReflectorHex(parts[5]));
+
+        labelLeft = parts[6];
+        labelRight = parts[7];
+
+        setsLeft = parseReflectorInt(parts[8]);
+        setsRight = parseReflectorInt(parts[9]);
+
+        valueLeft = parseReflectorInt(parts[10]);
+        valueRight = parseReflectorInt(parts[11]);
+
+        lastPointLeft = parseReflectorInt(parts[12]) == 2;
+      }
+      if (parts.length == 9) {
+        labelLeft = parts[2];
+        labelRight = parts[3];
+
+        setsLeft = parseReflectorInt(parts[4]);
+        setsRight = parseReflectorInt(parts[5]);
+
+        valueLeft = parseReflectorInt(parts[6]);
+        valueRight = parseReflectorInt(parts[7]);
+
+        lastPointLeft = parseReflectorInt(parts[8]) == 2;
+      }
+    }
+  }
+
+  void listClear() {
+    list.clear();
+  }
+
+  void listAdd(String reflectorEvent) {
+    if (list.length > 1000) {
+      list.removeAt(0);
+    }
+    list.add(reflectorEvent);
+  }
 
   String getLabelLeft() {
     String result = labelLeft;
@@ -169,102 +238,102 @@ class Engine {
     return result;
   }
 
-  void incrementLeft() {
-    valueLeft += 1;
-    lastPointLeft = true;
-  }
+  // void incrementLeft() {
+  //   valueLeft += 1;
+  //   lastPointLeft = true;
+  // }
 
-  void decrementLeft() {
-    valueLeft -= 1;
-    if (valueLeft < 0) valueLeft = 0;
-  }
+  // void decrementLeft() {
+  //   valueLeft -= 1;
+  //   if (valueLeft < 0) valueLeft = 0;
+  // }
 
-  void incrementRight() {
-    valueRight += 1;
-    lastPointLeft = false;
-  }
+  // void incrementRight() {
+  //   valueRight += 1;
+  //   lastPointLeft = false;
+  // }
 
-  void decrementRight() {
-    valueRight -= 1;
-    if (valueRight < 0) valueRight = 0;
-  }
+  // void decrementRight() {
+  //   valueRight -= 1;
+  //   if (valueRight < 0) valueRight = 0;
+  // }
 
-  void clearBoth() {
-    valueLeft = 0;
-    valueRight = 0;
-    lastPointLeft = false;
-  }
+  // void clearBoth() {
+  //   valueLeft = 0;
+  //   valueRight = 0;
+  //   lastPointLeft = false;
+  // }
 
-  void resetBoth() {
-    labelLeft = "Away";
-    labelRight = "Home";
-    valueLeft = 0;
-    valueRight = 0;
-    lastPointLeft = false;
-    colorTextLeft = Colors.black;
-    colorBackgroundLeft = Colors.red;
-    colorTextRight = Colors.black;
-    colorBackgroundRight = Colors.blueAccent;
-    pendingColorTextLeft = colorTextLeft;
-    pendingColorBackgroundLeft = colorBackgroundLeft;
-    pendingColorTextRight = colorTextRight;
-    pendingColorBackgroundRight = colorBackgroundRight;
-    fontType = FontTypes.system;
-    setsLeft = 0;
-    setsRight = 0;
-  }
+  // void resetBoth() {
+  //   labelLeft = "Away";
+  //   labelRight = "Home";
+  //   valueLeft = 0;
+  //   valueRight = 0;
+  //   lastPointLeft = false;
+  //   colorTextLeft = Colors.black;
+  //   colorBackgroundLeft = Colors.red;
+  //   colorTextRight = Colors.black;
+  //   colorBackgroundRight = Colors.blueAccent;
+  //   // pendingColorTextLeft = colorTextLeft;
+  //   // pendingColorBackgroundLeft = colorBackgroundLeft;
+  //   // pendingColorTextRight = colorTextRight;
+  //   // pendingColorBackgroundRight = colorBackgroundRight;
+  //   fontType = FontTypes.system;
+  //   setsLeft = 0;
+  //   setsRight = 0;
+  // }
 
-  void swapTeams() {
-    var valueTemp = valueLeft;
-    valueLeft = valueRight;
-    valueRight = valueTemp;
-    lastPointLeft = !lastPointLeft;
+  // void swapTeams() {
+  //   var valueTemp = valueLeft;
+  //   valueLeft = valueRight;
+  //   valueRight = valueTemp;
+  //   lastPointLeft = !lastPointLeft;
 
-    var labelTemp = labelLeft;
-    labelLeft = labelRight;
-    labelRight = labelTemp;
+  //   var labelTemp = labelLeft;
+  //   labelLeft = labelRight;
+  //   labelRight = labelTemp;
 
-    var colorTemp = colorTextLeft;
-    colorTextLeft = colorTextRight;
-    colorTextRight = colorTemp;
+  //   var colorTemp = colorTextLeft;
+  //   colorTextLeft = colorTextRight;
+  //   colorTextRight = colorTemp;
 
-    colorTemp = colorBackgroundLeft;
-    colorBackgroundLeft = colorBackgroundRight;
-    colorBackgroundRight = colorTemp;
+  //   colorTemp = colorBackgroundLeft;
+  //   colorBackgroundLeft = colorBackgroundRight;
+  //   colorBackgroundRight = colorTemp;
 
-    var setsTemp = setsLeft;
-    setsLeft = setsRight;
-    setsRight = setsTemp;
-  }
+  //   var setsTemp = setsLeft;
+  //   setsLeft = setsRight;
+  //   setsRight = setsTemp;
+  // }
 
-  void savePending() {
-    labelLeft = pendingLabelLeft;
-    labelRight = pendingLabelRight;
-    colorTextLeft = pendingColorTextLeft;
-    colorBackgroundLeft = pendingColorBackgroundLeft;
-    colorTextRight = pendingColorTextRight;
-    colorBackgroundRight = pendingColorBackgroundRight;
-  }
+  // void savePending() {
+  //   labelLeft = pendingLabelLeft;
+  //   labelRight = pendingLabelRight;
+  //   colorTextLeft = pendingColorTextLeft;
+  //   colorBackgroundLeft = pendingColorBackgroundLeft;
+  //   colorTextRight = pendingColorTextRight;
+  //   colorBackgroundRight = pendingColorBackgroundRight;
+  // }
 
   void setPending() {
-    pendingLabelLeft = labelLeft;
-    pendingLabelRight = labelRight;
-    pendingColorTextLeft = colorTextLeft;
-    pendingColorBackgroundLeft = pendingColorBackgroundLeft;
-    pendingColorBackgroundRight = pendingColorBackgroundRight;
+    // pendingLabelLeft = labelLeft;
+    // pendingLabelRight = labelRight;
+    // pendingColorTextLeft = colorTextLeft;
+    // pendingColorBackgroundLeft = pendingColorBackgroundLeft;
+    // pendingColorBackgroundRight = pendingColorBackgroundRight;
   }
 
-  bool notify7() {
-    if (notify7Enabled) {
-      if (((valueLeft + valueRight) % 7) == 0) return true;
-    }
-    return false;
-  }
+  // bool notify7() {
+  //   if (notify7Enabled) {
+  //     if (((valueLeft + valueRight) % 7) == 0) return true;
+  //   }
+  //   return false;
+  // }
 
-  bool notify8() {
-    if (notify8Enabled) {
-      if (valueLeft == 8 || valueRight == 8) return true;
-    }
-    return false;
-  }
+  // bool notify8() {
+  //   if (notify8Enabled) {
+  //     if (valueLeft == 8 || valueRight == 8) return true;
+  //   }
+  //   return false;
+  // }
 }

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoreboard_tap_tn2/components/score_card.dart';
 import 'package:scoreboard_tap_tn2/components/score_card_content.dart';
-import 'package:scoreboard_tap_tn2/components/settings_button.dart';
-import 'package:scoreboard_tap_tn2/components/settings_modal.dart';
+//import 'package:scoreboard_tap_tn2/components/settings_button.dart';
+//import 'package:scoreboard_tap_tn2/components/settings_modal.dart';
 import 'package:scoreboard_tap_tn2/constants.dart';
 import 'package:scoreboard_tap_tn2/engine.dart';
+import 'package:scoreboard_tap_tn2/floating_buttons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class ScoresPage extends StatefulWidget {
   @override
@@ -38,8 +39,8 @@ class _ScoresPageState extends State<ScoresPage> {
   int _setsRight = 0;
 
   // for increment/decrement swiping
-  double _panPositionYLeft = 0.0;
-  double _panPositionYRight = 0.0;
+  // double _panPositionYLeft = 0.0;
+  // double _panPositionYRight = 0.0;
 
   Engine _engine = Engine();
 
@@ -77,26 +78,26 @@ class _ScoresPageState extends State<ScoresPage> {
     });
   }
 
-  void _reflectorSendComment() async {
-    if (_engine.reflectorSite.length > 0 && _engine.scoreKeeper.length > 0) {
-      if (_engine.reflectorComment.length > 0) {
-        String urlString = "";
-        urlString += _engine.reflectorSite;
-        urlString += "/add?data=";
-        urlString += _engine.scoreKeeper;
-        urlString += ",";
-        urlString += _engine.reflectorComment;
-        var encoded = Uri.encodeFull(urlString);
-        Uri _url = Uri.parse(encoded);
+  // void _reflectorSendComment() async {
+  //   if (_engine.reflectorSite.length > 0 && _engine.scoreKeeper.length > 0) {
+  //     if (_engine.reflectorComment.length > 0) {
+  //       String urlString = "";
+  //       urlString += _engine.reflectorSite;
+  //       urlString += "/add?data=";
+  //       urlString += _engine.scoreKeeper;
+  //       urlString += ",";
+  //       urlString += _engine.reflectorComment;
+  //       var encoded = Uri.encodeFull(urlString);
+  //       Uri _url = Uri.parse(encoded);
 
-        _engine.reflectorComment = "";
-        try {
-          //  send GET without opening browser window, dont care about response
-          await http.get(_url);
-        } catch (exception, _) {}
-      }
-    }
-  }
+  //       _engine.reflectorComment = "";
+  //       try {
+  //         //  send GET without opening browser window, dont care about response
+  //         await http.get(_url);
+  //       } catch (exception, _) {}
+  //     }
+  //   }
+  // }
 
   void _reflectorSendScores() async {
     if (_engine.reflectorSite.length > 0 && _engine.scoreKeeper.length > 0) {
@@ -143,148 +144,148 @@ class _ScoresPageState extends State<ScoresPage> {
     }
   }
 
-  void _incrementLeft() async {
-    this._engine.incrementLeft();
-    _fromEngine();
-    _notify7();
-    _notify8();
-    _reflectorSendScores();
-  }
+  // void _incrementLeft() async {
+  //   this._engine.incrementLeft();
+  //   _fromEngine();
+  //   _notify7();
+  //   _notify8();
+  //   _reflectorSendScores();
+  // }
 
-  void _decrementLeft() async {
-    this._engine.decrementLeft();
-    _fromEngine();
-    _reflectorSendScores();
-  }
+  // void _decrementLeft() async {
+  //   this._engine.decrementLeft();
+  //   _fromEngine();
+  //   _reflectorSendScores();
+  // }
 
-  void _incrementRight() async {
-    this._engine.incrementRight();
-    _fromEngine();
-    _notify7();
-    _notify8();
-    _reflectorSendScores();
-  }
+  // void _incrementRight() async {
+  //   this._engine.incrementRight();
+  //   _fromEngine();
+  //   _notify7();
+  //   _notify8();
+  //   _reflectorSendScores();
+  // }
 
-  void _decrementRight() async {
-    this._engine.decrementRight();
-    _fromEngine();
-    _reflectorSendScores();
-  }
+  // void _decrementRight() async {
+  //   this._engine.decrementRight();
+  //   _fromEngine();
+  //   _reflectorSendScores();
+  // }
 
-  void _clearBoth() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Clear Scores',
-            style: kSettingsTextEditStyle,
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  'Clear scores?',
-                  style: kSettingsTextEditStyle,
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                'Cancel',
-                style:
-                    kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(
-                'Clear',
-                style:
-                    kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-              ),
-              onPressed: () {
-                this._engine.clearBoth();
-                _fromEngine();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-    _reflectorSendScores();
-  }
+  // void _clearBoth() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text(
+  //           'Clear Scores',
+  //           style: kSettingsTextEditStyle,
+  //         ),
+  //         content: SingleChildScrollView(
+  //           child: ListBody(
+  //             children: <Widget>[
+  //               Text(
+  //                 'Clear scores?',
+  //                 style: kSettingsTextEditStyle,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text(
+  //               'Cancel',
+  //               style:
+  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //             ),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text(
+  //               'Clear',
+  //               style:
+  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //             ),
+  //             onPressed: () {
+  //               this._engine.clearBoth();
+  //               _fromEngine();
+  //               Navigator.of(context).pop();
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  //   _reflectorSendScores();
+  // }
 
-  void _resetBoth() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Reset All',
-            style: kSettingsTextEditStyle,
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Would you reset everything?'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(
-                'Cancel',
-                style:
-                    kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(
-                'Reset',
-                style:
-                    kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-              ),
-              onPressed: () {
-                this._engine.resetBoth();
-                _fromEngine();
-                _saveEngine();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                _reflectorSendScores();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _resetBoth() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text(
+  //           'Reset All',
+  //           style: kSettingsTextEditStyle,
+  //         ),
+  //         content: SingleChildScrollView(
+  //           child: ListBody(
+  //             children: <Widget>[
+  //               Text('Would you reset everything?'),
+  //             ],
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text(
+  //               'Cancel',
+  //               style:
+  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //             ),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //           TextButton(
+  //             child: Text(
+  //               'Reset',
+  //               style:
+  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //             ),
+  //             onPressed: () {
+  //               this._engine.resetBoth();
+  //               _fromEngine();
+  //               _saveEngine();
+  //               Navigator.of(context).pop();
+  //               Navigator.of(context).pop();
+  //               _reflectorSendScores();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void _swapTeams() async {
-    this._engine.swapTeams();
-    _fromEngine();
-    _saveEngine();
-    Navigator.of(context).pop();
-    _reflectorSendScores();
-  }
+  // void _swapTeams() async {
+  //   this._engine.swapTeams();
+  //   _fromEngine();
+  //   _saveEngine();
+  //   Navigator.of(context).pop();
+  //   _reflectorSendScores();
+  // }
 
   void _savePending() async {
-    this._engine.savePending();
-    _fromEngine();
-    _saveEngine();
-    Navigator.of(context).pop();
-    _reflectorSendScores();
+    // this._engine.savePending();
+    // _fromEngine();
+    // _saveEngine();
+    // Navigator.of(context).pop();
+    // _reflectorSendScores();
   }
 
   void _saveReflector() async {
@@ -295,146 +296,146 @@ class _ScoresPageState extends State<ScoresPage> {
     _reflectorSendScores();
   }
 
-  void _saveComment() async {
-    Navigator.of(context).pop();
-    _reflectorSendComment();
-  }
+  // void _saveComment() async {
+  //   Navigator.of(context).pop();
+  //   _reflectorSendComment();
+  // }
 
-  void _panUpdateLeft(DragUpdateDetails details) async {
-    // use swipe to adjust score
-    if (details.delta.dy.abs() > 1) {
-      _panPositionYLeft += details.delta.dy;
-      if (_panPositionYLeft < -100) {
-        _panPositionYLeft = 0.0;
-        _incrementLeft();
-      } else if (_panPositionYLeft > 100) {
-        _panPositionYLeft = 0.0;
-        _decrementLeft();
-      }
-    } else {
-      _panPositionYLeft = 0.0;
-    }
-  }
+  // void _panUpdateLeft(DragUpdateDetails details) async {
+  //   // use swipe to adjust score
+  //   if (details.delta.dy.abs() > 1) {
+  //     _panPositionYLeft += details.delta.dy;
+  //     if (_panPositionYLeft < -100) {
+  //       _panPositionYLeft = 0.0;
+  //       _incrementLeft();
+  //     } else if (_panPositionYLeft > 100) {
+  //       _panPositionYLeft = 0.0;
+  //       _decrementLeft();
+  //     }
+  //   } else {
+  //     _panPositionYLeft = 0.0;
+  //   }
+  // }
 
-  void _panUpdateRight(DragUpdateDetails details) async {
-    // use swipe to adjust score
-    if (details.delta.dy.abs() > 1) {
-      _panPositionYRight += details.delta.dy;
-      if (_panPositionYRight < -100) {
-        _panPositionYRight = 0.0;
-        _incrementRight();
-      } else if (_panPositionYRight > 100) {
-        _panPositionYRight = 0.0;
-        _decrementRight();
-      }
-    } else {
-      _panPositionYRight = 0.0;
-    }
-  }
+  // void _panUpdateRight(DragUpdateDetails details) async {
+  //   // use swipe to adjust score
+  //   if (details.delta.dy.abs() > 1) {
+  //     _panPositionYRight += details.delta.dy;
+  //     if (_panPositionYRight < -100) {
+  //       _panPositionYRight = 0.0;
+  //       _incrementRight();
+  //     } else if (_panPositionYRight > 100) {
+  //       _panPositionYRight = 0.0;
+  //       _decrementRight();
+  //     }
+  //   } else {
+  //     _panPositionYRight = 0.0;
+  //   }
+  // }
 
-  void _notify7() async {
-    if (this._engine.notify7()) {
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              'At 7 Points',
-              style: kSettingsTextEditStyle,
-            ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(
-                    'Swap teams?',
-                    style: kSettingsTextEditStyle,
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'Cancel',
-                  style:
-                      kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  'Swap',
-                  style:
-                      kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-                ),
-                onPressed: () {
-                  this._engine.swapTeams();
-                  _fromEngine();
-                  _saveEngine();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+  // void _notify7() async {
+  //   if (this._engine.notify7()) {
+  //     showDialog<void>(
+  //       context: context,
+  //       barrierDismissible: false, // user must tap button!
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text(
+  //             'At 7 Points',
+  //             style: kSettingsTextEditStyle,
+  //           ),
+  //           content: SingleChildScrollView(
+  //             child: ListBody(
+  //               children: <Widget>[
+  //                 Text(
+  //                   'Swap teams?',
+  //                   style: kSettingsTextEditStyle,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 'Cancel',
+  //                 style:
+  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //               ),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 'Swap',
+  //                 style:
+  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //               ),
+  //               onPressed: () {
+  //                 this._engine.swapTeams();
+  //                 _fromEngine();
+  //                 _saveEngine();
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
-  void _notify8() async {
-    if (this._engine.notify8()) {
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              'At 8 Points',
-              style: kSettingsTextEditStyle,
-            ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(
-                    'Would you swap teams?',
-                    style: kSettingsTextEditStyle,
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'Cancel',
-                  style:
-                      kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text(
-                  'Swap',
-                  style:
-                      kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-                ),
-                onPressed: () {
-                  this._engine.swapTeams();
-                  _fromEngine();
-                  _saveEngine();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+  // void _notify8() async {
+  //   if (this._engine.notify8()) {
+  //     showDialog<void>(
+  //       context: context,
+  //       barrierDismissible: false, // user must tap button!
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: Text(
+  //             'At 8 Points',
+  //             style: kSettingsTextEditStyle,
+  //           ),
+  //           content: SingleChildScrollView(
+  //             child: ListBody(
+  //               children: <Widget>[
+  //                 Text(
+  //                   'Would you swap teams?',
+  //                   style: kSettingsTextEditStyle,
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //           actions: <Widget>[
+  //             TextButton(
+  //               child: Text(
+  //                 'Cancel',
+  //                 style:
+  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //               ),
+  //               onPressed: () {
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //             TextButton(
+  //               child: Text(
+  //                 'Swap',
+  //                 style:
+  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+  //               ),
+  //               onPressed: () {
+  //                 this._engine.swapTeams();
+  //                 _fromEngine();
+  //                 _saveEngine();
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
   @override
   initState() {
@@ -444,6 +445,9 @@ class _ScoresPageState extends State<ScoresPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     TextStyle labelTextStyle = kLabelTextStyle_system;
     TextStyle numberTextStyle = kNumberTextStyle_system;
 
@@ -451,8 +455,8 @@ class _ScoresPageState extends State<ScoresPage> {
     numberTextStyle = getNumberFont(_fontType);
 
     var teamScoreCardTop = TeamScoreCard(
-      onPress: _incrementLeft,
-      onPan: _panUpdateLeft,
+      // onPress: _incrementLeft,
+      // onPan: _panUpdateLeft,
       color: _colorBackgroundLeft,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 2),
       cardChild: TeamScoreCardContent(
@@ -468,8 +472,8 @@ class _ScoresPageState extends State<ScoresPage> {
       ),
     );
     var teamScoreCardBottom = TeamScoreCard(
-      onPress: _incrementRight,
-      onPan: _panUpdateRight,
+      // onPress: _incrementRight,
+      // onPan: _panUpdateRight,
       color: _colorBackgroundRight,
       margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
       cardChild: TeamScoreCardContent(
@@ -485,8 +489,8 @@ class _ScoresPageState extends State<ScoresPage> {
       ),
     );
     var teamScoreCardLeft = TeamScoreCard(
-      onPress: _incrementLeft,
-      onPan: _panUpdateLeft,
+      // onPress: _incrementLeft,
+      // onPan: _panUpdateLeft,
       color: _colorBackgroundLeft,
       margin: EdgeInsets.fromLTRB(0, 0, 0, 2),
       cardChild: TeamScoreCardContent(
@@ -502,8 +506,8 @@ class _ScoresPageState extends State<ScoresPage> {
       ),
     );
     var teamScoreCardRight = TeamScoreCard(
-      onPress: _incrementRight,
-      onPan: _panUpdateRight,
+      // onPress: _incrementRight,
+      // onPan: _panUpdateRight,
       color: _colorBackgroundRight,
       margin: EdgeInsets.fromLTRB(0, 2, 0, 0),
       cardChild: TeamScoreCardContent(
@@ -611,26 +615,37 @@ class _ScoresPageState extends State<ScoresPage> {
           ),
         ],
       ),
-      floatingActionButton: SettingsButton(onPress: () {
-        this._engine.setPending();
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return SettingsModal(
-              context,
-              this._engine,
-              _resetBoth,
-              _clearBoth,
-              _swapTeams,
-              _savePending,
-              _saveReflector,
-              _saveComment,
-            );
-          },
-          isScrollControlled: true,
-        );
-      }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // floatingActionButton: SettingsButton(onPress: () {
+      //   this._engine.setPending();
+      //   showModalBottomSheet(
+      //     context: context,
+      //     builder: (BuildContext bc) {
+      //       return SettingsModal(
+      //         context,
+      //         this._engine,
+      //         // _resetBoth,
+      //         // _clearBoth,
+      //         // _swapTeams,
+      //         _savePending,
+      //         _saveReflector,
+      //         // _saveComment,
+      //       );
+      //     },
+      //     isScrollControlled: true,
+      //   );
+      // }),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingButtons(
+        screenHeight: screenHeight,
+        screenWidth: screenWidth,
+        paused: false,
+        allowHideButtons: false,
+        onPreviousItem: () {},
+        onNextItem: () {},
+        onTogglePause: () {},
+        onHelp: () {},
+      ),
     );
   }
 }
