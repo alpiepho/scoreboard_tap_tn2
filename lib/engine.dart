@@ -161,7 +161,7 @@ class Engine {
   }
 
   int parseReflectorInt(String part) {
-    int result = int.parse(part, radix: 16);
+    int result = int.parse(part, radix: 10);
     return result;
   }
 
@@ -176,10 +176,10 @@ class Engine {
       List<String> parts = list.last.split(",");
 
       if (parts.length == 13) {
-        // colorBackgroundLeft = Color(parseReflectorHex(parts[2]));
-        // colorTextLeft = Color(parseReflectorHex(parts[3]));
-        // colorBackgroundRight = Color(parseReflectorHex(parts[4]));
-        // colorTextRight = Color(parseReflectorHex(parts[5]));
+        colorBackgroundLeft = Color(parseReflectorHex(parts[2]));
+        colorTextLeft = Color(parseReflectorHex(parts[3]));
+        colorBackgroundRight = Color(parseReflectorHex(parts[4]));
+        colorTextRight = Color(parseReflectorHex(parts[5]));
 
         labelLeft = parts[6];
         labelRight = parts[7];
