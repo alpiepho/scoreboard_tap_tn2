@@ -6,7 +6,7 @@ import 'package:scoreboard_tap_tn2/components/score_card_content.dart';
 //import 'package:scoreboard_tap_tn2/components/settings_modal.dart';
 import 'package:scoreboard_tap_tn2/constants.dart';
 import 'package:scoreboard_tap_tn2/engine.dart';
-import 'package:scoreboard_tap_tn2/floating_buttons.dart';
+import 'package:scoreboard_tap_tn2/components/floating_buttons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
@@ -43,6 +43,35 @@ class _ScoresPageState extends State<ScoresPage> {
   // double _panPositionYRight = 0.0;
 
   Engine _engine = Engine();
+
+  List<String> _list = [
+    "2022-08-07_06:42:20,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,1,1,15,5,1",
+    "2022-08-07_06:42:15,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,1,15,5,1",
+    "2022-08-07_06:42:15,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,1,14,5,1",
+    "2022-08-07_06:42:15,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,1,13,5,1",
+    "2022-08-07_06:42:15,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,1,12,5,1",
+    "2022-08-07_06:42:11,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,1,11,5,1",
+    "2022-08-07_06:42:03,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,1,11,5,1",
+    "2022-08-07_06:41:59,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,11,5,1",
+    "2022-08-07_06:41:59,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,10,5,1",
+    "2022-08-07_06:41:58,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,9,5,1",
+    "2022-08-07_06:41:58,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,8,5,1",
+    "2022-08-07_06:41:58,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,7,5,1",
+    "2022-08-07_06:41:58,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,6,5,1",
+    "2022-08-07_06:41:57,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,5,5,2",
+    "2022-08-07_06:41:57,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,5,4,2",
+    "2022-08-07_06:41:56,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,5,3,2",
+    "2022-08-07_06:41:56,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,5,2,2",
+    "2022-08-07_06:41:56,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,5,1,2",
+    "2022-08-07_06:41:54,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away2,Home2,0,0,5,0,1",
+    "2022-08-07_06:41:38,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away,Home,0,0,5,0,1",
+    "2022-08-07_06:41:38,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away,Home,0,0,4,0,1",
+    "2022-08-07_06:41:38,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away,Home,0,0,3,0,1",
+    "2022-08-07_06:41:37,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away,Home,0,0,2,0,1",
+    "2022-08-07_06:41:37,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away,Home,0,0,1,0,1",
+    "2022-08-07_06:41:34,dude,aa45e45,36f8334,aa45e45,1dfb4c10,Away,Home,0,0,0,0,2",
+  ];
+  int _index = -1;
 
   void _loadEngine() async {
     final prefs = await SharedPreferences.getInstance();
@@ -279,6 +308,19 @@ class _ScoresPageState extends State<ScoresPage> {
   //   Navigator.of(context).pop();
   //   _reflectorSendScores();
   // }
+
+  void _refreshReflector() async {
+    // TODO: add real access
+    // FAKE: cycle thru fake_list
+    if (_index < 0) _index = _list.length - 1;
+    String event = _list[_index];
+    _index--;
+
+    this._engine.listAdd(event);
+    this._engine.parseLastRefelector();
+
+    _fromEngine();
+  }
 
   void _savePending() async {
     // this._engine.savePending();
@@ -639,12 +681,10 @@ class _ScoresPageState extends State<ScoresPage> {
       floatingActionButton: FloatingButtons(
         screenHeight: screenHeight,
         screenWidth: screenWidth,
-        paused: false,
-        allowHideButtons: false,
-        onPreviousItem: () {},
-        onNextItem: () {},
-        onTogglePause: () {},
-        onHelp: () {},
+        engine: _engine,
+        onRefreshFromReflector: _refreshReflector,
+        onSavePending: _savePending,
+        onSaveReflector: _saveReflector,
       ),
     );
   }

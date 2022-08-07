@@ -328,7 +328,7 @@ class _SettingsModal extends State<SettingsModal> {
   //   this.onDone();
   // }
 
-  // // TODO: these methods that change engine value should be callback functions from above
+  // // TO DO: these methods that change engine value should be callback functions from above
   // // like for score values
   // void onSetLeftIncrement() async {
   //   var maxSets = this.engine.sets5 ? 5 : 3;
@@ -367,6 +367,22 @@ class _SettingsModal extends State<SettingsModal> {
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
     }
+  }
+
+  void onReflectorSite() async {
+    if (engine.reflectorSite.isNotEmpty) {
+      String url = engine.reflectorSite + "/html";
+      _launchUrl(url);
+    }
+    Navigator.of(context).pop();
+  }
+
+  void onReflectorSiteKeeper() async {
+    if (engine.reflectorSite.isNotEmpty && engine.scoreKeeper.isNotEmpty) {
+      String url = engine.reflectorSite + "/" + engine.scoreKeeper + "/html";
+      _launchUrl(url);
+    }
+    Navigator.of(context).pop();
   }
 
   void onHelp() async {
@@ -672,6 +688,27 @@ class _SettingsModal extends State<SettingsModal> {
               ),
               //trailing: new Icon(Icons.done),
               onTap: onReflector as void Function()?,
+            ),
+            Divider(),
+            Divider(),
+            Divider(),
+            Divider(),
+            Divider(),
+            new ListTile(
+              title: new Text(
+                'Reflector Site...',
+                style: kSettingsTextEditStyle,
+              ),
+              trailing: new Icon(Icons.help),
+              onTap: onReflectorSite,
+            ),
+            new ListTile(
+              title: new Text(
+                'Reflector Keeper...',
+                style: kSettingsTextEditStyle,
+              ),
+              trailing: new Icon(Icons.help),
+              onTap: onReflectorSiteKeeper,
             ),
             // Divider(),
             // new ListTile(
