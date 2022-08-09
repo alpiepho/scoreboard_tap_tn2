@@ -165,7 +165,9 @@ class Engine {
     return result;
   }
 
-  void parseLastRefelector() {
+  String parseLastRefelector() {
+    int temp = 0;
+    String result = "";
     // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
     //     0         1       2      3      4      5      6    7  8 9  10  11  12
     // ie. timestamp,shannon,Them,Us,0,0,10, 8,0
@@ -176,10 +178,17 @@ class Engine {
       List<String> parts = list.last.split(",");
 
       if (parts.length == 13) {
-        colorBackgroundLeft = Color(parseReflectorHex(parts[2]));
-        colorTextLeft = Color(parseReflectorHex(parts[3]));
-        colorBackgroundRight = Color(parseReflectorHex(parts[4]));
-        colorTextRight = Color(parseReflectorHex(parts[5]));
+        // workaround for back colors, need to debug
+        temp = parseReflectorHex(parts[2]);
+        if ((temp & 0xff000000) == 0) {
+          print("BAD colors!!!");
+          print(list.last);
+        } else {
+          colorTextLeft = Color(parseReflectorHex(parts[2]));
+          colorBackgroundLeft = Color(parseReflectorHex(parts[3]));
+          colorTextRight = Color(parseReflectorHex(parts[4]));
+          colorBackgroundRight = Color(parseReflectorHex(parts[5]));
+        }
 
         labelLeft = parts[6];
         labelRight = parts[7];
@@ -190,7 +199,7 @@ class Engine {
         valueLeft = parseReflectorInt(parts[10]);
         valueRight = parseReflectorInt(parts[11]);
 
-        lastPointLeft = parseReflectorInt(parts[12]) == 2;
+        lastPointLeft = parseReflectorInt(parts[12]) == 1;
       }
       if (parts.length == 9) {
         labelLeft = parts[2];
@@ -202,9 +211,13 @@ class Engine {
         valueLeft = parseReflectorInt(parts[6]);
         valueRight = parseReflectorInt(parts[7]);
 
-        lastPointLeft = parseReflectorInt(parts[8]) == 2;
+        lastPointLeft = parseReflectorInt(parts[8]) == 1;
+      }
+      if (parts.length == 3) {
+        result = parts[2];
       }
     }
+    return result;
   }
 
   void listClear() {
@@ -212,10 +225,13 @@ class Engine {
   }
 
   void listAdd(String reflectorEvent) {
-    if (list.length > 1000) {
-      list.removeAt(0);
+    print(reflectorEvent);
+    if (reflectorEvent.isNotEmpty) {
+      if (list.length > 1000) {
+        list.removeAt(0);
+      }
+      list.add(reflectorEvent);
     }
-    list.add(reflectorEvent);
   }
 
   String getLabelLeft() {

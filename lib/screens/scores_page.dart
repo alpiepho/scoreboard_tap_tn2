@@ -1,3 +1,6 @@
+//import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:scoreboard_tap_tn2/components/score_card.dart';
@@ -43,35 +46,6 @@ class _ScoresPageState extends State<ScoresPage> {
   // double _panPositionYRight = 0.0;
 
   Engine _engine = Engine();
-
-  List<String> _list = [
-    "2022-08-07_06:42:20,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,1,1,15,5,1",
-    "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,15,5,1",
-    "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,14,5,1",
-    "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,13,5,1",
-    "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,12,5,1",
-    "2022-08-07_06:42:11,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,11,5,1",
-    "2022-08-07_06:42:03,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,11,5,1",
-    "2022-08-07_06:41:59,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,11,5,1",
-    "2022-08-07_06:41:59,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,10,5,1",
-    "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,9,5,1",
-    "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,8,5,1",
-    "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,7,5,1",
-    "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,6,5,1",
-    "2022-08-07_06:41:57,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,5,2",
-    "2022-08-07_06:41:57,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,4,2",
-    "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,3,2",
-    "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,2,2",
-    "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,1,2",
-    "2022-08-07_06:41:54,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,0,1",
-    "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,5,0,1",
-    "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,4,0,1",
-    "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,3,0,1",
-    "2022-08-07_06:41:37,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,2,0,1",
-    "2022-08-07_06:41:37,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,1,0,1",
-    "2022-08-07_06:41:34,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,0,0,2",
-  ];
-  int _index = -1;
 
   void _loadEngine() async {
     final prefs = await SharedPreferences.getInstance();
@@ -309,15 +283,112 @@ class _ScoresPageState extends State<ScoresPage> {
   //   _reflectorSendScores();
   // }
 
+  // List<String> _list = [
+  //   "2022-08-07_06:42:20,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,1,1,15,5,1",
+  //   "2022-08-07_06:42:20,dude,WOO HOO!",
+  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,15,5,1",
+  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,14,5,1",
+  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,13,5,1",
+  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,12,5,1",
+  //   "2022-08-07_06:42:11,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,11,5,1",
+  //   "2022-08-07_06:42:03,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,11,5,1",
+  //   "2022-08-07_06:41:59,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,11,5,1",
+  //   "2022-08-07_06:41:59,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,10,5,1",
+  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,9,5,1",
+  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,8,5,1",
+  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,7,5,1",
+  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,6,5,1",
+  //   "2022-08-07_06:41:57,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,5,2",
+  //   "2022-08-07_06:41:57,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,4,2",
+  //   "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,3,2",
+  //   "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,2,2",
+  //   "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,1,2",
+  //   "2022-08-07_06:41:54,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,0,1",
+  //   "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,5,0,1",
+  //   "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,4,0,1",
+  //   "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,3,0,1",
+  //   "2022-08-07_06:41:37,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,2,0,1",
+  //   "2022-08-07_06:41:37,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,1,0,1",
+  //   "2022-08-07_06:41:34,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,0,0,2",
+  //   "2022-08-07_06:42:20,dude,HERE WE GO!  And the match is about to start",
+  // ];
+  // int _index = -1;
+
   void _refreshReflector() async {
-    // TODO: add real access
+    if (_engine.reflectorSite.isEmpty || _engine.scoreKeeper.isEmpty) {
+      return;
+    }
+
+    // _engine.reflectorSite = "http://10.0.0.13:3000";
+    // _engine.scoreKeeper = "dude";
+
+    String event = "";
+    String urlString = "";
+    urlString += _engine.reflectorSite;
+    urlString += "/";
+    urlString += _engine.scoreKeeper;
+    urlString += "/0/json";
+
+    var encoded = Uri.encodeFull(urlString);
+    Uri _url = Uri.parse(encoded);
+    //print(encoded);
+
+    try {
+      http.Response response = await http.get(_url);
+      //print(response.statusCode);
+      //print(response.body);
+      final data = jsonDecode(response.body);
+      //print(data);
+      event = data['entry'];
+    } catch (exception, message) {
+      print(exception);
+      print(message);
+    }
+
     // FAKE: cycle thru fake_list
-    if (_index < 0) _index = _list.length - 1;
-    String event = _list[_index];
-    _index--;
+    // if (_index < 0) _index = _list.length - 1;
+    // event = _list[_index];
+    // _index--;
 
     this._engine.listAdd(event);
-    this._engine.parseLastRefelector();
+    String comment = this._engine.parseLastRefelector();
+
+    if (comment.isNotEmpty) {
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              this._engine.scoreKeeper + ': ',
+              style: kSettingsTextEditStyle,
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    comment,
+                    style: kSettingsTextEditStyle,
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'Done',
+                  style:
+                      kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
 
     _fromEngine();
   }
