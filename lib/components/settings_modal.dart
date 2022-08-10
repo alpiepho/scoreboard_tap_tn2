@@ -385,6 +385,66 @@ class _SettingsModal extends State<SettingsModal> {
     Navigator.of(context).pop();
   }
 
+  void onScoresQR() async {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Scores QR'),
+          content: SingleChildScrollView(
+            child: Container(
+              width: 200,
+              height: 200,
+              child: Image.asset("assets/qr-code-scores.png"),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Done'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void onScoresTapQR() async {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Scores Tap QR'),
+          content: SingleChildScrollView(
+            child: Image.asset("assets/qr-code-tap.png"),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Done'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void onScoresLink() async {
+    _launchUrl('https://alpiepho.github.io/scoreboard_tn2/');
+    Navigator.of(context).pop();
+  }
+
+  void onScoresTapLink() async {
+    _launchUrl('https://alpiepho.github.io/scoreboard_tap_tn2/');
+    Navigator.of(context).pop();
+  }
+
   void onHelp() async {
     _launchUrl(
         'https://github.com/alpiepho/scoreboard_tap_tn2/blob/master/README.md');
@@ -741,6 +801,38 @@ class _SettingsModal extends State<SettingsModal> {
                 kVersion,
                 style: kSettingsTextEditStyle,
               ),
+            ),
+            new ListTile(
+              title: new Text(
+                'Scores QR...',
+                style: kSettingsTextEditStyle,
+              ),
+              trailing: new Icon(Icons.help),
+              onTap: onScoresQR,
+            ),
+            new ListTile(
+              title: new Text(
+                'Scores Tap QR...',
+                style: kSettingsTextEditStyle,
+              ),
+              trailing: new Icon(Icons.help),
+              onTap: onScoresTapQR,
+            ),
+            new ListTile(
+              title: new Text(
+                'Scores Link...',
+                style: kSettingsTextEditStyle,
+              ),
+              trailing: new Icon(Icons.help),
+              onTap: onScoresLink,
+            ),
+            new ListTile(
+              title: new Text(
+                'Scores Tap Link...',
+                style: kSettingsTextEditStyle,
+              ),
+              trailing: new Icon(Icons.help),
+              onTap: onScoresTapLink,
             ),
             new ListTile(
               title: new Text(

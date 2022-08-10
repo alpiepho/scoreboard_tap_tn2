@@ -5,7 +5,7 @@ GH-Pages site: https://alpiepho.github.io/scoreboard_tap_tn2/
 
 or QR Code:
 
-![QR Code](./qr-code.png)
+![QR Code](./assets/qr-code-tap.png)
 
 ## scoreboard_tap_tn2
 Flutter app to display ScoresTN2 (scorebaord_tn2) data from a ScoresReflectorTN2 (scoreboard_reflector_tm2)
@@ -87,7 +87,7 @@ Thanks for trying out this applications.
 - [x] copy and modify for tap
 - [x] review/update README
 - [ ] new install images
-- [ ] fix QR
+- [x] fix QR
 - [x] strip down settings page
 - [x] strip down engine
 - [x] remove gesture from boxes
@@ -101,7 +101,7 @@ Thanks for trying out this applications.
 - [x] show comment with dialog
 - [x] send comments?
 - [x] think about security of sending comments
-- [ ] review/clear commented out code
+- [x] review/clear commented out code
 
 - [ ] show QR for this app
 - [ ] show QR for ScoresTN2
