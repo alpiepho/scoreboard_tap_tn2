@@ -90,17 +90,17 @@ Thanks for trying out this applications.
 - [ ] fix QR
 - [x] strip down settings page
 - [x] strip down engine
-- [started] remove gesture from boxes
-- [ ] add refesh button
+- [x] remove gesture from boxes
+- [x] add refesh button
 - [ ] settings for stream mode
 - [ ] stream page
 - [ ] stream text
 - [ ] stream color
 - [ ] latest only
-- [ ] read from reflector
-- [ ] show comment with dialog
-- [ ] send comments?
-- [ ] think about security of sending comments
+- [x] read from reflector
+- [x] show comment with dialog
+- [x] send comments?
+- [x] think about security of sending comments
 - [ ] review/clear commented out code
 
 - [ ] show QR for this app

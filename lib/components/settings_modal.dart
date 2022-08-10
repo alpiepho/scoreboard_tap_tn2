@@ -564,10 +564,10 @@ class _SettingsModal extends State<SettingsModal> {
             //   //trailing: new Icon(Icons.done),
             //   onTap: onDone as void Function()?,
             // ),
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
+            // Divider(),
+            // Divider(),
+            // Divider(),
+            // Divider(),
             // new ListTile(
             //   title: new Text(
             //     'Last Point Marker.',
@@ -618,10 +618,10 @@ class _SettingsModal extends State<SettingsModal> {
             //       : Icons.check_box_outline_blank),
             //   onTap: onSets5Changed,
             // ),
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
+            // Divider(),
+            // Divider(),
+            // Divider(),
+            // Divider(),
             new ListTile(
               title: new Text(
                 'Change Fonts...',
