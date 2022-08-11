@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 // import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:scoreboard_tap_tn2/constants.dart';
-import 'package:scoreboard_tap_tn2/engine.dart';
+import '../constants.dart';
+import '../engine.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
@@ -713,7 +713,7 @@ class _SettingsModal extends State<SettingsModal> {
             Divider(),
             new ListTile(
               title: new Text(
-                "Reflector Settings:",
+                "Reflector Settings (blank to disable):",
                 style: kSettingsTextEditStyle,
               ),
             ),

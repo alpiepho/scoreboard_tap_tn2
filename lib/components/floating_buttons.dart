@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:scoreboard_tap_tn2/components/refresh_button.dart';
-import 'package:scoreboard_tap_tn2/components/settings_button.dart';
-import 'package:scoreboard_tap_tn2/components/settings_modal.dart';
-import 'package:scoreboard_tap_tn2/engine.dart';
+import '../components/refresh_button.dart';
+import '../components/settings_button.dart';
+import '../components/settings_modal.dart';
+import '../engine.dart';
 
 class FloatingButtons extends StatelessWidget {
   const FloatingButtons({

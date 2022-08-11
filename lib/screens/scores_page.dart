@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:scoreboard_tap_tn2/components/score_card.dart';
-import 'package:scoreboard_tap_tn2/components/score_card_content.dart';
-//import 'package:scoreboard_tap_tn2/components/settings_button.dart';
-//import 'package:scoreboard_tap_tn2/components/settings_modal.dart';
-import 'package:scoreboard_tap_tn2/constants.dart';
-import 'package:scoreboard_tap_tn2/engine.dart';
-import 'package:scoreboard_tap_tn2/components/floating_buttons.dart';
+import '../components/score_card.dart';
+import '../components/score_card_content.dart';
+//import '../components/settings_button.dart';
+//import '../components/settings_modal.dart';
+import '../constants.dart';
+import '../engine.dart';
+import '../components/floating_buttons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
@@ -651,9 +651,9 @@ class _ScoresPageState extends State<ScoresPage> {
     double height = MediaQuery.of(context).size.height;
     var portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     double offscreen = portrait ? -1.1 * width : -1.1 * height;
-    var duration1 = Duration(milliseconds: 1000);
+    var duration1 = Duration(milliseconds: 200);
     var curve1 = Curves.linear;
-    var duration2 = Duration(milliseconds: 1000);
+    var duration2 = Duration(milliseconds: 200);
     var curve2 = Curves.linear;
 
     return Scaffold(

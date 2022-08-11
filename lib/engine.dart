@@ -1,7 +1,7 @@
 // import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:scoreboard_tap_tn2/constants.dart';
+import '../constants.dart';
 
 class Engine {
   Color colorTextLeft = Colors.black;
