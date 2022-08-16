@@ -36,7 +36,7 @@ class Engine {
   int setsRight = 0;
 
   String scoreKeeper = "";
-  String reflectorSite = "";
+  String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
   String reflectorComment = "";
 
   late List<String> list = [];
