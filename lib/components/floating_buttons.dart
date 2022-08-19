@@ -3,6 +3,9 @@ import '../components/refresh_button.dart';
 import '../components/settings_button.dart';
 import '../components/settings_modal.dart';
 import '../engine.dart';
+import 'scores_button.dart';
+import 'stream_button.dart';
+import 'stream_modal.dart';
 
 class FloatingButtons extends StatelessWidget {
   const FloatingButtons({
@@ -24,6 +27,46 @@ class FloatingButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget scoresStreamButton = engine.streamsMode
+        ? StreamButton(onPress: () {
+            // this._engine.setPending();
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext bc) {
+                return StreamModal(
+                  context,
+                  this.engine,
+                  // _resetBoth,
+                  // _clearBoth,
+                  // _swapTeams,
+                  onSavePending as Function,
+                  onSaveReflector as Function,
+                  // _saveComment,
+                );
+              },
+              isScrollControlled: true,
+            );
+          })
+        : ScoresButton(onPress: () {
+            // this._engine.setPending();
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext bc) {
+                return StreamModal(
+                  context,
+                  this.engine,
+                  // _resetBoth,
+                  // _clearBoth,
+                  // _swapTeams,
+                  onSavePending as Function,
+                  onSaveReflector as Function,
+                  // _saveComment,
+                );
+              },
+              isScrollControlled: true,
+            );
+          });
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -109,6 +152,11 @@ class FloatingButtons extends StatelessWidget {
           top: 50,
           right: 30,
           child: RefreshButton(onPress: onRefreshFromReflector),
+        ),
+        Positioned(
+          top: 120,
+          right: 30,
+          child: scoresStreamButton,
         ),
         Positioned(
           bottom: 20,

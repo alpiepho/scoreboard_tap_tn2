@@ -35,6 +35,8 @@ class Engine {
   int setsLeft = 0;
   int setsRight = 0;
 
+  bool streamsMode = false;
+
   String scoreKeeper = "";
   String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
   String reflectorComment = "";
