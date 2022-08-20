@@ -230,8 +230,8 @@ class _SettingsModal extends State<SettingsModal> {
 
   void fontChanged(FontTypes fontType) async {
     this.engine.fontType = fontType;
-    Navigator.of(context).pop();
     this.onDone();
+    Navigator.of(context).pop();
   }
 
   void onFontChange() async {

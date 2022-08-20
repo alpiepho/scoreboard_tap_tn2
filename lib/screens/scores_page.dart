@@ -395,10 +395,10 @@ class _ScoresPageState extends State<ScoresPage> {
 
   void _savePending() async {
     // this._engine.savePending();
-    // _fromEngine();
-    // _saveEngine();
-    // Navigator.of(context).pop();
-    // _reflectorSendScores();
+    _fromEngine();
+    _saveEngine();
+    Navigator.of(context).pop();
+    _reflectorSendScores();
   }
 
   void _saveReflector() async {
