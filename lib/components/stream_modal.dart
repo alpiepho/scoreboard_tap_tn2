@@ -51,10 +51,16 @@ class _StreamModal extends State<StreamModal> {
 
   final controller = ScrollController();
   int itemIndex = 0;
-  int perPage = 15;
+  int perPage = 20;
+  bool hasMore = true;
+  bool isLoading = false;
+
   List<String> items = [];
 
   Future fetch() async {
+    if (isLoading) return;
+    isLoading = true;
+
     setState(() {
       // TODO: replace this with call to refelector
       List<String> newItems = List.generate(
@@ -63,7 +69,11 @@ class _StreamModal extends State<StreamModal> {
       );
       items.addAll(newItems);
       itemIndex += perPage;
+      if (items.length > 100) {
+        hasMore = false;
+      }
     });
+    isLoading = false;
   }
 
   @override
@@ -112,9 +122,13 @@ class _StreamModal extends State<StreamModal> {
             final item = items[index];
             return ListTile(title: Text(item));
           } else {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 32),
-              child: Center(child: CircularProgressIndicator()),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32),
+              child: Center(
+                child: hasMore
+                    ? const Center(child: CircularProgressIndicator())
+                    : const Text("no more scores"),
+              ),
             );
           }
         },
