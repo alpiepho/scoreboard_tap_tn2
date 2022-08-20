@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../engine.dart';
+import 'floating_buttons.dart';
 
 // ignore: must_be_immutable
 class StreamModal extends StatefulWidget {
@@ -86,6 +87,9 @@ class _StreamModal extends State<StreamModal> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kSettingsModalBackgroundColor,
@@ -114,6 +118,16 @@ class _StreamModal extends State<StreamModal> {
             );
           }
         },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingButtons(
+        screenHeight: screenHeight,
+        screenWidth: screenWidth,
+        engine: engine,
+        onRefreshFromReflector:
+            () {}, //_refreshReflector, // TODO need callback
+        onSavePending: () {},
+        onSaveReflector: () {},
       ),
     );
   }

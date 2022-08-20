@@ -29,22 +29,20 @@ class FloatingButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget scoresStreamButton;
     if (engine.streamsMode) {
-      scoresStreamButton = ScoresButton(onPress: () {});
+      scoresStreamButton = ScoresButton(onPress: () {
+        // TODO does this work?
+        Navigator.of(context).pop();
+      });
     } else {
       scoresStreamButton = StreamButton(onPress: () {
-        // this._engine.setPending();
         showModalBottomSheet(
           context: context,
           builder: (BuildContext bc) {
             return StreamModal(
               context,
               this.engine,
-              // _resetBoth,
-              // _clearBoth,
-              // _swapTeams,
               onSavePending as Function,
               onSaveReflector as Function,
-              // _saveComment,
             );
           },
           isScrollControlled: true,
@@ -75,12 +73,8 @@ class FloatingButtons extends StatelessWidget {
                 return SettingsModal(
                   context,
                   this.engine,
-                  // _resetBoth,
-                  // _clearBoth,
-                  // _swapTeams,
                   onSavePending as Function,
                   onSaveReflector as Function,
-                  // _saveComment,
                 );
               },
               isScrollControlled: true,

@@ -92,20 +92,23 @@ Thanks for trying out this applications.
 - [x] strip down engine
 - [x] remove gesture from boxes
 - [x] add refesh button
-- [ ] settings for stream mode
-- [ ] stream page
+- [x] clean up un wanted code (can always diff with scores)
+
+- [x] settings for stream mode
+- [x] stream page/modal
 - [ ] stream text
 - [ ] stream color
 - [ ] latest only
+
 - [x] read from reflector
 - [x] show comment with dialog
 - [x] send comments?
 - [x] think about security of sending comments
 - [x] review/clear commented out code
 
-- [ ] show QR for this app
-- [ ] show QR for ScoresTN2
-- [ ] add shows to ScoresTN2
+- [x] show QR for this app
+- [x] show QR for ScoresTN2
+- [x] add shows to ScoresTN2
 
 - [ ] build ios
 - [ ] ios developer install

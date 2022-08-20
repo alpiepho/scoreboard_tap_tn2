@@ -1,17 +1,13 @@
-//import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../components/score_card.dart';
 import '../components/score_card_content.dart';
-//import '../components/settings_button.dart';
-//import '../components/settings_modal.dart';
 import '../constants.dart';
 import '../engine.dart';
 import '../components/floating_buttons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:url_launcher/url_launcher.dart';
 
 class ScoresPage extends StatefulWidget {
   @override
@@ -19,10 +15,6 @@ class ScoresPage extends StatefulWidget {
 }
 
 class _ScoresPageState extends State<ScoresPage> {
-  //
-  // for display
-  //
-
   Color _colorTextLeft = Colors.black;
   Color _colorBackgroundLeft = Colors.red;
   Color _colorTextRight = Colors.black;
@@ -40,10 +32,6 @@ class _ScoresPageState extends State<ScoresPage> {
   bool _sets5 = false;
   int _setsLeft = 0;
   int _setsRight = 0;
-
-  // for increment/decrement swiping
-  // double _panPositionYLeft = 0.0;
-  // double _panPositionYRight = 0.0;
 
   Engine _engine = Engine();
 
@@ -80,27 +68,6 @@ class _ScoresPageState extends State<ScoresPage> {
       _setsRight = this._engine.setsRight;
     });
   }
-
-  // void _reflectorSendComment() async {
-  //   if (_engine.reflectorSite.length > 0 && _engine.scoreKeeper.length > 0) {
-  //     if (_engine.reflectorComment.length > 0) {
-  //       String urlString = "";
-  //       urlString += _engine.reflectorSite;
-  //       urlString += "/add?data=";
-  //       urlString += _engine.scoreKeeper;
-  //       urlString += ",";
-  //       urlString += _engine.reflectorComment;
-  //       var encoded = Uri.encodeFull(urlString);
-  //       Uri _url = Uri.parse(encoded);
-
-  //       _engine.reflectorComment = "";
-  //       try {
-  //         //  send GET without opening browser window, dont care about response
-  //         await http.get(_url);
-  //       } catch (exception, _) {}
-  //     }
-  //   }
-  // }
 
   void _reflectorSendScores() async {
     if (_engine.reflectorSite.length > 0 && _engine.scoreKeeper.length > 0) {
@@ -146,142 +113,6 @@ class _ScoresPageState extends State<ScoresPage> {
       } catch (exception, _) {}
     }
   }
-
-  // void _incrementLeft() async {
-  //   this._engine.incrementLeft();
-  //   _fromEngine();
-  //   _notify7();
-  //   _notify8();
-  //   _reflectorSendScores();
-  // }
-
-  // void _decrementLeft() async {
-  //   this._engine.decrementLeft();
-  //   _fromEngine();
-  //   _reflectorSendScores();
-  // }
-
-  // void _incrementRight() async {
-  //   this._engine.incrementRight();
-  //   _fromEngine();
-  //   _notify7();
-  //   _notify8();
-  //   _reflectorSendScores();
-  // }
-
-  // void _decrementRight() async {
-  //   this._engine.decrementRight();
-  //   _fromEngine();
-  //   _reflectorSendScores();
-  // }
-
-  // void _clearBoth() async {
-  //   showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text(
-  //           'Clear Scores',
-  //           style: kSettingsTextEditStyle,
-  //         ),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: <Widget>[
-  //               Text(
-  //                 'Clear scores?',
-  //                 style: kSettingsTextEditStyle,
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text(
-  //               'Cancel',
-  //               style:
-  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //             ),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: Text(
-  //               'Clear',
-  //               style:
-  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //             ),
-  //             onPressed: () {
-  //               this._engine.clearBoth();
-  //               _fromEngine();
-  //               Navigator.of(context).pop();
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  //   _reflectorSendScores();
-  // }
-
-  // void _resetBoth() async {
-  //   showDialog<void>(
-  //     context: context,
-  //     barrierDismissible: false, // user must tap button!
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: Text(
-  //           'Reset All',
-  //           style: kSettingsTextEditStyle,
-  //         ),
-  //         content: SingleChildScrollView(
-  //           child: ListBody(
-  //             children: <Widget>[
-  //               Text('Would you reset everything?'),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: <Widget>[
-  //           TextButton(
-  //             child: Text(
-  //               'Cancel',
-  //               style:
-  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //             ),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //           TextButton(
-  //             child: Text(
-  //               'Reset',
-  //               style:
-  //                   kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //             ),
-  //             onPressed: () {
-  //               this._engine.resetBoth();
-  //               _fromEngine();
-  //               _saveEngine();
-  //               Navigator.of(context).pop();
-  //               Navigator.of(context).pop();
-  //               _reflectorSendScores();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // void _swapTeams() async {
-  //   this._engine.swapTeams();
-  //   _fromEngine();
-  //   _saveEngine();
-  //   Navigator.of(context).pop();
-  //   _reflectorSendScores();
-  // }
 
   // List<String> _list = [
   //   "2022-08-07_06:42:20,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,1,1,15,5,1",
@@ -394,7 +225,6 @@ class _ScoresPageState extends State<ScoresPage> {
   }
 
   void _savePending() async {
-    // this._engine.savePending();
     _fromEngine();
     _saveEngine();
     Navigator.of(context).pop();
@@ -402,153 +232,11 @@ class _ScoresPageState extends State<ScoresPage> {
   }
 
   void _saveReflector() async {
-    //this._engine.savePending();
     _fromEngine();
     _saveEngine();
     Navigator.of(context).pop();
     _reflectorSendScores();
   }
-
-  // void _saveComment() async {
-  //   Navigator.of(context).pop();
-  //   _reflectorSendComment();
-  // }
-
-  // void _panUpdateLeft(DragUpdateDetails details) async {
-  //   // use swipe to adjust score
-  //   if (details.delta.dy.abs() > 1) {
-  //     _panPositionYLeft += details.delta.dy;
-  //     if (_panPositionYLeft < -100) {
-  //       _panPositionYLeft = 0.0;
-  //       _incrementLeft();
-  //     } else if (_panPositionYLeft > 100) {
-  //       _panPositionYLeft = 0.0;
-  //       _decrementLeft();
-  //     }
-  //   } else {
-  //     _panPositionYLeft = 0.0;
-  //   }
-  // }
-
-  // void _panUpdateRight(DragUpdateDetails details) async {
-  //   // use swipe to adjust score
-  //   if (details.delta.dy.abs() > 1) {
-  //     _panPositionYRight += details.delta.dy;
-  //     if (_panPositionYRight < -100) {
-  //       _panPositionYRight = 0.0;
-  //       _incrementRight();
-  //     } else if (_panPositionYRight > 100) {
-  //       _panPositionYRight = 0.0;
-  //       _decrementRight();
-  //     }
-  //   } else {
-  //     _panPositionYRight = 0.0;
-  //   }
-  // }
-
-  // void _notify7() async {
-  //   if (this._engine.notify7()) {
-  //     showDialog<void>(
-  //       context: context,
-  //       barrierDismissible: false, // user must tap button!
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text(
-  //             'At 7 Points',
-  //             style: kSettingsTextEditStyle,
-  //           ),
-  //           content: SingleChildScrollView(
-  //             child: ListBody(
-  //               children: <Widget>[
-  //                 Text(
-  //                   'Swap teams?',
-  //                   style: kSettingsTextEditStyle,
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: Text(
-  //                 'Cancel',
-  //                 style:
-  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //               ),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //             TextButton(
-  //               child: Text(
-  //                 'Swap',
-  //                 style:
-  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //               ),
-  //               onPressed: () {
-  //                 this._engine.swapTeams();
-  //                 _fromEngine();
-  //                 _saveEngine();
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
-  // void _notify8() async {
-  //   if (this._engine.notify8()) {
-  //     showDialog<void>(
-  //       context: context,
-  //       barrierDismissible: false, // user must tap button!
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Text(
-  //             'At 8 Points',
-  //             style: kSettingsTextEditStyle,
-  //           ),
-  //           content: SingleChildScrollView(
-  //             child: ListBody(
-  //               children: <Widget>[
-  //                 Text(
-  //                   'Would you swap teams?',
-  //                   style: kSettingsTextEditStyle,
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //           actions: <Widget>[
-  //             TextButton(
-  //               child: Text(
-  //                 'Cancel',
-  //                 style:
-  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //               ),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //             TextButton(
-  //               child: Text(
-  //                 'Swap',
-  //                 style:
-  //                     kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-  //               ),
-  //               onPressed: () {
-  //                 this._engine.swapTeams();
-  //                 _fromEngine();
-  //                 _saveEngine();
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ],
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 
   @override
   initState() {
@@ -728,26 +416,6 @@ class _ScoresPageState extends State<ScoresPage> {
           ),
         ],
       ),
-      // floatingActionButton: SettingsButton(onPress: () {
-      //   this._engine.setPending();
-      //   showModalBottomSheet(
-      //     context: context,
-      //     builder: (BuildContext bc) {
-      //       return SettingsModal(
-      //         context,
-      //         this._engine,
-      //         // _resetBoth,
-      //         // _clearBoth,
-      //         // _swapTeams,
-      //         _savePending,
-      //         _saveReflector,
-      //         // _saveComment,
-      //       );
-      //     },
-      //     isScrollControlled: true,
-      //   );
-      // }),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingButtons(
         screenHeight: screenHeight,
