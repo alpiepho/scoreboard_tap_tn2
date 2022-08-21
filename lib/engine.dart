@@ -37,7 +37,7 @@ class Engine {
 
   bool streamsMode = false;
 
-  String scoreKeeper = "";
+  String scoreKeeper = ""; // can be space separated list or *
   String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
   String reflectorComment = "";
 
@@ -141,6 +141,10 @@ class Engine {
 
     if (index < parts.length) scoreKeeper = parts[index++];
     if (index < parts.length) reflectorSite = parts[index++];
+
+    // TODO: remove DEBUG
+    reflectorSite = "http://localhost:3000";
+    scoreKeeper = "keeper1";
 
     colorTextLeft = colorTextLeft;
     colorBackgroundLeft = colorBackgroundLeft;

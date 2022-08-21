@@ -31,7 +31,6 @@ class FloatingButtons extends StatelessWidget {
     Widget settingsButton;
     if (engine.streamsMode) {
       scoresStreamButton = ScoresButton(onPress: () {
-        // TODO does this work?
         Navigator.of(context).pop();
         engine.streamsMode = false;
       });

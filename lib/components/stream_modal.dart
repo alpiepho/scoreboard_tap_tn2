@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../constants.dart';
 import '../engine.dart';
 import 'floating_buttons.dart';
@@ -95,6 +98,89 @@ class _StreamModal extends State<StreamModal> {
     super.dispose();
   }
 
+// TODO tie in with fetch
+// TODO only get a page???
+  void _refreshReflector() async {
+    if (engine.reflectorSite.isEmpty || engine.scoreKeeper.isEmpty) {
+      return;
+    }
+
+    // TODO get for list of keepers or all???
+
+    List<String> reflectorKeepers = [];
+    String urlString = "";
+    String encoded;
+    Uri _url;
+
+    // prove keepers
+    urlString = engine.reflectorSite;
+    urlString += "/keepers/json";
+
+    encoded = Uri.encodeFull(urlString);
+    _url = Uri.parse(encoded);
+
+    try {
+      http.Response response = await http.get(_url);
+      final data = jsonDecode(response.body);
+      for (int i = 0; i < data['keepers'].length; i++) {
+        print(data['keepers'][i]);
+        reflectorKeepers.add(data['keepers'][i]);
+      }
+    } catch (exception, message) {
+      print(exception);
+      print(message);
+    }
+
+    // prove keepers page
+    String currentKeeper = reflectorKeepers[0];
+    urlString = engine.reflectorSite;
+    urlString += "/";
+    urlString += currentKeeper;
+    urlString += "/json";
+    urlString += "?offset=1&count=2";
+
+    encoded = Uri.encodeFull(urlString);
+    _url = Uri.parse(encoded);
+    print(_url);
+
+    try {
+      http.Response response = await http.get(_url);
+      print(response.body);
+      final data = jsonDecode(response.body);
+      print(data);
+      for (int i = 0; i < data[currentKeeper].length; i++) {
+        print(data[currentKeeper][i]);
+        //this.engine.listAdd(events[i]);
+      }
+    } catch (exception, message) {
+      print(exception);
+      print(message);
+    }
+
+    // prove all page
+    urlString = engine.reflectorSite;
+    urlString += "/json";
+    urlString += "?offset=0&count=15";
+
+    encoded = Uri.encodeFull(urlString);
+    _url = Uri.parse(encoded);
+    print(_url);
+
+    try {
+      http.Response response = await http.get(_url);
+      print(response.body);
+      final data = jsonDecode(response.body);
+      print(data);
+      for (int i = 0; i < data['all'].length; i++) {
+        print(data['all'][i]);
+        //this.engine.listAdd(events[i]);
+      }
+    } catch (exception, message) {
+      print(exception);
+      print(message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -138,8 +224,7 @@ class _StreamModal extends State<StreamModal> {
         screenHeight: screenHeight,
         screenWidth: screenWidth,
         engine: engine,
-        onRefreshFromReflector:
-            () {}, //_refreshReflector, // TODO need callback
+        onRefreshFromReflector: _refreshReflector,
         onSavePending: () {},
         onSaveReflector: () {},
       ),

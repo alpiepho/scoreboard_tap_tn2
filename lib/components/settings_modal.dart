@@ -121,7 +121,9 @@ class _SettingsModal extends State<SettingsModal> {
 
   void onReflectorSiteKeeper() async {
     if (engine.reflectorSite.isNotEmpty && engine.scoreKeeper.isNotEmpty) {
-      String url = engine.reflectorSite + "/" + engine.scoreKeeper + "/html";
+      var parts = engine.scoreKeeper.split(' ');
+      var scoreKeeper = parts[0]; // just first keeper from settings page/modal
+      String url = engine.reflectorSite + "/" + scoreKeeper + "/html";
       _launchUrl(url);
     }
     Navigator.of(context).pop();
@@ -257,7 +259,8 @@ class _SettingsModal extends State<SettingsModal> {
                     new InputDecoration.collapsed(hintText: 'Scorekeeper Name'),
                 autofocus: false,
                 initialValue: engine.scoreKeeper,
-                onChanged: (text) => engine.scoreKeeper = text,
+                onChanged: (text) => engine.scoreKeeper =
+                    text, // can be space separated list or *
                 style: kSettingsTextEditStyle,
               ),
               trailing: new Icon(Icons.edit),

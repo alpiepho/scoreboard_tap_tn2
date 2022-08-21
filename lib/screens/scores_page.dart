@@ -69,51 +69,6 @@ class _ScoresPageState extends State<ScoresPage> {
     });
   }
 
-  void _reflectorSendScores() async {
-    if (_engine.reflectorSite.length > 0 && _engine.scoreKeeper.length > 0) {
-      String urlString = "";
-      urlString += _engine.reflectorSite;
-      urlString += "/add?data=";
-      urlString += _engine.scoreKeeper;
-      urlString += ",";
-
-      // build score to send
-      // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
-
-      urlString += _engine.colorTextLeft.hashCode.toRadixString(16);
-      urlString += ",";
-      urlString += _engine.colorBackgroundLeft.hashCode.toRadixString(16);
-      urlString += ",";
-      urlString += _engine.colorTextRight.hashCode.toRadixString(16);
-      urlString += ",";
-      urlString += _engine.colorBackgroundRight.hashCode.toRadixString(16);
-      urlString += ",";
-      urlString += _engine.labelLeft;
-      urlString += ",";
-      urlString += _engine.labelRight;
-      urlString += ",";
-      urlString += _engine.setsLeft.toString();
-      urlString += ",";
-      urlString += _engine.setsRight.toString();
-      urlString += ",";
-      urlString += _engine.valueLeft.toString();
-      urlString += ",";
-      urlString += _engine.valueRight.toString();
-      urlString += ",";
-      urlString += (_engine.lastPointLeft ? "1" : "2");
-      //urlString += ",";
-
-      var encoded = Uri.encodeFull(urlString);
-      Uri _url = Uri.parse(encoded);
-
-      _engine.reflectorComment = "";
-      try {
-        //  send GET without opening browser window, dont care about response
-        await http.get(_url);
-      } catch (exception, _) {}
-    }
-  }
-
   // List<String> _list = [
   //   "2022-08-07_06:42:20,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,1,1,15,5,1",
   //   "2022-08-07_06:42:20,dude,WOO HOO!",
@@ -150,14 +105,17 @@ class _ScoresPageState extends State<ScoresPage> {
       return;
     }
 
-    // _engine.reflectorSite = "http://10.0.0.13:3000";
-    // _engine.scoreKeeper = "dude";
+    var parts = _engine.scoreKeeper.split(' ');
+    var scoreKeeper = parts[0]; // just first keeper for scores page
+    if (scoreKeeper.contains('*')) {
+      return;
+    }
 
     String event = "";
     String urlString = "";
     urlString += _engine.reflectorSite;
     urlString += "/";
-    urlString += _engine.scoreKeeper;
+    urlString += scoreKeeper;
     urlString += "/0/json";
 
     var encoded = Uri.encodeFull(urlString);
@@ -167,23 +125,22 @@ class _ScoresPageState extends State<ScoresPage> {
     try {
       http.Response response = await http.get(_url);
       //print(response.statusCode);
-      //print(response.body);
+      print(response.body);
       final data = jsonDecode(response.body);
-      //print(data);
+      print(data);
       event = data['entry'];
+      // FAKE: cycle thru fake_list
+      // if (_index < 0) _index = _list.length - 1;
+      // event = _list[_index];
+      // _index--;
+      this._engine.listAdd(event);
     } catch (exception, message) {
       print(exception);
       print(message);
+      return;
     }
 
-    // FAKE: cycle thru fake_list
-    // if (_index < 0) _index = _list.length - 1;
-    // event = _list[_index];
-    // _index--;
-
-    this._engine.listAdd(event);
     String comment = this._engine.parseLastRefelector();
-
     if (comment.isNotEmpty) {
       showDialog<void>(
         context: context,
@@ -228,14 +185,12 @@ class _ScoresPageState extends State<ScoresPage> {
     _fromEngine();
     _saveEngine();
     Navigator.of(context).pop();
-    _reflectorSendScores();
   }
 
   void _saveReflector() async {
     _fromEngine();
     _saveEngine();
     Navigator.of(context).pop();
-    _reflectorSendScores();
   }
 
   @override
