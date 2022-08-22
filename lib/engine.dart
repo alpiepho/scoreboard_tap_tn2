@@ -42,6 +42,32 @@ class Engine {
   String reflectorSite = "http://localhost:3000";
   // String scoreKeeper = ""; // can be comma separated list or *
   // String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
+
+  // raw (w/ time, keeper, colors, names, sets, possession):
+  //   2022-08-22_05:54:34,keeper1,ff000000,fff44336,ff000000,ff448aff,Away1,Home1,0,0,24,18,1
+  // raw (w/ time, keeper, names, sets, possession):
+  //   2022-08-22_05:54:34,keeper1,Away1,Home1,0,0,24,18,1
+  // raw (w/ time, names):
+  //   2022-08-22_05:54:34,Away1,Home1,24,18
+
+  // !raw:
+  //  bubbles:  Away1 (with colors)       Home1 (with colors)
+  //  bubbles:  24 (with colors)          18 (with colors)
+  //            1                         0
+  //            2022-08-22_05:54:34 (small text under bubble)
+  //  ...
+  //  comment: bubble across, centered
+
+  bool showTime = true;
+  bool showKeeper = true;
+  bool showColors = true;
+  bool showNames = true;
+  bool showSets = true;
+  bool showScores = true;
+  bool showPossession = true;
+  bool showRaw = true;
+
+  // not saved
   String reflectorComment = "";
   String possibleKeeper = "unknown";
 
@@ -85,6 +111,15 @@ class Engine {
 
     result += scoreKeeper.toString() + ";";
     result += reflectorSite.toString() + ";";
+
+    result += showTime.toString() + ";";
+    result += showKeeper.toString() + ";";
+    result += showColors.toString() + ";";
+    result += showNames.toString() + ";";
+    result += showSets.toString() + ";";
+    result += showScores.toString() + ";";
+    result += showPossession.toString() + ";";
+    result += showRaw.toString() + ";";
 
     return result;
   }
@@ -143,6 +178,15 @@ class Engine {
 
     if (index < parts.length) scoreKeeper = parts[index++];
     if (index < parts.length) reflectorSite = parts[index++];
+
+    if (index < parts.length) showTime = parts[index++] == "true";
+    if (index < parts.length) showKeeper = parts[index++] == "true";
+    if (index < parts.length) showColors = parts[index++] == "true";
+    if (index < parts.length) showNames = parts[index++] == "true";
+    if (index < parts.length) showSets = parts[index++] == "true";
+    if (index < parts.length) showScores = parts[index++] == "true";
+    if (index < parts.length) showPossession = parts[index++] == "true";
+    if (index < parts.length) showRaw = parts[index++] == "true";
 
     colorTextLeft = colorTextLeft;
     colorBackgroundLeft = colorBackgroundLeft;

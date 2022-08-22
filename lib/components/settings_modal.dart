@@ -104,6 +104,78 @@ class _SettingsModal extends State<SettingsModal> {
     this.onDone();
   }
 
+  void onShowTimeChanged() async {
+    if (!this.engine.showTime) {
+      this.engine.showTime = true;
+    } else {
+      this.engine.showTime = false;
+    }
+    this.onDone();
+  }
+
+  void onShowKeeperChanged() async {
+    if (!this.engine.showKeeper) {
+      this.engine.showKeeper = true;
+    } else {
+      this.engine.showKeeper = false;
+    }
+    this.onDone();
+  }
+
+  void onShowColorsChanged() async {
+    if (!this.engine.showColors) {
+      this.engine.showColors = true;
+    } else {
+      this.engine.showColors = false;
+    }
+    this.onDone();
+  }
+
+  void onShowNamesChanged() async {
+    if (!this.engine.showNames) {
+      this.engine.showNames = true;
+    } else {
+      this.engine.showNames = false;
+    }
+    this.onDone();
+  }
+
+  void onShowSetsChanged() async {
+    if (!this.engine.showSets) {
+      this.engine.showSets = true;
+    } else {
+      this.engine.showSets = false;
+    }
+    this.onDone();
+  }
+
+  void onShowScoresChanged() async {
+    if (!this.engine.showScores) {
+      this.engine.showScores = true;
+    } else {
+      this.engine.showScores = false;
+    }
+    this.onDone();
+  }
+
+  void onShowPossessionChanged() async {
+    if (!this.engine.showPossession) {
+      this.engine.showPossession = true;
+    } else {
+      this.engine.showPossession = false;
+    }
+    this.onDone();
+  }
+
+  void onShowRawChanged() async {
+    if (!this.engine.showRaw) {
+      this.engine.showRaw = true;
+    } else {
+      this.engine.showRaw = false;
+    }
+    this.onDone();
+  }
+
   Future<void> _launchUrl(String urlString) async {
     Uri _url = Uri.parse(urlString);
     if (!await launchUrl(_url)) {
@@ -200,6 +272,141 @@ class _SettingsModal extends State<SettingsModal> {
     var fontString = getFontString(engine.fontType);
     var fontStyle = getLabelFont(engine.fontType);
 
+    List<Widget> displayTiles = [];
+    if (!engine.streamsMode) {
+      displayTiles.add(
+        new ListTile(
+          title: new Text(
+            'Change Fonts...',
+            style: kSettingsTextEditStyle,
+          ),
+          onTap: onFontChange,
+        ),
+      );
+      displayTiles.add(
+        new ListTile(
+          title: new Text(
+            fontString,
+            style: fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
+          ),
+          onTap: onFontChange,
+        ),
+      );
+      displayTiles.add(
+        new ListTile(
+          title: new Text(
+            'Zoom.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+              engine.zoom ? Icons.check_box : Icons.check_box_outline_blank),
+          onTap: onZoomChanged,
+        ),
+      );
+    }
+
+    List<Widget> showTiles = [];
+    if (engine.streamsMode) {
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Time.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showTime ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowTimeChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Keeper.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showKeeper ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowKeeperChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Color.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showColors ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowColorsChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Names.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showNames ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowNamesChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Sets.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showSets ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowSetsChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Scores.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showScores ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowScoresChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Possession.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showPossession
+                ? Icons.check_box
+                : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowPossessionChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Raw.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showRaw ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowRawChanged,
+        ),
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kSettingsModalBackgroundColor,
@@ -217,31 +424,8 @@ class _SettingsModal extends State<SettingsModal> {
         child: ListView(
           children: <Widget>[
             Divider(),
-            new ListTile(
-              title: new Text(
-                'Change Fonts...',
-                style: kSettingsTextEditStyle,
-              ),
-              onTap: onFontChange,
-            ),
-            new ListTile(
-              title: new Text(
-                fontString,
-                style:
-                    fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
-              ),
-              onTap: onFontChange,
-            ),
-            new ListTile(
-              title: new Text(
-                'Zoom.',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(engine.zoom
-                  ? Icons.check_box
-                  : Icons.check_box_outline_blank),
-              onTap: onZoomChanged,
-            ),
+            ...displayTiles,
+            ...showTiles,
             Divider(),
             Divider(),
             Divider(),

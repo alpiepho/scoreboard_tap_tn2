@@ -110,6 +110,9 @@ class _StreamModal extends State<StreamModal> {
     if (count >= 0) {
       urlString += "&count=" + count.toString();
     }
+    if (engine.scoreKeeper.isNotEmpty && engine.scoreKeeper != "*") {
+      urlString += "&names=" + engine.scoreKeeper;
+    }
 
     encoded = Uri.encodeFull(urlString);
     url = Uri.parse(encoded);
@@ -144,19 +147,6 @@ class _StreamModal extends State<StreamModal> {
     await fetchKeepers();
     await fetchAll(itemIndex, perPage);
     itemIndex += perPage;
-
-    // setState(() {
-    //   // TODO: replace this with call to refelector
-    //   List<String> newItems = List.generate(
-    //     perPage,
-    //     (index) => 'Item ${index + itemIndex + 1}',
-    //   );
-    //   items.addAll(newItems);
-    //   itemIndex += perPage;
-    //   if (items.length > 100) {
-    //     hasMore = false;
-    //   }
-    // });
     isLoading = false;
   }
 
@@ -183,55 +173,20 @@ class _StreamModal extends State<StreamModal> {
     items = [];
     itemIndex = 0;
     fetch();
+    Navigator.of(context).pop();
+  }
 
-    // // prove keepers page
-    // String currentKeeper = engine.scoreKeeper;
-    // urlString = engine.reflectorSite;
-    // urlString += "/";
-    // urlString += currentKeeper;
-    // urlString += "/json";
-    // urlString += "?offset=1&count=2";
+  void _savePending() async {
+    // TODO: may need these
+    // _fromEngine();
+    // _saveEngine();
+    Navigator.of(context).pop();
+  }
 
-    // encoded = Uri.encodeFull(urlString);
-    // _url = Uri.parse(encoded);
-    // print(_url);
-
-    // try {
-    //   http.Response response = await http.get(_url);
-    //   print(response.body);
-    //   final data = jsonDecode(response.body);
-    //   print(data);
-    //   for (int i = 0; i < data[currentKeeper].length; i++) {
-    //     print(data[currentKeeper][i]);
-    //     //this.engine.listAdd(events[i]);
-    //   }
-    // } catch (exception, message) {
-    //   print(exception);
-    //   print(message);
-    // }
-
-    // // prove all page
-    // urlString = engine.reflectorSite;
-    // urlString += "/json";
-    // urlString += "?offset=0&count=15";
-
-    // encoded = Uri.encodeFull(urlString);
-    // _url = Uri.parse(encoded);
-    // print(_url);
-
-    // try {
-    //   http.Response response = await http.get(_url);
-    //   print(response.body);
-    //   final data = jsonDecode(response.body);
-    //   print(data);
-    //   for (int i = 0; i < data['all'].length; i++) {
-    //     print(data['all'][i]);
-    //     //this.engine.listAdd(events[i]);
-    //   }
-    // } catch (exception, message) {
-    //   print(exception);
-    //   print(message);
-    // }
+  void _saveReflector() async {
+    // _fromEngine();
+    // _saveEngine();
+    Navigator.of(context).pop();
   }
 
   @override
@@ -249,7 +204,7 @@ class _StreamModal extends State<StreamModal> {
         itemBuilder: (context, index) {
           if (index < items.length) {
             final item = items[index];
-            return ListTile(title: Text(item));
+            return ListTile(title: Center(child: Text(item)));
           } else {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 32),
@@ -268,8 +223,8 @@ class _StreamModal extends State<StreamModal> {
         screenWidth: screenWidth,
         engine: engine,
         onRefreshFromReflector: _refreshReflector,
-        onSavePending: () {},
-        onSaveReflector: () {},
+        onSavePending: _savePending,
+        onSaveReflector: _saveReflector,
       ),
     );
   }
