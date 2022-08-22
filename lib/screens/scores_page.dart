@@ -105,21 +105,49 @@ class _ScoresPageState extends State<ScoresPage> {
       return;
     }
 
-    var parts = _engine.scoreKeeper.split(' ');
+    String event = "";
+    String urlString = "";
+    String encoded;
+    Uri _url;
+
+    // Update keepers
+    urlString = _engine.reflectorSite;
+    urlString += "/keepers/json";
+
+    encoded = Uri.encodeFull(urlString);
+    _url = Uri.parse(encoded);
+
+    List<String> names = [];
+    try {
+      http.Response response = await http.get(_url);
+      final data = jsonDecode(response.body);
+      for (int i = 0; i < data['keepers'].length; i++) {
+        names.add(data['keepers'][i]);
+      }
+    } catch (exception, message) {
+      print(exception);
+      print(message);
+    }
+    if (names.isNotEmpty) {
+      _engine.possibleKeeper = names.join(",");
+    }
+
+    // Update latest score for first keeper
+    var parts = _engine.scoreKeeper.split(',');
     var scoreKeeper = parts[0]; // just first keeper for scores page
     if (scoreKeeper.contains('*')) {
       return;
     }
 
-    String event = "";
-    String urlString = "";
+    event = "";
+    urlString = "";
     urlString += _engine.reflectorSite;
     urlString += "/";
     urlString += scoreKeeper;
     urlString += "/0/json";
 
-    var encoded = Uri.encodeFull(urlString);
-    Uri _url = Uri.parse(encoded);
+    encoded = Uri.encodeFull(urlString);
+    _url = Uri.parse(encoded);
     //print(encoded);
 
     try {
@@ -133,14 +161,13 @@ class _ScoresPageState extends State<ScoresPage> {
       // if (_index < 0) _index = _list.length - 1;
       // event = _list[_index];
       // _index--;
-      this._engine.listAdd(event);
     } catch (exception, message) {
       print(exception);
       print(message);
       return;
     }
 
-    String comment = this._engine.parseLastRefelector();
+    String comment = this._engine.parseLastRefelector(event);
     if (comment.isNotEmpty) {
       showDialog<void>(
         context: context,

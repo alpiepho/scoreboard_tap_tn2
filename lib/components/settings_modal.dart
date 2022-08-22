@@ -121,7 +121,7 @@ class _SettingsModal extends State<SettingsModal> {
 
   void onReflectorSiteKeeper() async {
     if (engine.reflectorSite.isNotEmpty && engine.scoreKeeper.isNotEmpty) {
-      var parts = engine.scoreKeeper.split(' ');
+      var parts = engine.scoreKeeper.split(',');
       var scoreKeeper = parts[0]; // just first keeper from settings page/modal
       String url = engine.reflectorSite + "/" + scoreKeeper + "/html";
       _launchUrl(url);
@@ -253,14 +253,22 @@ class _SettingsModal extends State<SettingsModal> {
               ),
             ),
             new ListTile(
+              title: new Text(
+                "(available: " + engine.possibleKeeper + ")",
+                style: kSettingsTextEditStyle,
+              ),
+            ),
+            new ListTile(
               leading: null,
               title: new TextFormField(
                 decoration:
                     new InputDecoration.collapsed(hintText: 'Scorekeeper Name'),
                 autofocus: false,
                 initialValue: engine.scoreKeeper,
-                onChanged: (text) => engine.scoreKeeper =
-                    text, // can be space separated list or *
+                onChanged: (text) {
+                  // can be comma separated list or *
+                  engine.scoreKeeper = text.replaceAll(' ', ',');
+                },
                 style: kSettingsTextEditStyle,
               ),
               trailing: new Icon(Icons.edit),

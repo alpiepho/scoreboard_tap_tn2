@@ -60,22 +60,103 @@ class _StreamModal extends State<StreamModal> {
 
   List<String> items = [];
 
+  Future fetchKeepers() async {
+    if (engine.reflectorSite.isEmpty) {
+      return;
+    }
+
+    String urlString = "";
+    String encoded;
+    Uri url;
+
+    urlString = engine.reflectorSite;
+    urlString += "/keepers/json";
+
+    encoded = Uri.encodeFull(urlString);
+    url = Uri.parse(encoded);
+
+    List<String> names = [];
+    try {
+      http.Response response = await http.get(url);
+      final data = jsonDecode(response.body);
+      for (int i = 0; i < data['keepers'].length; i++) {
+        names.add(data['keepers'][i]);
+      }
+    } catch (exception, message) {
+      print(exception);
+      print(message);
+    }
+    if (names.isNotEmpty) {
+      engine.possibleKeeper = names.join(",");
+    }
+  }
+
+  Future fetchAll(int offset, int count) async {
+    if (engine.reflectorSite.isEmpty) {
+      return;
+    }
+
+    String urlString = "";
+    String encoded;
+    Uri url;
+
+    urlString = engine.reflectorSite;
+    urlString += "/json";
+    if (offset >= 0) {
+      urlString += "?offset=" + offset.toString();
+    } else {
+      urlString += "?offset=0";
+    }
+    if (count >= 0) {
+      urlString += "&count=" + count.toString();
+    }
+
+    encoded = Uri.encodeFull(urlString);
+    url = Uri.parse(encoded);
+    print(url);
+
+    try {
+      http.Response response = await http.get(url);
+      print(response.body);
+      final data = jsonDecode(response.body);
+      print(data);
+
+      setState(() {
+        List<String> newItems = [];
+        for (int i = 0; i < data['all'].length; i++) {
+          newItems.add(data['all'][i]);
+        }
+        items.addAll(newItems);
+        if (data['all'].length < count) {
+          hasMore = false;
+        }
+      });
+    } catch (exception, message) {
+      print(exception);
+      print(message);
+    }
+  }
+
   Future fetch() async {
     if (isLoading) return;
     isLoading = true;
 
-    setState(() {
-      // TODO: replace this with call to refelector
-      List<String> newItems = List.generate(
-        perPage,
-        (index) => 'Item ${index + itemIndex + 1}',
-      );
-      items.addAll(newItems);
-      itemIndex += perPage;
-      if (items.length > 100) {
-        hasMore = false;
-      }
-    });
+    await fetchKeepers();
+    await fetchAll(itemIndex, perPage);
+    itemIndex += perPage;
+
+    // setState(() {
+    //   // TODO: replace this with call to refelector
+    //   List<String> newItems = List.generate(
+    //     perPage,
+    //     (index) => 'Item ${index + itemIndex + 1}',
+    //   );
+    //   items.addAll(newItems);
+    //   itemIndex += perPage;
+    //   if (items.length > 100) {
+    //     hasMore = false;
+    //   }
+    // });
     isLoading = false;
   }
 
@@ -98,87 +179,59 @@ class _StreamModal extends State<StreamModal> {
     super.dispose();
   }
 
-// TODO tie in with fetch
-// TODO only get a page???
   void _refreshReflector() async {
-    if (engine.reflectorSite.isEmpty || engine.scoreKeeper.isEmpty) {
-      return;
-    }
+    items = [];
+    itemIndex = 0;
+    fetch();
 
-    // TODO get for list of keepers or all???
+    // // prove keepers page
+    // String currentKeeper = engine.scoreKeeper;
+    // urlString = engine.reflectorSite;
+    // urlString += "/";
+    // urlString += currentKeeper;
+    // urlString += "/json";
+    // urlString += "?offset=1&count=2";
 
-    List<String> reflectorKeepers = [];
-    String urlString = "";
-    String encoded;
-    Uri _url;
+    // encoded = Uri.encodeFull(urlString);
+    // _url = Uri.parse(encoded);
+    // print(_url);
 
-    // prove keepers
-    urlString = engine.reflectorSite;
-    urlString += "/keepers/json";
+    // try {
+    //   http.Response response = await http.get(_url);
+    //   print(response.body);
+    //   final data = jsonDecode(response.body);
+    //   print(data);
+    //   for (int i = 0; i < data[currentKeeper].length; i++) {
+    //     print(data[currentKeeper][i]);
+    //     //this.engine.listAdd(events[i]);
+    //   }
+    // } catch (exception, message) {
+    //   print(exception);
+    //   print(message);
+    // }
 
-    encoded = Uri.encodeFull(urlString);
-    _url = Uri.parse(encoded);
+    // // prove all page
+    // urlString = engine.reflectorSite;
+    // urlString += "/json";
+    // urlString += "?offset=0&count=15";
 
-    try {
-      http.Response response = await http.get(_url);
-      final data = jsonDecode(response.body);
-      for (int i = 0; i < data['keepers'].length; i++) {
-        print(data['keepers'][i]);
-        reflectorKeepers.add(data['keepers'][i]);
-      }
-    } catch (exception, message) {
-      print(exception);
-      print(message);
-    }
+    // encoded = Uri.encodeFull(urlString);
+    // _url = Uri.parse(encoded);
+    // print(_url);
 
-    // prove keepers page
-    String currentKeeper = reflectorKeepers[0];
-    urlString = engine.reflectorSite;
-    urlString += "/";
-    urlString += currentKeeper;
-    urlString += "/json";
-    urlString += "?offset=1&count=2";
-
-    encoded = Uri.encodeFull(urlString);
-    _url = Uri.parse(encoded);
-    print(_url);
-
-    try {
-      http.Response response = await http.get(_url);
-      print(response.body);
-      final data = jsonDecode(response.body);
-      print(data);
-      for (int i = 0; i < data[currentKeeper].length; i++) {
-        print(data[currentKeeper][i]);
-        //this.engine.listAdd(events[i]);
-      }
-    } catch (exception, message) {
-      print(exception);
-      print(message);
-    }
-
-    // prove all page
-    urlString = engine.reflectorSite;
-    urlString += "/json";
-    urlString += "?offset=0&count=15";
-
-    encoded = Uri.encodeFull(urlString);
-    _url = Uri.parse(encoded);
-    print(_url);
-
-    try {
-      http.Response response = await http.get(_url);
-      print(response.body);
-      final data = jsonDecode(response.body);
-      print(data);
-      for (int i = 0; i < data['all'].length; i++) {
-        print(data['all'][i]);
-        //this.engine.listAdd(events[i]);
-      }
-    } catch (exception, message) {
-      print(exception);
-      print(message);
-    }
+    // try {
+    //   http.Response response = await http.get(_url);
+    //   print(response.body);
+    //   final data = jsonDecode(response.body);
+    //   print(data);
+    //   for (int i = 0; i < data['all'].length; i++) {
+    //     print(data['all'][i]);
+    //     //this.engine.listAdd(events[i]);
+    //   }
+    // } catch (exception, message) {
+    //   print(exception);
+    //   print(message);
+    // }
   }
 
   @override
@@ -189,16 +242,6 @@ class _StreamModal extends State<StreamModal> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kSettingsModalBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.grey,
-        foregroundColor: Colors.white,
-        toolbarHeight: 50,
-        titleSpacing: 20,
-        title: Text(
-          "Score Stream",
-          style: kSettingsTextEditStyle,
-        ),
-      ),
       body: ListView.builder(
         controller: controller,
         padding: const EdgeInsets.all(8),

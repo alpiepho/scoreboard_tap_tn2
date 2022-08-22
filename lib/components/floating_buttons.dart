@@ -34,7 +34,6 @@ class FloatingButtons extends StatelessWidget {
         Navigator.of(context).pop();
         engine.streamsMode = false;
       });
-      settingsButton = SizedBox.shrink();
     } else {
       scoresStreamButton = StreamButton(onPress: () {
         showModalBottomSheet(
@@ -51,21 +50,21 @@ class FloatingButtons extends StatelessWidget {
         );
         engine.streamsMode = true;
       });
-      settingsButton = SettingsButton(onPress: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return SettingsModal(
-              context,
-              this.engine,
-              onSavePending as Function,
-              onSaveReflector as Function,
-            );
-          },
-          isScrollControlled: true,
-        );
-      });
     }
+    settingsButton = SettingsButton(onPress: () {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SettingsModal(
+            context,
+            this.engine,
+            onSavePending as Function,
+            onSaveReflector as Function,
+          );
+        },
+        isScrollControlled: true,
+      );
+    });
 
     return Stack(
       fit: StackFit.expand,

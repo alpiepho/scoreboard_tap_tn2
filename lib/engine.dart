@@ -37,11 +37,13 @@ class Engine {
 
   bool streamsMode = false;
 
-  String scoreKeeper = ""; // can be space separated list or *
-  String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
+  // TODO: remove DEBUG
+  String scoreKeeper = "keeper1";
+  String reflectorSite = "http://localhost:3000";
+  // String scoreKeeper = ""; // can be comma separated list or *
+  // String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
   String reflectorComment = "";
-
-  late List<String> list = [];
+  String possibleKeeper = "unknown";
 
   Engine();
 
@@ -142,10 +144,6 @@ class Engine {
     if (index < parts.length) scoreKeeper = parts[index++];
     if (index < parts.length) reflectorSite = parts[index++];
 
-    // TODO: remove DEBUG
-    reflectorSite = "http://localhost:3000";
-    scoreKeeper = "keeper1";
-
     colorTextLeft = colorTextLeft;
     colorBackgroundLeft = colorBackgroundLeft;
     colorTextRight = colorTextRight;
@@ -171,7 +169,11 @@ class Engine {
     return result;
   }
 
-  String parseLastRefelector() {
+  String parseLastRefelector(String last) {
+    if (last.isEmpty) {
+      return "";
+    }
+
     int temp = 0;
     String result = "";
     // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
@@ -180,64 +182,49 @@ class Engine {
     //     0         1       2    3  4 5 6   7 8
     // ie. timepstamp,shannon,{comment}
     //     0         1        2
-    if (list.length > 0) {
-      List<String> parts = list.last.split(",");
+    List<String> parts = last.split(",");
 
-      if (parts.length == 13) {
-        // workaround for back colors, need to debug
-        temp = parseReflectorHex(parts[2]);
-        if ((temp & 0xff000000) == 0) {
-          print("BAD colors!!!");
-          print(list.last);
-        } else {
-          colorTextLeft = Color(parseReflectorHex(parts[2]));
-          colorBackgroundLeft = Color(parseReflectorHex(parts[3]));
-          colorTextRight = Color(parseReflectorHex(parts[4]));
-          colorBackgroundRight = Color(parseReflectorHex(parts[5]));
-        }
-
-        labelLeft = parts[6];
-        labelRight = parts[7];
-
-        setsLeft = parseReflectorInt(parts[8]);
-        setsRight = parseReflectorInt(parts[9]);
-
-        valueLeft = parseReflectorInt(parts[10]);
-        valueRight = parseReflectorInt(parts[11]);
-
-        lastPointLeft = parseReflectorInt(parts[12]) == 1;
+    if (parts.length == 13) {
+      // workaround for back colors, need to debug
+      temp = parseReflectorHex(parts[2]);
+      if ((temp & 0xff000000) == 0) {
+        print("BAD colors!!!");
+        print(last);
+      } else {
+        colorTextLeft = Color(parseReflectorHex(parts[2]));
+        colorBackgroundLeft = Color(parseReflectorHex(parts[3]));
+        colorTextRight = Color(parseReflectorHex(parts[4]));
+        colorBackgroundRight = Color(parseReflectorHex(parts[5]));
       }
-      if (parts.length == 9) {
-        labelLeft = parts[2];
-        labelRight = parts[3];
 
-        setsLeft = parseReflectorInt(parts[4]);
-        setsRight = parseReflectorInt(parts[5]);
+      labelLeft = parts[6];
+      labelRight = parts[7];
 
-        valueLeft = parseReflectorInt(parts[6]);
-        valueRight = parseReflectorInt(parts[7]);
+      setsLeft = parseReflectorInt(parts[8]);
+      setsRight = parseReflectorInt(parts[9]);
 
-        lastPointLeft = parseReflectorInt(parts[8]) == 1;
-      }
-      if (parts.length == 3) {
-        result = parts[2];
-      }
+      valueLeft = parseReflectorInt(parts[10]);
+      valueRight = parseReflectorInt(parts[11]);
+
+      lastPointLeft = parseReflectorInt(parts[12]) == 1;
     }
+    if (parts.length == 9) {
+      labelLeft = parts[2];
+      labelRight = parts[3];
+
+      setsLeft = parseReflectorInt(parts[4]);
+      setsRight = parseReflectorInt(parts[5]);
+
+      valueLeft = parseReflectorInt(parts[6]);
+      valueRight = parseReflectorInt(parts[7]);
+
+      lastPointLeft = parseReflectorInt(parts[8]) == 1;
+    }
+    if (parts.length == 3) {
+      result = parts[2];
+    }
+
     return result;
-  }
-
-  void listClear() {
-    list.clear();
-  }
-
-  void listAdd(String reflectorEvent) {
-    print(reflectorEvent);
-    if (reflectorEvent.isNotEmpty) {
-      if (list.length > 1000) {
-        list.removeAt(0);
-      }
-      list.add(reflectorEvent);
-    }
   }
 
   String getLabelLeft() {
@@ -259,103 +246,4 @@ class Engine {
     }
     return result;
   }
-
-  // void incrementLeft() {
-  //   valueLeft += 1;
-  //   lastPointLeft = true;
-  // }
-
-  // void decrementLeft() {
-  //   valueLeft -= 1;
-  //   if (valueLeft < 0) valueLeft = 0;
-  // }
-
-  // void incrementRight() {
-  //   valueRight += 1;
-  //   lastPointLeft = false;
-  // }
-
-  // void decrementRight() {
-  //   valueRight -= 1;
-  //   if (valueRight < 0) valueRight = 0;
-  // }
-
-  // void clearBoth() {
-  //   valueLeft = 0;
-  //   valueRight = 0;
-  //   lastPointLeft = false;
-  // }
-
-  // void resetBoth() {
-  //   labelLeft = "Away";
-  //   labelRight = "Home";
-  //   valueLeft = 0;
-  //   valueRight = 0;
-  //   lastPointLeft = false;
-  //   colorTextLeft = Colors.black;
-  //   colorBackgroundLeft = Colors.red;
-  //   colorTextRight = Colors.black;
-  //   colorBackgroundRight = Colors.blueAccent;
-  //   // pendingColorTextLeft = colorTextLeft;
-  //   // pendingColorBackgroundLeft = colorBackgroundLeft;
-  //   // pendingColorTextRight = colorTextRight;
-  //   // pendingColorBackgroundRight = colorBackgroundRight;
-  //   fontType = FontTypes.system;
-  //   setsLeft = 0;
-  //   setsRight = 0;
-  // }
-
-  // void swapTeams() {
-  //   var valueTemp = valueLeft;
-  //   valueLeft = valueRight;
-  //   valueRight = valueTemp;
-  //   lastPointLeft = !lastPointLeft;
-
-  //   var labelTemp = labelLeft;
-  //   labelLeft = labelRight;
-  //   labelRight = labelTemp;
-
-  //   var colorTemp = colorTextLeft;
-  //   colorTextLeft = colorTextRight;
-  //   colorTextRight = colorTemp;
-
-  //   colorTemp = colorBackgroundLeft;
-  //   colorBackgroundLeft = colorBackgroundRight;
-  //   colorBackgroundRight = colorTemp;
-
-  //   var setsTemp = setsLeft;
-  //   setsLeft = setsRight;
-  //   setsRight = setsTemp;
-  // }
-
-  // void savePending() {
-  //   labelLeft = pendingLabelLeft;
-  //   labelRight = pendingLabelRight;
-  //   colorTextLeft = pendingColorTextLeft;
-  //   colorBackgroundLeft = pendingColorBackgroundLeft;
-  //   colorTextRight = pendingColorTextRight;
-  //   colorBackgroundRight = pendingColorBackgroundRight;
-  // }
-
-  void setPending() {
-    // pendingLabelLeft = labelLeft;
-    // pendingLabelRight = labelRight;
-    // pendingColorTextLeft = colorTextLeft;
-    // pendingColorBackgroundLeft = pendingColorBackgroundLeft;
-    // pendingColorBackgroundRight = pendingColorBackgroundRight;
-  }
-
-  // bool notify7() {
-  //   if (notify7Enabled) {
-  //     if (((valueLeft + valueRight) % 7) == 0) return true;
-  //   }
-  //   return false;
-  // }
-
-  // bool notify8() {
-  //   if (notify8Enabled) {
-  //     if (valueLeft == 8 || valueRight == 8) return true;
-  //   }
-  //   return false;
-  // }
 }
