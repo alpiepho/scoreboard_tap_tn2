@@ -173,13 +173,16 @@ class _StreamModal extends State<StreamModal> {
     items = [];
     itemIndex = 0;
     fetch();
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
   }
 
   void _savePending() async {
     // TODO: may need these
     // _fromEngine();
     // _saveEngine();
+    items = [];
+    itemIndex = 0;
+    fetch();
     Navigator.of(context).pop();
   }
 
@@ -187,6 +190,87 @@ class _StreamModal extends State<StreamModal> {
     // _fromEngine();
     // _saveEngine();
     Navigator.of(context).pop();
+  }
+
+  Widget _buildListTile(String item) {
+    Widget result = SizedBox.shrink();
+    if (engine.showRaw) {
+      // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
+      //     0         1       2      3      4      5      6    7  8 9  10  11  12
+      // ie. timestamp,shannon,Them,Us,0,0,10, 8,0
+      //     0         1       2    3  4 5 6   7 8
+      // ie. timepstamp,shannon,{comment}
+      //     0         1        2
+      List<String> parts = item.split(",");
+      List<String> newParts = [];
+      if (parts.length == 13) {
+        if (engine.showTime) {
+          newParts.add(parts[0]);
+        }
+        if (engine.showKeeper) {
+          newParts.add(parts[1]);
+        }
+        if (engine.showColors) {
+          newParts.add(parts[2]);
+          newParts.add(parts[3]);
+          newParts.add(parts[4]);
+          newParts.add(parts[5]);
+        }
+        if (engine.showNames) {
+          newParts.add(parts[6]);
+          newParts.add(parts[7]);
+        }
+        if (engine.showSets) {
+          newParts.add(parts[8]);
+          newParts.add(parts[9]);
+        }
+        if (engine.showScores) {
+          newParts.add(parts[10]);
+          newParts.add(parts[11]);
+        }
+        if (engine.showPossession) {
+          newParts.add(parts[12]);
+        }
+      }
+      if (parts.length == 9) {
+        if (engine.showTime) {
+          newParts.add(parts[0]);
+        }
+        if (engine.showKeeper) {
+          newParts.add(parts[1]);
+        }
+        if (engine.showNames) {
+          newParts.add(parts[2]);
+          newParts.add(parts[3]);
+        }
+        if (engine.showSets) {
+          newParts.add(parts[4]);
+          newParts.add(parts[5]);
+        }
+        if (engine.showScores) {
+          newParts.add(parts[6]);
+          newParts.add(parts[7]);
+        }
+        if (engine.showPossession) {
+          newParts.add(parts[8]);
+        }
+        if (parts.length == 3) {
+          if (engine.showTime) {
+            newParts.add(parts[0]);
+          }
+          if (engine.showKeeper) {
+            newParts.add(parts[1]);
+          }
+          if (engine.showComment) {
+            newParts.add(parts[2]);
+          }
+        }
+      }
+      result = ListTile(title: Center(child: Text(newParts.join(", "))));
+    } else {}
+
+    ListTile(title: Center(child: Text(item)));
+    return result;
   }
 
   @override
@@ -204,7 +288,7 @@ class _StreamModal extends State<StreamModal> {
         itemBuilder: (context, index) {
           if (index < items.length) {
             final item = items[index];
-            return ListTile(title: Center(child: Text(item)));
+            return _buildListTile(item);
           } else {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 32),

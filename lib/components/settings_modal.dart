@@ -167,6 +167,15 @@ class _SettingsModal extends State<SettingsModal> {
     this.onDone();
   }
 
+  void onShowCommentChanged() async {
+    if (!this.engine.showComment) {
+      this.engine.showComment = true;
+    } else {
+      this.engine.showComment = false;
+    }
+    this.onDone();
+  }
+
   void onShowRawChanged() async {
     if (!this.engine.showRaw) {
       this.engine.showRaw = true;
@@ -391,6 +400,20 @@ class _SettingsModal extends State<SettingsModal> {
                 : Icons.check_box_outline_blank,
           ),
           onTap: onShowPossessionChanged,
+        ),
+      );
+      showTiles.add(
+        new ListTile(
+          title: new Text(
+            'Show Comment.',
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            engine.showComment
+                ? Icons.check_box
+                : Icons.check_box_outline_blank,
+          ),
+          onTap: onShowCommentChanged,
         ),
       );
       showTiles.add(

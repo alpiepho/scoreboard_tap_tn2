@@ -65,6 +65,7 @@ class Engine {
   bool showSets = true;
   bool showScores = true;
   bool showPossession = true;
+  bool showComment = true;
   bool showRaw = true;
 
   // not saved
@@ -119,6 +120,7 @@ class Engine {
     result += showSets.toString() + ";";
     result += showScores.toString() + ";";
     result += showPossession.toString() + ";";
+    result += showComment.toString() + ";";
     result += showRaw.toString() + ";";
 
     return result;
@@ -163,11 +165,11 @@ class Engine {
     index++;
 
     index++; // was forceLandscape
-    notify7Enabled = parts[index++] == "true";
-    notify8Enabled = parts[index++] == "true";
+    if (index < parts.length) notify7Enabled = parts[index++] == "true";
+    if (index < parts.length) notify8Enabled = parts[index++] == "true";
 
-    lastPointLeft = parts[index++] == "true";
-    lastPointEnabled = parts[index++] == "true";
+    if (index < parts.length) lastPointLeft = parts[index++] == "true";
+    if (index < parts.length) lastPointEnabled = parts[index++] == "true";
 
     // new since last release so check index
     if (index < parts.length) zoom = parts[index++] == "true";
@@ -186,6 +188,7 @@ class Engine {
     if (index < parts.length) showSets = parts[index++] == "true";
     if (index < parts.length) showScores = parts[index++] == "true";
     if (index < parts.length) showPossession = parts[index++] == "true";
+    if (index < parts.length) showComment = parts[index++] == "true";
     if (index < parts.length) showRaw = parts[index++] == "true";
 
     colorTextLeft = colorTextLeft;
