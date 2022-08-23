@@ -116,13 +116,13 @@ class _StreamModal extends State<StreamModal> {
 
     encoded = Uri.encodeFull(urlString);
     url = Uri.parse(encoded);
-    print(url);
+    //print(url);
 
     try {
       http.Response response = await http.get(url);
-      print(response.body);
+      //print(response.body);
       final data = jsonDecode(response.body);
-      print(data);
+      //print(data);
 
       setState(() {
         List<String> newItems = [];
@@ -264,6 +264,9 @@ class _StreamModal extends State<StreamModal> {
       String nameRight = "";
       String setsLeft = "";
       String setsRight = "";
+      String posessionLeft = "";
+      String posessionRight = "";
+      String comment = "";
 
       // TODO clean up size (13)
       if (parts.length == 13) {
@@ -301,6 +304,13 @@ class _StreamModal extends State<StreamModal> {
         }
         if (engine.showPossession) {
           // newParts.add(parts[12]);
+          var temp = engine.parseReflectorInt(parts[12]);
+          if (temp == 1) {
+            posessionLeft = " >";
+          }
+          if (temp == 2) {
+            posessionRight = "< ";
+          }
         }
       }
       if (parts.length == 3) {
@@ -311,105 +321,149 @@ class _StreamModal extends State<StreamModal> {
           timeRight = parts[1];
         }
         if (engine.showComment) {
-          // newParts.add(parts[2]);
+          comment = parts[2];
         }
+        timeLeft = timeLeft + " " + timeRight;
       }
 
-      Widget boxLeft = SizedBox(
-        width: 150.0,
-        height: 90.0,
-        child: Column(
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: colorBackgroundLeft,
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      Widget boxLeft = SizedBox.shrink();
+      Widget boxRight = SizedBox.shrink();
+      //print(comment.length);
+      if (comment.isNotEmpty) {
+        var height = 80.0;
+        if (comment.length > 120) {
+          height = 200.0;
+        }
+        if (comment.length > 240) {
+          height = 400.0;
+        }
+        boxLeft = SizedBox(
+          width: 300.0,
+          height: height,
+          child: Column(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colorBackgroundLeft,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new Text(
+                      comment,
+                      style: kLabelTextStyle_system.copyWith(
+                          color: colorTextLeft, fontSize: 20),
+                    ),
+                  ),
+                ),
               ),
-              child: Center(
-                  child: Row(
-                children: [
-                  SizedBox(width: 20),
-                  Column(
-                    children: [
-                      SizedBox(height: 10),
-                      new Text(
-                        nameLeft,
-                        style: kLabelTextStyle_system.copyWith(
-                            color: colorTextLeft, fontSize: 10),
-                      ),
-                      new Text(
-                        setsLeft,
-                        style: kLabelTextStyle_system.copyWith(
-                            color: colorTextLeft, fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 20),
-                  new Text(
-                    scoreLeft,
-                    style:
-                        kLabelTextStyle_system.copyWith(color: colorTextLeft),
-                  ),
-                  SizedBox(width: 4),
-                ],
-              )),
-            ),
-            new Text(
-              timeLeft,
-              style: kLabelTextStyle_system.copyWith(
-                  color: colorTextLeft, fontSize: 10),
-            ),
-          ],
-        ),
-      );
+              new Text(
+                timeLeft,
+                style: kLabelTextStyle_system.copyWith(
+                    color: colorTextLeft, fontSize: 10),
+              ),
+            ],
+          ),
+        );
+      }
+      if (comment.isEmpty) {
+        boxLeft = SizedBox(
+          width: 150.0,
+          height: 90.0,
+          child: Column(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colorBackgroundLeft,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Center(
+                    child: Row(
+                  children: [
+                    SizedBox(width: 20),
+                    Column(
+                      children: [
+                        SizedBox(height: 10),
+                        new Text(
+                          nameLeft + posessionLeft,
+                          style: kLabelTextStyle_system.copyWith(
+                              color: colorTextLeft, fontSize: 10),
+                        ),
+                        new Text(
+                          setsLeft,
+                          style: kLabelTextStyle_system.copyWith(
+                              color: colorTextLeft, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 20),
+                    new Text(
+                      scoreLeft,
+                      style:
+                          kLabelTextStyle_system.copyWith(color: colorTextLeft),
+                    ),
+                    SizedBox(width: 4),
+                  ],
+                )),
+              ),
+              new Text(
+                timeLeft,
+                style: kLabelTextStyle_system.copyWith(
+                    color: colorTextLeft, fontSize: 10),
+              ),
+            ],
+          ),
+        );
 
-      Widget boxRight = SizedBox(
-        width: 150.0,
-        height: 90.0,
-        child: Column(
-          children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: colorBackgroundRight,
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        boxRight = SizedBox(
+          width: 150.0,
+          height: 90.0,
+          child: Column(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colorBackgroundRight,
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Center(
+                    child: Row(
+                  children: [
+                    SizedBox(width: 4),
+                    new Text(
+                      scoreRight,
+                      style: kLabelTextStyle_system.copyWith(
+                          color: colorTextRight),
+                    ),
+                    SizedBox(width: 20),
+                    Column(
+                      children: [
+                        SizedBox(height: 10),
+                        new Text(
+                          posessionRight + nameRight,
+                          style: kLabelTextStyle_system.copyWith(
+                              color: colorTextRight, fontSize: 10),
+                        ),
+                        new Text(
+                          setsRight,
+                          style: kLabelTextStyle_system.copyWith(
+                              color: colorTextRight, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 20),
+                  ],
+                )),
               ),
-              child: Center(
-                  child: Row(
-                children: [
-                  SizedBox(width: 20),
-                  Column(
-                    children: [
-                      SizedBox(height: 10),
-                      new Text(
-                        nameRight,
-                        style: kLabelTextStyle_system.copyWith(
-                            color: colorTextRight, fontSize: 10),
-                      ),
-                      new Text(
-                        setsRight,
-                        style: kLabelTextStyle_system.copyWith(
-                            color: colorTextRight, fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 20),
-                  new Text(
-                    scoreRight,
-                    style:
-                        kLabelTextStyle_system.copyWith(color: colorTextRight),
-                  ),
-                  SizedBox(width: 4),
-                ],
-              )),
-            ),
-            new Text(
-              timeRight,
-              style: kLabelTextStyle_system.copyWith(
-                  color: colorTextLeft, fontSize: 10),
-            ),
-          ],
-        ),
-      );
+              new Text(
+                timeRight,
+                style: kLabelTextStyle_system.copyWith(
+                    color: colorTextLeft, fontSize: 10),
+              ),
+            ],
+          ),
+        );
+      }
 
       Widget centerBox = Row(
         mainAxisAlignment: MainAxisAlignment.center,
