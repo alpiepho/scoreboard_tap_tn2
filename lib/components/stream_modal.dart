@@ -194,6 +194,8 @@ class _StreamModal extends State<StreamModal> {
 
   Widget _buildListTile(String item) {
     Widget result = SizedBox.shrink();
+
+    // RAW
     if (engine.showRaw) {
       // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
       //     0         1       2      3      4      5      6    7  8 9  10  11  12
@@ -232,42 +234,197 @@ class _StreamModal extends State<StreamModal> {
           newParts.add(parts[12]);
         }
       }
-      if (parts.length == 9) {
+      if (parts.length == 3) {
         if (engine.showTime) {
           newParts.add(parts[0]);
         }
         if (engine.showKeeper) {
           newParts.add(parts[1]);
         }
-        if (engine.showNames) {
+        if (engine.showComment) {
           newParts.add(parts[2]);
-          newParts.add(parts[3]);
-        }
-        if (engine.showSets) {
-          newParts.add(parts[4]);
-          newParts.add(parts[5]);
-        }
-        if (engine.showScores) {
-          newParts.add(parts[6]);
-          newParts.add(parts[7]);
-        }
-        if (engine.showPossession) {
-          newParts.add(parts[8]);
-        }
-        if (parts.length == 3) {
-          if (engine.showTime) {
-            newParts.add(parts[0]);
-          }
-          if (engine.showKeeper) {
-            newParts.add(parts[1]);
-          }
-          if (engine.showComment) {
-            newParts.add(parts[2]);
-          }
         }
       }
       result = ListTile(title: Center(child: Text(newParts.join(", "))));
-    } else {}
+    }
+
+    // DRAWN
+    if (!engine.showRaw) {
+      List<String> parts = item.split(",");
+
+      Color colorTextLeft = Colors.black;
+      Color colorBackgroundLeft = Colors.white;
+      Color colorTextRight = Colors.white;
+      Color colorBackgroundRight = Colors.black;
+      String timeLeft = "";
+      String timeRight = "";
+      String scoreLeft = "";
+      String scoreRight = "";
+      String nameLeft = "";
+      String nameRight = "";
+      String setsLeft = "";
+      String setsRight = "";
+
+      // TODO clean up size (13)
+      if (parts.length == 13) {
+        if (engine.showTime) {
+          timeLeft = parts[0];
+        }
+        if (engine.showKeeper) {
+          timeRight = parts[1];
+        }
+        if (engine.showColors) {
+          colorTextLeft = Color(engine.parseReflectorHex(parts[2]));
+          colorBackgroundLeft = Color(engine.parseReflectorHex(parts[3]));
+          colorTextRight = Color(engine.parseReflectorHex(parts[4]));
+          colorBackgroundRight = Color(engine.parseReflectorHex(parts[5]));
+        }
+        if (engine.showNames) {
+          nameLeft = parts[6];
+          nameRight = parts[7];
+        }
+        if (engine.showSets) {
+          var tempLeft = engine.parseReflectorInt(parts[8]);
+          var tempRight = engine.parseReflectorInt(parts[9]);
+          while (tempLeft > 0) {
+            setsLeft += ". ";
+            tempLeft--;
+          }
+          while (tempRight > 0) {
+            setsRight += ". ";
+            tempRight--;
+          }
+        }
+        if (engine.showScores) {
+          scoreLeft = parts[10];
+          scoreRight = parts[11];
+        }
+        if (engine.showPossession) {
+          // newParts.add(parts[12]);
+        }
+      }
+      if (parts.length == 3) {
+        if (engine.showTime) {
+          timeLeft = parts[0];
+        }
+        if (engine.showKeeper) {
+          timeRight = parts[1];
+        }
+        if (engine.showComment) {
+          // newParts.add(parts[2]);
+        }
+      }
+
+      Widget boxLeft = SizedBox(
+        width: 150.0,
+        height: 90.0,
+        child: Column(
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: colorBackgroundLeft,
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              child: Center(
+                  child: Row(
+                children: [
+                  SizedBox(width: 20),
+                  Column(
+                    children: [
+                      SizedBox(height: 10),
+                      new Text(
+                        nameLeft,
+                        style: kLabelTextStyle_system.copyWith(
+                            color: colorTextLeft, fontSize: 10),
+                      ),
+                      new Text(
+                        setsLeft,
+                        style: kLabelTextStyle_system.copyWith(
+                            color: colorTextLeft, fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 20),
+                  new Text(
+                    scoreLeft,
+                    style:
+                        kLabelTextStyle_system.copyWith(color: colorTextLeft),
+                  ),
+                  SizedBox(width: 4),
+                ],
+              )),
+            ),
+            new Text(
+              timeLeft,
+              style: kLabelTextStyle_system.copyWith(
+                  color: colorTextLeft, fontSize: 10),
+            ),
+          ],
+        ),
+      );
+
+      Widget boxRight = SizedBox(
+        width: 150.0,
+        height: 90.0,
+        child: Column(
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: colorBackgroundRight,
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              child: Center(
+                  child: Row(
+                children: [
+                  SizedBox(width: 20),
+                  Column(
+                    children: [
+                      SizedBox(height: 10),
+                      new Text(
+                        nameRight,
+                        style: kLabelTextStyle_system.copyWith(
+                            color: colorTextRight, fontSize: 10),
+                      ),
+                      new Text(
+                        setsRight,
+                        style: kLabelTextStyle_system.copyWith(
+                            color: colorTextRight, fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 20),
+                  new Text(
+                    scoreRight,
+                    style:
+                        kLabelTextStyle_system.copyWith(color: colorTextRight),
+                  ),
+                  SizedBox(width: 4),
+                ],
+              )),
+            ),
+            new Text(
+              timeRight,
+              style: kLabelTextStyle_system.copyWith(
+                  color: colorTextLeft, fontSize: 10),
+            ),
+          ],
+        ),
+      );
+
+      Widget centerBox = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          boxLeft,
+          SizedBox(width: 10),
+          boxRight,
+        ],
+      );
+      result = ListTile(
+        //minVerticalPadding: 20.0,
+        title: Center(child: centerBox),
+      );
+    }
 
     ListTile(title: Center(child: Text(item)));
     return result;

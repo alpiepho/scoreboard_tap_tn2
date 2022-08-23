@@ -66,7 +66,7 @@ class Engine {
   bool showScores = true;
   bool showPossession = true;
   bool showComment = true;
-  bool showRaw = true;
+  bool showRaw = false;
 
   // not saved
   String reflectorComment = "";
@@ -254,18 +254,6 @@ class Engine {
       valueRight = parseReflectorInt(parts[11]);
 
       lastPointLeft = parseReflectorInt(parts[12]) == 1;
-    }
-    if (parts.length == 9) {
-      labelLeft = parts[2];
-      labelRight = parts[3];
-
-      setsLeft = parseReflectorInt(parts[4]);
-      setsRight = parseReflectorInt(parts[5]);
-
-      valueLeft = parseReflectorInt(parts[6]);
-      valueRight = parseReflectorInt(parts[7]);
-
-      lastPointLeft = parseReflectorInt(parts[8]) == 1;
     }
     if (parts.length == 3) {
       result = parts[2];
