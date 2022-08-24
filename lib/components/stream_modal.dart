@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../engine.dart';
 import 'floating_buttons.dart';
@@ -60,7 +61,7 @@ class _StreamModal extends State<StreamModal> {
 
   List<String> items = [];
 
-  Future fetchKeepers() async {
+  Future _fetchKeepers() async {
     if (engine.reflectorSite.isEmpty) {
       return;
     }
@@ -91,7 +92,7 @@ class _StreamModal extends State<StreamModal> {
     }
   }
 
-  Future fetchAll(int offset, int count) async {
+  Future _fetchAll(int offset, int count) async {
     if (engine.reflectorSite.isEmpty) {
       return;
     }
@@ -140,12 +141,12 @@ class _StreamModal extends State<StreamModal> {
     }
   }
 
-  Future fetch() async {
+  Future _fetch() async {
     if (isLoading) return;
     isLoading = true;
 
-    await fetchKeepers();
-    await fetchAll(itemIndex, perPage);
+    await _fetchKeepers();
+    await _fetchAll(itemIndex, perPage);
     itemIndex += perPage;
     isLoading = false;
   }
@@ -154,11 +155,11 @@ class _StreamModal extends State<StreamModal> {
   void initState() {
     super.initState();
 
-    fetch();
+    _fetch();
 
     controller.addListener(() {
       if (controller.position.maxScrollExtent == controller.offset) {
-        fetch();
+        _fetch();
       }
     });
   }
@@ -169,26 +170,36 @@ class _StreamModal extends State<StreamModal> {
     super.dispose();
   }
 
+  void _saveEngine() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('engine', engine.pack());
+  }
+
+  void _fromEngine() async {
+    setState(() {
+      // fontType = this.engine.fontType;
+    });
+  }
+
   void _refreshReflector() async {
     items = [];
     itemIndex = 0;
-    fetch();
+    _fetch();
     //Navigator.of(context).pop();
   }
 
   void _savePending() async {
-    // TODO: may need these
-    // _fromEngine();
-    // _saveEngine();
+    _fromEngine();
+    _saveEngine();
     items = [];
     itemIndex = 0;
-    fetch();
+    _fetch();
     Navigator.of(context).pop();
   }
 
   void _saveReflector() async {
-    // _fromEngine();
-    // _saveEngine();
+    _fromEngine();
+    _saveEngine();
     Navigator.of(context).pop();
   }
 
@@ -306,10 +317,10 @@ class _StreamModal extends State<StreamModal> {
           // newParts.add(parts[12]);
           var temp = engine.parseReflectorInt(parts[12]);
           if (temp == 1) {
-            posessionLeft = " >";
+            posessionLeft = " > ";
           }
           if (temp == 2) {
-            posessionRight = "< ";
+            posessionRight = " < ";
           }
         }
       }
@@ -361,7 +372,7 @@ class _StreamModal extends State<StreamModal> {
               new Text(
                 timeLeft,
                 style: kLabelTextStyle_system.copyWith(
-                    color: colorTextLeft, fontSize: 10),
+                    color: colorTextLeft, fontSize: 15),
               ),
             ],
           ),
@@ -381,21 +392,26 @@ class _StreamModal extends State<StreamModal> {
                 child: Center(
                     child: Row(
                   children: [
-                    SizedBox(width: 20),
-                    Column(
-                      children: [
-                        SizedBox(height: 10),
-                        new Text(
-                          nameLeft + posessionLeft,
-                          style: kLabelTextStyle_system.copyWith(
-                              color: colorTextLeft, fontSize: 10),
-                        ),
-                        new Text(
-                          setsLeft,
-                          style: kLabelTextStyle_system.copyWith(
-                              color: colorTextLeft, fontSize: 20),
-                        ),
-                      ],
+                    SizedBox(width: 4),
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 50),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10),
+                          new Text(
+                            posessionLeft + nameLeft,
+                            style: kLabelTextStyle_system.copyWith(
+                                color: colorTextLeft, fontSize: 10),
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
+                          ),
+                          new Text(
+                            setsLeft,
+                            style: kLabelTextStyle_system.copyWith(
+                                color: colorTextLeft, fontSize: 20),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(width: 20),
                     new Text(
@@ -410,7 +426,7 @@ class _StreamModal extends State<StreamModal> {
               new Text(
                 timeLeft,
                 style: kLabelTextStyle_system.copyWith(
-                    color: colorTextLeft, fontSize: 10),
+                    color: colorTextLeft, fontSize: 15),
               ),
             ],
           ),
@@ -436,20 +452,25 @@ class _StreamModal extends State<StreamModal> {
                           color: colorTextRight),
                     ),
                     SizedBox(width: 20),
-                    Column(
-                      children: [
-                        SizedBox(height: 10),
-                        new Text(
-                          posessionRight + nameRight,
-                          style: kLabelTextStyle_system.copyWith(
-                              color: colorTextRight, fontSize: 10),
-                        ),
-                        new Text(
-                          setsRight,
-                          style: kLabelTextStyle_system.copyWith(
-                              color: colorTextRight, fontSize: 20),
-                        ),
-                      ],
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 50),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10),
+                          new Text(
+                            posessionRight + nameRight,
+                            style: kLabelTextStyle_system.copyWith(
+                                color: colorTextRight, fontSize: 10),
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
+                          ),
+                          new Text(
+                            setsRight,
+                            style: kLabelTextStyle_system.copyWith(
+                                color: colorTextRight, fontSize: 20),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(width: 20),
                   ],
@@ -458,7 +479,7 @@ class _StreamModal extends State<StreamModal> {
               new Text(
                 timeRight,
                 style: kLabelTextStyle_system.copyWith(
-                    color: colorTextLeft, fontSize: 10),
+                    color: colorTextLeft, fontSize: 15),
               ),
             ],
           ),

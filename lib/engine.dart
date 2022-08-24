@@ -37,7 +37,7 @@ class Engine {
 
   bool streamsMode = false;
 
-  // TODO: remove DEBUG
+  // TODO: remove DEBUG before DEPLOY
   String scoreKeeper = "keeper1";
   String reflectorSite = "http://localhost:3000";
   // String scoreKeeper = ""; // can be comma separated list or *

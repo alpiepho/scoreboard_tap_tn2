@@ -1,5 +1,5 @@
 ## Get Application
-Version: 2.0
+Version: 2.1
 
 GH-Pages site: https://alpiepho.github.io/scoreboard_tap_tn2/
 
@@ -25,7 +25,7 @@ NOTE: Since the first use is for Volleyball, there may be Volleyball specifics w
 This application is a Web application known as a PWA (progressive web application).  It is possible to add a PWA to the home screen of an iPhone
 like it is a downloaded application (there is a similare mechanism for Android that is not discused here).  Use the following steps:
 
-TODO: need new images
+NOTE: images are from Scores app, but still illustrate the process.
 
 1. Open the above link in Safari and click on up-arrow
 
@@ -46,42 +46,45 @@ A PWA on iPhone requires internet access to launch the first time.  However, onc
 
 ## About
 
-TODO: Update for tap
+This is a companion application to the ScoresTN2 application.  That app is a simple
+scoreboard applications.  Recently, it was modified to post each score change to a
+ simple server (a refelector if you will).  The Tap application reads from that server
+ and shows a mirror of the current score.  It can also show a stream of scores,
+ completee with the colors and other details.
 
-My flutter version of a Scoreboard application.
-
-This application was built to better learn Flutter and Dart.  The world really doesn't need another simple scoring application, but attempting to duplicate how several of these common applications work, provided a way to learn many things:
-
-- Flutter itself
-- Flutter web applications as a PWA
-- Learn about some of it's short commings with respect to a Google Lighthouse score
-- Arranging cards
-- Gesture detection and processing
-- Modal dialogs
-- Color Pickers
-- Google fonts within Flutter
-- Persistent Data
-- Several other areas
-
-These are all areas that I hope to take forward into other applications.  Flutter is fun.
 
 ## Basic Usages
 
-TODO: Update for tap
 
 The application from the above URL will open a respoonsive web page.  It is best viewed on a mobile phone with the most testing on and iPhoneX.  If opened on iPhone Safari, you can used the middle bottom button to add to the Home Screen (as a PWA).
 
-The application opens with two large colored buttons for two teams.  Tapping either will icrement their score.  Swiping up will increment the score.  Swiping down will decrement with a limit at 0.  The Gear button will open a settings dialog.
+The application opens with two large colored buttons for two teams.  It also has 3
+floating buttons, refresh, switch mode (stream/scores) and settings.
 
 The settings dialog allows some quick actions from icons at the top: clear scores, swap teams, and a done checkmark to save settings listed below.  All saved settings are added to the persistent storage so the next launch will read them and the user can pick up where they left off.
 
-Other settings allow changing the team names, adjusting scores, and picking colors for the team text and background.
+The settings dialog also allows selecting the reflector server and which score keeper
+to track.
 
-At the bottom are a number of predefined fonts.  These are like the top icons, and will immediately be saved.
+Back on the score page, the refesh button will change the score state to the latest
+state from the reflector. 
+
+Toggling the mode button will take to the stream page (actually implemented as a
+full page modal)).  This provides either a raw list of scores from the reflector, or
+a small color list of scores.  Most recent first.  Use the Settings page to control
+what is shown.
 
 Below are some lists of things yet to do and possible future changes.
 
 Thanks for trying out this applications.
+
+## Known Issues
+
+- have seen page go black due to some sequence of refresh.  Restart the app
+- have seen wrong mode appear, again restart the app
+- settings changes for raw stream don't change the stream page immediately.  Toggle 
+mode.
+
 
 ## Todo and Future Changes
 - [x] copy and modify for tap
@@ -96,9 +99,9 @@ Thanks for trying out this applications.
 
 - [x] settings for stream mode
 - [x] stream page/modal
-- [ ] stream text
-- [ ] stream color
-- [ ] latest only
+- [x] stream text
+- [x] stream color
+- [-] latest only
 
 - [x] read from reflector
 - [x] show comment with dialog
@@ -109,6 +112,15 @@ Thanks for trying out this applications.
 - [x] show QR for this app
 - [x] show QR for ScoresTN2
 - [x] add shows to ScoresTN2
+
+- [ ] timer for scores refresh?
+- [ ] style for alert dialogs (scores app only?)
+- [ ] refactor duplicate code sections
+- [ ] apply new fonts to stream, or remove??, or from reflector?
+- [ ] size 13
+- [ ] fix engine save/get, add version check
+- [ ] fix font size stream (too small)
+
 
 - [ ] build ios
 - [ ] ios developer install
