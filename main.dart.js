@@ -19964,8 +19964,8 @@ _.at=!1
 _.ay=_.ax=!0
 _.CW=_.ch=0
 _.cx=!1
-_.cy=""
-_.db="https://refelectortn2.uw.r.appspot.com"
+_.cy="keeper1"
+_.db="http://localhost:3000"
 _.k1=_.id=_.go=_.fy=_.fx=_.fr=_.dy=_.dx=!0
 _.k2=!1
 _.k4="unknown"},
@@ -67412,7 +67412,7 @@ k.push(A.dy())
 k.push(A.dy())
 k.push(A.dy())
 k.push(A.dy())
-k.push(A.c_(o,o,A.b4("Version 2.0",o,o,o,$.cg(),o,o),o))
+k.push(A.c_(o,o,A.b4("Version 2.1",o,o,o,$.cg(),o,o),o))
 k.push(A.c_(o,p.gaaT(),A.b4("Scores QR...",o,o,o,$.cg(),o,o),A.cD(B.bZ,o)))
 k.push(A.c_(o,p.gaaV(),A.b4("Scores Tap QR...",o,o,o,$.cg(),o,o),A.cD(B.bZ,o)))
 k.push(A.c_(o,p.gaaS(),A.b4("Scores Link...",o,o,o,$.cg(),o,o),A.cD(B.bZ,o)))
