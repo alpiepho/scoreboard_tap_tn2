@@ -126,6 +126,16 @@ mode.
 - [ ] ios developer install
 - [ ] ios store?
 
+- [ ] check save scorer
+- [ ] settings: make buttons more obvious
+- [ ] settings: refactor
+- [ ] settings default link?  copy paste on phone?
+- [ ] double check QR codes
+- [ ] remove version 1 of scores
+- [ ] longer time on reflector?
+- [ ] apple watch?
+- [ ] Jason was delay
+
 ## How to outline Repaint
 
 <pre>
