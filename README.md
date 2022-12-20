@@ -1,5 +1,5 @@
 ## Get Application
-Version: 2.1
+Version: 2.2
 
 GH-Pages site: https://alpiepho.github.io/scoreboard_tap_tn2/
 
@@ -20,7 +20,7 @@ This application monitors a reflector that is populated by the ScoresTN2 applica
 
 NOTE: Since the first use is for Volleyball, there may be Volleyball specifics within the application.
 
-## "Install" on iPhone
+## INSTALL ON IPHONE
 
 This application is a Web application known as a PWA (progressive web application).  It is possible to add a PWA to the home screen of an iPhone
 like it is a downloaded application (there is a similare mechanism for Android that is not discused here).  Use the following steps:
@@ -40,11 +40,11 @@ NOTE: images are from Scores app, but still illustrate the process.
 ![Step3](./iphone_install3.png)
 
 
-### Known Issue
+### KNOWN ISSUES
 
 A PWA on iPhone requires internet access to launch the first time.  However, once it is running, the application will work fine without and an internet connection.
 
-## About
+## ABOUT
 
 This is a companion application to the ScoresTN2 application.  That app is a simple
 scoreboard applications.  Recently, it was modified to post each score change to a
@@ -52,8 +52,9 @@ scoreboard applications.  Recently, it was modified to post each score change to
  and shows a mirror of the current score.  It can also show a stream of scores,
  completee with the colors and other details.
 
+![Overview](./oveview.png)
 
-## Basic Usages
+## BASIC USAGE
 
 
 The application from the above URL will open a respoonsive web page.  It is best viewed on a mobile phone with the most testing on and iPhoneX.  If opened on iPhone Safari, you can used the middle bottom button to add to the Home Screen (as a PWA).
@@ -78,7 +79,7 @@ Below are some lists of things yet to do and possible future changes.
 
 Thanks for trying out this applications.
 
-## Known Issues
+## KNOWN BUGS
 
 - have seen page go black due to some sequence of refresh.  Restart the app
 - have seen wrong mode appear, again restart the app
@@ -86,7 +87,7 @@ Thanks for trying out this applications.
 mode.
 
 
-## Todo and Future Changes
+## TODO AND FUTURE CHANGES
 - [x] copy and modify for tap
 - [x] review/update README
 - [ ] new install images
@@ -136,7 +137,7 @@ mode.
 - [ ] apple watch?
 - [ ] Jason was delay
 
-## How to outline Repaint
+## APPENDIX: How to outline Repaint
 
 <pre>
 void main() {
