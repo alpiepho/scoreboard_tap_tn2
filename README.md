@@ -7,23 +7,51 @@ or QR Code:
 
 ![QR Code](./assets/qr-code-tap.png)
 
-## scoreboard_tap_tn2
-Flutter app to display ScoresTN2 (scorebaord_tn2) data from a ScoresReflectorTN2 (scoreboard_reflector_tm2)
+Then see INSTALL instructions below.
 
-The ScoresTN2 is a PWA for scoring youth sports, like volleyball.  Typically, one person keeps score on a smart phone, flashing the on going score to a video recording, or to other spectators.
+## SYSTEM OVERVIEW
 
-Two problems occur:
-1. The score keeper may not always show the score
+This application is part of a system that expands the typical scoring keeping phone application.
+
+With other scoring applications, two problems occur:
+1. The score keeper may not always show the score to video or people
 2. The display on the phone may not be large enough
 
-This application monitors a reflector that is populated by the ScoresTN2 application.  This allows this application to display a running update of one or more games.
+To solve this, there are actually 3 applications in this system:
 
-NOTE: Since the first use is for Volleyball, there may be Volleyball specifics within the application.
+![Overview](./overview.png)
+
+- ScoresTN2 - application used by score keeper
+- <u><b>TapTN2</b></u> - application used by parents and fans
+- ReflectorTN2 - backend server to share the scores
+
+The [ScoresTN2](https://github.com/alpiepho/scoreboard_tn2) application is similar to other
+applications you can install from the Apple App Store or Google Play...but you don't need to use
+either to get it!  It is a newer form of web application, a PWA, that can be opened from
+a website and 'saved' to your IPhone or Android home screen.
+
+The [TapTN2](https://github.com/alpiepho/scoreboard_tap_tn2) application is similar in style to
+ScoresTN2, but only "taps' into the ReflectorTN2 site to show the scores that were recently
+sent by ScoresTN2.  Again, you install it by going to the site and use options described below
+to save it to your home screen.
+
+The [ReflectorTN2](https://github.com/alpiepho/scoreboard_reflector_tn2) application is the backend
+server that shares the data between the first two applicaitons.  There is no user application, but
+both ScoresTN2 and TapTN2 need to be configured to use the same link to ReflectorTN2.
+
+ScoresTN2 and TapTN2 are PWAs, Progressive Web Applications, written in Flutter. ReflectorTN2 is
+a Golang application hosted on Google Cloud.  It recieves scores from ScoresTN2 and allows TapTN2 to
+get them.  NOTE: the data on ReflectorTN2 is automatically deleted 1 hour after if now new scores
+are recieved from ScoresTN2 for each score keeper.
+
+FOOTNOTE: if you are wondering about "TN", it stands for "That Name"...the first words the authors
+father-in-law said when his daughter told him we were getting married.  "You are going to have 'that name'?"
+
 
 ## INSTALL ON IPHONE
 
 This application is a Web application known as a PWA (progressive web application).  It is possible to add a PWA to the home screen of an iPhone
-like it is a downloaded application (there is a similare mechanism for Android that is not discused here).  Use the following steps:
+like it is a downloaded application. Use the following steps:
 
 NOTE: images are from Scores app, but still illustrate the process.
 
@@ -40,25 +68,34 @@ NOTE: images are from Scores app, but still illustrate the process.
 ![Step3](./iphone_install3.png)
 
 
-### KNOWN ISSUES
+## INSTALL ON ANDROID
 
-A PWA on iPhone requires internet access to launch the first time.  However, once it is running, the application will work fine without and an internet connection.
+This application is a Web application known as a PWA (progressive web application).  It is possible to add a PWA to the home screen of an Android phone
+like it is a downloaded application. Use the following steps:
 
-## ABOUT
+NOTE: images are from Scores app, but still illustrate the process.
 
-This is a companion application to the ScoresTN2 application.  That app is a simple
-scoreboard applications.  Recently, it was modified to post each score change to a
- simple server (a refelector if you will).  The Tap application reads from that server
- and shows a mirror of the current score.  It can also show a stream of scores,
- completee with the colors and other details.
+1. Open the above link in Chrome and click on '...'
 
-![Overview](./overview.png)
+![Step1](./pixel_install1.png)
+
+2. Click on "Add to Home Screen"
+
+![Step2](./pixel_install3.png)
+
+3. Select "Add"
+
+![Step3](./pixel_install4.png)
 
 
-## BASIC USAGE
+## KNOWN ISSUES WITH A PWA
+
+A PWA on iPhone or Android requires internet access to launch the first time.  However, once it is running, the application will work fine without and an internet connection.
 
 
-The application from the above URL will open a respoonsive web page.  It is best viewed on a mobile phone with the most testing on and iPhoneX.  If opened on iPhone Safari, you can used the middle bottom button to add to the Home Screen (as a PWA).
+## BASIC USAGE - TapTN2
+
+The application from the above URL will open a responsive web page.  It is best viewed on a mobile phone with the most testing on and iPhoneX.  If opened on iPhone Safari, you can used the middle bottom button to add to the Home Screen (as a PWA).
 
 The application opens with two large colored buttons for two teams.  It also has 3
 floating buttons, refresh, switch mode (stream/scores) and settings.
@@ -68,8 +105,13 @@ The settings dialog allows some quick actions from icons at the top: clear score
 The settings dialog also allows selecting the reflector server and which score keeper
 to track.
 
+![Config2](./pixel_tap_config2.png)
+
+
 Back on the score page, the refesh button will change the score state to the latest
 state from the reflector. 
+
+![Config1](./pixel_tap_config1.png)
 
 Toggling the mode button will take to the stream page (actually implemented as a
 full page modal)).  This provides either a raw list of scores from the reflector, or
@@ -91,7 +133,6 @@ mode.
 ## TODO AND FUTURE CHANGES
 - [x] copy and modify for tap
 - [x] review/update README
-- [ ] new install images
 - [x] fix QR
 - [x] strip down settings page
 - [x] strip down engine
@@ -115,6 +156,7 @@ mode.
 - [x] show QR for ScoresTN2
 - [x] add shows to ScoresTN2
 
+- [ ] new install images (match TapTN2)
 - [ ] timer for scores refresh?
 - [ ] style for alert dialogs (scores app only?)
 - [ ] refactor duplicate code sections
@@ -122,11 +164,6 @@ mode.
 - [ ] size 13
 - [ ] fix engine save/get, add version check
 - [ ] fix font size stream (too small)
-
-
-- [ ] build ios
-- [ ] ios developer install
-- [ ] ios store?
 
 - [ ] check save scorer
 - [ ] settings: make buttons more obvious
@@ -136,7 +173,7 @@ mode.
 - [ ] remove version 1 of scores
 - [ ] longer time on reflector?
 - [ ] apple watch?
-- [ ] Jason was delay
+- [ ] Jason asked for delay to sync with Youtube at home
 
 ## APPENDIX: How to outline Repaint
 

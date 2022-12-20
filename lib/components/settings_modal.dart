@@ -245,7 +245,11 @@ class _SettingsModal extends State<SettingsModal> {
         return AlertDialog(
           title: const Text('Scores Tap QR'),
           content: SingleChildScrollView(
-            child: Image.asset("assets/qr-code-tap.png"),
+            child: Container(
+              width: 200,
+              height: 200,
+              child: Image.asset("assets/qr-code-tap.png"),
+            ),
           ),
           actions: <Widget>[
             TextButton(
@@ -298,7 +302,7 @@ class _SettingsModal extends State<SettingsModal> {
             fontString,
             style: fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
           ),
-          onTap: onFontChange,
+          //onTap: onFontChange,
         ),
       );
       displayTiles.add(

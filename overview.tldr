@@ -44,7 +44,7 @@
             "rotation": 0,
             "text": "TapTN2",
             "style": {
-              "color": "black",
+              "color": "red",
               "size": "medium",
               "isFilled": false,
               "dash": "draw",
@@ -353,7 +353,7 @@
             "rotation": 0,
             "text": "TapTN2",
             "style": {
-              "color": "black",
+              "color": "red",
               "size": "medium",
               "isFilled": false,
               "dash": "draw",
@@ -466,7 +466,7 @@
             ],
             "rotation": 0,
             "style": {
-              "color": "black",
+              "color": "red",
               "size": "small",
               "isFilled": false,
               "dash": "draw",
@@ -724,7 +724,7 @@
               "end": "arrow"
             },
             "style": {
-              "color": "black",
+              "color": "red",
               "size": "small",
               "isFilled": false,
               "dash": "dotted",
