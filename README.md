@@ -52,7 +52,8 @@ scoreboard applications.  Recently, it was modified to post each score change to
  and shows a mirror of the current score.  It can also show a stream of scores,
  completee with the colors and other details.
 
-![Overview](./oveview.png)
+![Overview](./overview.png)
+
 
 ## BASIC USAGE
 
