@@ -31,8 +31,10 @@ class FloatingButtons extends StatelessWidget {
     Widget settingsButton;
     if (engine.streamsMode) {
       scoresStreamButton = ScoresButton(onPress: () {
-        Navigator.of(context).pop();
-        engine.streamsMode = false;
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
+        engine.streamsMode = !engine.streamsMode;
       });
     } else {
       scoresStreamButton = StreamButton(onPress: () {
@@ -48,7 +50,7 @@ class FloatingButtons extends StatelessWidget {
           },
           isScrollControlled: true,
         );
-        engine.streamsMode = true;
+        engine.streamsMode = !engine.streamsMode;
       });
     }
     settingsButton = SettingsButton(onPress: () {

@@ -63,9 +63,14 @@ class _ScoresPageState extends State<ScoresPage> {
 
       _zoom = this._engine.zoom;
       _setsShow = this._engine.setsShow;
-      _sets5 = this._engine.sets5;
       _setsLeft = this._engine.setsLeft;
       _setsRight = this._engine.setsRight;
+      // WORKAROUND until reflector provides info
+      //_sets5 = this._engine.sets5;
+      _sets5 = false;
+      if (_setsLeft >= 3 || _setsRight >= 3) {
+        _sets5 = true;
+      }
     });
   }
 
@@ -321,9 +326,9 @@ class _ScoresPageState extends State<ScoresPage> {
     double height = MediaQuery.of(context).size.height;
     var portrait = MediaQuery.of(context).orientation == Orientation.portrait;
     double offscreen = portrait ? -1.1 * width : -1.1 * height;
-    var duration1 = Duration(milliseconds: 200);
+    var duration1 = Duration(milliseconds: 0);
     var curve1 = Curves.linear;
-    var duration2 = Duration(milliseconds: 200);
+    var duration2 = Duration(milliseconds: 0);
     var curve2 = Curves.linear;
 
     return Scaffold(

@@ -77,7 +77,7 @@ class _SettingsModal extends State<SettingsModal> {
           resizeToAvoidBottomInset: false,
           backgroundColor: kSettingsModalBackgroundColor,
           appBar: AppBar(
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.white60,
             foregroundColor: Colors.white,
             toolbarHeight: 50,
             titleSpacing: 20,
@@ -438,7 +438,7 @@ class _SettingsModal extends State<SettingsModal> {
       resizeToAvoidBottomInset: false,
       backgroundColor: kSettingsModalBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.white60,
         foregroundColor: Colors.white,
         toolbarHeight: 50,
         titleSpacing: 20,
@@ -459,7 +459,7 @@ class _SettingsModal extends State<SettingsModal> {
             Divider(),
             new ListTile(
               title: new Text(
-                "Reflector Settings (blank to disable):",
+                "Reflector Settings:",
                 style: kSettingsTextEditStyle,
               ),
             ),
@@ -481,6 +481,9 @@ class _SettingsModal extends State<SettingsModal> {
                   engine.scoreKeeper = text.replaceAll(' ', ',');
                 },
                 style: kSettingsTextEditStyle,
+                cursorColor: kSettingsTextEditCursorColor,
+                cursorWidth: kSettingsTextEditCursorWidth,
+                cursorHeight: kSettingsTextEditCursorHeight,
               ),
               trailing: new Icon(Icons.edit),
             ),
@@ -493,6 +496,9 @@ class _SettingsModal extends State<SettingsModal> {
                 initialValue: engine.reflectorSite,
                 onChanged: (text) => engine.reflectorSite = text,
                 style: kSettingsTextEditStyle,
+                cursorColor: kSettingsTextEditCursorColor,
+                cursorWidth: kSettingsTextEditCursorWidth,
+                cursorHeight: kSettingsTextEditCursorHeight,
               ),
               trailing: new Icon(Icons.edit),
             ),

@@ -38,10 +38,10 @@ class Engine {
   bool streamsMode = false;
 
   // TODO: remove DEBUG before DEPLOY
-  String scoreKeeper = "keeper1";
-  String reflectorSite = "http://localhost:3000";
-  // String scoreKeeper = ""; // can be comma separated list or *
-  // String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
+  // String scoreKeeper = "keeper1";
+  // String reflectorSite = "http://localhost:3000";
+  String scoreKeeper = ""; // can be comma separated list or *
+  String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
 
   // raw (w/ time, keeper, colors, names, sets, possession):
   //   2022-08-22_05:54:34,keeper1,ff000000,fff44336,ff000000,ff448aff,Away1,Home1,0,0,24,18,1
