@@ -65,12 +65,12 @@ class _ScoresPageState extends State<ScoresPage> {
       _setsShow = this._engine.setsShow;
       _setsLeft = this._engine.setsLeft;
       _setsRight = this._engine.setsRight;
+      _sets5 = this._engine.sets5;
       // WORKAROUND until reflector provides info
-      //_sets5 = this._engine.sets5;
-      _sets5 = false;
-      if (_setsLeft >= 3 || _setsRight >= 3) {
-        _sets5 = true;
-      }
+      //  _sets5 = false;
+      //   if (_setsLeft >= 3 || _setsRight >= 3) {
+      //     _sets5 = true;
+      //   }
     });
   }
 
@@ -134,7 +134,7 @@ class _ScoresPageState extends State<ScoresPage> {
       print(message);
     }
     if (names.isNotEmpty) {
-      _engine.possibleKeeper = names.join(",");
+      _engine.possibleKeepers = names.join(",");
     }
 
     // Update latest score for first keeper
@@ -174,13 +174,14 @@ class _ScoresPageState extends State<ScoresPage> {
 
     String comment = this._engine.parseLastRefelector(event);
     if (comment.isNotEmpty) {
+      var keepers = this._engine.scoreKeeper.split(',');
       showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-              this._engine.scoreKeeper + ': ',
+              keepers[0] + ': ',
               style: kSettingsTextEditStyle,
             ),
             content: SingleChildScrollView(

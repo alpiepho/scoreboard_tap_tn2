@@ -51,8 +51,8 @@ class _SettingsModal extends State<SettingsModal> {
 
   void fontChanged(FontTypes fontType) async {
     this.engine.fontType = fontType;
-    this.onDone();
     Navigator.of(context).pop();
+    this.onDone();
   }
 
   void onFontChange() async {
@@ -102,6 +102,25 @@ class _SettingsModal extends State<SettingsModal> {
       this.engine.zoom = false;
     }
     this.onDone();
+  }
+
+  void onKeeperListChanged(String name) async {
+    name = name.replaceFirst("keeper: ", "");
+    var keepers = engine.scoreKeeper.split(',');
+    keepers.remove("");
+
+    if (keepers.contains(name)) {
+      keepers.remove(name);
+    } else {
+      keepers.add(name);
+    }
+    engine.scoreKeeper = keepers.join(",");
+    this.onReflector();
+  }
+
+  void onReflectorListChanged(String name) async {
+    engine.reflectorSite = name;
+    this.onReflector();
   }
 
   void onShowTimeChanged() async {
@@ -167,6 +186,15 @@ class _SettingsModal extends State<SettingsModal> {
     this.onDone();
   }
 
+  void onShowLookParamsChanged() async {
+    if (!this.engine.showLookParams) {
+      this.engine.showLookParams = true;
+    } else {
+      this.engine.showLookParams = false;
+    }
+    this.onDone();
+  }
+
   void onShowCommentChanged() async {
     if (!this.engine.showComment) {
       this.engine.showComment = true;
@@ -200,15 +228,15 @@ class _SettingsModal extends State<SettingsModal> {
     Navigator.of(context).pop();
   }
 
-  void onReflectorSiteKeeper() async {
-    if (engine.reflectorSite.isNotEmpty && engine.scoreKeeper.isNotEmpty) {
-      var parts = engine.scoreKeeper.split(',');
-      var scoreKeeper = parts[0]; // just first keeper from settings page/modal
-      String url = engine.reflectorSite + "/" + scoreKeeper + "/html";
-      _launchUrl(url);
-    }
-    Navigator.of(context).pop();
-  }
+  // void onReflectorSiteKeeper() async {
+  //   if (engine.reflectorSite.isNotEmpty && engine.scoreKeeper.isNotEmpty) {
+  //     var parts = engine.scoreKeeper.split(',');
+  //     var scoreKeeper = parts[0]; // just first keeper from settings page/modal
+  //     String url = engine.reflectorSite + "/" + scoreKeeper + "/html";
+  //     _launchUrl(url);
+  //   }
+  //   Navigator.of(context).pop();
+  // }
 
   void onScoresQR() async {
     showDialog<void>(
@@ -264,15 +292,15 @@ class _SettingsModal extends State<SettingsModal> {
     );
   }
 
-  void onScoresLink() async {
-    _launchUrl('https://alpiepho.github.io/scoreboard_tn2/');
-    Navigator.of(context).pop();
-  }
+  // void onScoresLink() async {
+  //   _launchUrl('https://alpiepho.github.io/scoreboard_tn2/');
+  //   Navigator.of(context).pop();
+  // }
 
-  void onScoresTapLink() async {
-    _launchUrl('https://alpiepho.github.io/scoreboard_tap_tn2/');
-    Navigator.of(context).pop();
-  }
+  // void onScoresTapLink() async {
+  //   _launchUrl('https://alpiepho.github.io/scoreboard_tap_tn2/');
+  //   Navigator.of(context).pop();
+  // }
 
   void onHelp() async {
     _launchUrl(
@@ -282,40 +310,40 @@ class _SettingsModal extends State<SettingsModal> {
 
   @override
   Widget build(BuildContext context) {
-    var fontString = getFontString(engine.fontType);
-    var fontStyle = getLabelFont(engine.fontType);
+    // var fontString = getFontString(engine.fontType);
+    // var fontStyle = getLabelFont(engine.fontType);
 
     List<Widget> displayTiles = [];
     if (!engine.streamsMode) {
-      displayTiles.add(
-        new ListTile(
-          title: new Text(
-            'Change Fonts...',
-            style: kSettingsTextEditStyle,
-          ),
-          onTap: onFontChange,
-        ),
-      );
-      displayTiles.add(
-        new ListTile(
-          title: new Text(
-            fontString,
-            style: fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
-          ),
-          //onTap: onFontChange,
-        ),
-      );
-      displayTiles.add(
-        new ListTile(
-          title: new Text(
-            'Zoom.',
-            style: kSettingsTextEditStyle,
-          ),
-          trailing: new Icon(
-              engine.zoom ? Icons.check_box : Icons.check_box_outline_blank),
-          onTap: onZoomChanged,
-        ),
-      );
+      // displayTiles.add(
+      //   new ListTile(
+      //     title: new Text(
+      //       'Change Fonts...',
+      //       style: kSettingsTextEditStyle,
+      //     ),
+      //     onTap: onFontChange,
+      //   ),
+      // );
+      // displayTiles.add(
+      //   new ListTile(
+      //     title: new Text(
+      //       fontString,
+      //       style: fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
+      //     ),
+      //     //onTap: onFontChange,
+      //   ),
+      // );
+      // displayTiles.add(
+      //   new ListTile(
+      //     title: new Text(
+      //       'Zoom.',
+      //       style: kSettingsTextEditStyle,
+      //     ),
+      //     trailing: new Icon(
+      //         engine.zoom ? Icons.check_box : Icons.check_box_outline_blank),
+      //     onTap: onZoomChanged,
+      //   ),
+      // );
     }
 
     List<Widget> showTiles = [];
@@ -406,18 +434,19 @@ class _SettingsModal extends State<SettingsModal> {
           onTap: onShowPossessionChanged,
         ),
       );
+
       showTiles.add(
         new ListTile(
           title: new Text(
-            'Show Comment.',
+            'Show Look Params.',
             style: kSettingsTextEditStyle,
           ),
           trailing: new Icon(
-            engine.showComment
+            engine.showLookParams
                 ? Icons.check_box
                 : Icons.check_box_outline_blank,
           ),
-          onTap: onShowCommentChanged,
+          onTap: onShowLookParamsChanged,
         ),
       );
       showTiles.add(
@@ -432,6 +461,66 @@ class _SettingsModal extends State<SettingsModal> {
           onTap: onShowRawChanged,
         ),
       );
+    }
+
+    List<Widget> keeperTiles = [];
+    var keepers = engine.scoreKeeper.split(',');
+    var possibleKeepers = engine.possibleKeepers.split(',');
+    for (var name in possibleKeepers) {
+      var checked = keepers.contains(name);
+      keeperTiles.add(
+        new ListTile(
+            title: new Text(
+              "keeper: " + name,
+              style: kSettingsTextEditStyle,
+            ),
+            trailing: new Icon(
+              checked ? Icons.check_box : Icons.check_box_outline_blank,
+            ),
+            onTap: () {
+              this.onKeeperListChanged(name);
+            }),
+      );
+    }
+
+    List<Widget> refectorTiles = [];
+    var checked = false;
+    checked = (this.engine.reflectorSite == this.engine.reflectorSiteTest);
+    refectorTiles.add(
+      new ListTile(
+          title: new Text(
+            "reflector: (test)",
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            checked ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: () {
+            this.onReflectorListChanged(this.engine.reflectorSiteTest);
+          }),
+    );
+    checked = (this.engine.reflectorSite == this.engine.reflectorSiteDefault);
+    refectorTiles.add(
+      new ListTile(
+          title: new Text(
+            "reflector: (default)",
+            style: kSettingsTextEditStyle,
+          ),
+          trailing: new Icon(
+            checked ? Icons.check_box : Icons.check_box_outline_blank,
+          ),
+          onTap: () {
+            this.onReflectorListChanged(this.engine.reflectorSiteDefault);
+          }),
+    );
+
+    // filter shown value of reflector
+    var initialValueReflector = engine.reflectorSite;
+    if (initialValueReflector == engine.reflectorSiteTest) {
+      initialValueReflector = "(test)";
+    }
+    if (initialValueReflector == engine.reflectorSiteDefault) {
+      initialValueReflector = "(default)";
     }
 
     return Scaffold(
@@ -453,32 +542,26 @@ class _SettingsModal extends State<SettingsModal> {
             Divider(),
             ...displayTiles,
             ...showTiles,
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
+            Divider(
+              color: Colors.black,
+            ),
             new ListTile(
               title: new Text(
                 "Reflector Settings:",
                 style: kSettingsTextEditStyle,
               ),
             ),
-            new ListTile(
-              title: new Text(
-                "(available: " + engine.possibleKeeper + ")",
-                style: kSettingsTextEditStyle,
-              ),
-            ),
+            ...keeperTiles,
             new ListTile(
               leading: null,
               title: new TextFormField(
-                decoration:
-                    new InputDecoration.collapsed(hintText: 'Scorekeeper Name'),
+                decoration: new InputDecoration.collapsed(
+                    hintText: 'Add Other Scorekeepers (comma separated list)'),
                 autofocus: false,
                 initialValue: engine.scoreKeeper,
                 onChanged: (text) {
                   // can be comma separated list or *
-                  engine.scoreKeeper = text.replaceAll(' ', ',');
+                  engine.scoreKeeper = text.trim().replaceAll(' ', ',');
                 },
                 style: kSettingsTextEditStyle,
                 cursorColor: kSettingsTextEditCursorColor,
@@ -488,12 +571,21 @@ class _SettingsModal extends State<SettingsModal> {
               trailing: new Icon(Icons.edit),
             ),
             new ListTile(
+              title: new Text(
+                'Save Other Scorekeepers.',
+                style: kSettingsTextEditStyle,
+              ),
+              //trailing: new Icon(Icons.done),
+              onTap: onReflector as void Function()?,
+            ),
+            ...refectorTiles,
+            new ListTile(
               leading: null,
               title: new TextFormField(
-                decoration:
-                    new InputDecoration.collapsed(hintText: 'Reflector Site'),
+                decoration: new InputDecoration.collapsed(
+                    hintText: 'Add Other Reflector'),
                 autofocus: false,
-                initialValue: engine.reflectorSite,
+                initialValue: initialValueReflector,
                 onChanged: (text) => engine.reflectorSite = text,
                 style: kSettingsTextEditStyle,
                 cursorColor: kSettingsTextEditCursorColor,
@@ -504,17 +596,15 @@ class _SettingsModal extends State<SettingsModal> {
             ),
             new ListTile(
               title: new Text(
-                'Save Reflector Settings.',
+                'Save Other Reflector.',
                 style: kSettingsTextEditStyle,
               ),
               //trailing: new Icon(Icons.done),
               onTap: onReflector as void Function()?,
             ),
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
+            Divider(
+              color: Colors.black,
+            ),
             new ListTile(
               title: new Text(
                 'Reflector Site...',
@@ -523,19 +613,17 @@ class _SettingsModal extends State<SettingsModal> {
               trailing: new Icon(Icons.help),
               onTap: onReflectorSite,
             ),
-            new ListTile(
-              title: new Text(
-                'Reflector Keeper...',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.help),
-              onTap: onReflectorSiteKeeper,
+            // new ListTile(
+            //   title: new Text(
+            //     'Reflector Keeper...',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.help),
+            //   onTap: onReflectorSiteKeeper,
+            // ),
+            Divider(
+              color: Colors.black,
             ),
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
-            Divider(),
             new ListTile(
               title: new Text(
                 kVersion,
@@ -558,22 +646,22 @@ class _SettingsModal extends State<SettingsModal> {
               trailing: new Icon(Icons.help),
               onTap: onScoresTapQR,
             ),
-            new ListTile(
-              title: new Text(
-                'Scores Link...',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.help),
-              onTap: onScoresLink,
-            ),
-            new ListTile(
-              title: new Text(
-                'Scores Tap Link...',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.help),
-              onTap: onScoresTapLink,
-            ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Scores Link...',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.help),
+            //   onTap: onScoresLink,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Scores Tap Link...',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.help),
+            //   onTap: onScoresTapLink,
+            // ),
             new ListTile(
               title: new Text(
                 'Help...',
@@ -582,7 +670,9 @@ class _SettingsModal extends State<SettingsModal> {
               trailing: new Icon(Icons.help),
               onTap: onHelp,
             ),
-            Divider(),
+            Divider(
+              color: Colors.black,
+            ),
             Divider(),
             Divider(),
             Divider(),

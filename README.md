@@ -156,21 +156,22 @@ mode.
 - [x] show QR for ScoresTN2
 - [x] add shows to ScoresTN2
 
-- [ ] new install images (match TapTN2)
+- [x] new install images (match TapTN2)
+- [x] apply new fonts to stream, or remove??, or from reflector? - from reflector for scores only
+- [x] check save scorer
+- [x] settings: make buttons more obvious
+- [x] settings: refactor
+- [x] settings default link?  copy paste on phone?
+- [x] double check QR codes
+- [x] remove version 1 of scores
+- [x] fix engine save/get, add version check
+
 - [ ] timer for scores refresh?
 - [ ] style for alert dialogs (scores app only?)
 - [ ] refactor duplicate code sections
-- [ ] apply new fonts to stream, or remove??, or from reflector?
-- [ ] size 13
-- [ ] fix engine save/get, add version check
 - [ ] fix font size stream (too small)
+- [ ] do we need all settings for stream parts?
 
-- [ ] check save scorer
-- [ ] settings: make buttons more obvious
-- [ ] settings: refactor
-- [ ] settings default link?  copy paste on phone?
-- [ ] double check QR codes
-- [ ] remove version 1 of scores
 - [ ] longer time on reflector?
 - [ ] apple watch?
 - [ ] Jason asked for delay to sync with Youtube at home

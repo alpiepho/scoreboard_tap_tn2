@@ -28,20 +28,20 @@ class Engine {
   bool lastPointLeft = false;
   bool lastPointEnabled = true;
   bool zoom = false;
-  // bool setsShow = false;
-  // bool sets5 = false;
-  bool setsShow = true;
-  bool sets5 = true;
+  bool setsShow = false;
+  bool sets5 = false;
   int setsLeft = 0;
   int setsRight = 0;
 
   bool streamsMode = false;
 
-  // TODO: remove DEBUG before DEPLOY
   // String scoreKeeper = "keeper1";
   // String reflectorSite = "http://localhost:3000";
   String scoreKeeper = ""; // can be comma separated list or *
-  String reflectorSite = "https://refelectortn2.uw.r.appspot.com";
+  String reflectorSite = "";
+
+  String reflectorSiteTest = "http://localhost:3000";
+  String reflectorSiteDefault = "https://refelectortn2.uw.r.appspot.com";
 
   // raw (w/ time, keeper, colors, names, sets, possession):
   //   2022-08-22_05:54:34,keeper1,ff000000,fff44336,ff000000,ff448aff,Away1,Home1,0,0,24,18,1
@@ -67,10 +67,11 @@ class Engine {
   bool showPossession = true;
   bool showComment = true;
   bool showRaw = false;
+  bool showLookParams = true;
 
   // not saved
   String reflectorComment = "";
-  String possibleKeeper = "unknown";
+  String possibleKeepers = "";
 
   Engine();
 
@@ -78,7 +79,7 @@ class Engine {
   // pack/unpack
   //
   String pack() {
-    String result = "";
+    String result = "PackVersion22;";
 
     result += colorTextLeft.toString() + ";";
     result += colorBackgroundLeft.toString() + ";";
@@ -90,14 +91,8 @@ class Engine {
     result += valueLeft.toString() + ";";
     result += valueRight.toString() + ";";
 
-    result += "removed" + ";";
-    result += "removed" + ";";
-    result += "removed" + ";";
-    result += "removed" + ";";
-
     result += fontType.toString() + ";";
 
-    result += "removed" + ";"; // was forceLandscape
     result += notify7Enabled.toString() + ";";
     result += notify8Enabled.toString() + ";";
 
@@ -110,9 +105,6 @@ class Engine {
     result += setsLeft.toString() + ";";
     result += setsRight.toString() + ";";
 
-    result += scoreKeeper.toString() + ";";
-    result += reflectorSite.toString() + ";";
-
     result += showTime.toString() + ";";
     result += showKeeper.toString() + ";";
     result += showColors.toString() + ";";
@@ -120,8 +112,12 @@ class Engine {
     result += showSets.toString() + ";";
     result += showScores.toString() + ";";
     result += showPossession.toString() + ";";
+    result += showLookParams.toString() + ";";
     result += showComment.toString() + ";";
     result += showRaw.toString() + ";";
+
+    result += scoreKeeper.toString() + ";";
+    result += reflectorSite.toString() + ";";
 
     return result;
   }
@@ -134,72 +130,68 @@ class Engine {
     return new Color(h);
   }
 
+  FontTypes stringToFont(String name) {
+    var fontType = FontTypes.system;
+
+    for (var value in FontTypes.values) {
+      if (value.toString() == name) {
+        fontType = value;
+        break;
+      }
+    }
+    return fontType;
+  }
+
   void unpack(String packed) {
     if (packed.length == 0) return;
 
     var parts = packed.split(";");
     int index = 0;
+    if (parts[index] == "PackVersion22") {
+      index++;
+      colorTextLeft = stringToColor(parts[index++]);
+      colorBackgroundLeft = stringToColor(parts[index++]);
+      colorTextRight = stringToColor(parts[index++]);
+      colorBackgroundRight = stringToColor(parts[index++]);
 
-    colorTextLeft = stringToColor(parts[index++]);
-    colorBackgroundLeft = stringToColor(parts[index++]);
-    colorTextRight = stringToColor(parts[index++]);
-    colorBackgroundRight = stringToColor(parts[index++]);
+      labelLeft = parts[index++];
+      labelRight = parts[index++];
+      valueLeft = int.parse(parts[index++]);
+      valueRight = int.parse(parts[index++]);
 
-    labelLeft = parts[index++];
-    labelRight = parts[index++];
-    valueLeft = int.parse(parts[index++]);
-    valueRight = int.parse(parts[index++]);
+      fontType = stringToFont(parts[index++]);
 
-    index++;
-    index++;
-    index++;
-    index++;
+      notify7Enabled = parts[index++] == "true";
+      notify8Enabled = parts[index++] == "true";
 
-    fontType = FontTypes.system;
-    for (var value in FontTypes.values) {
-      if (value.toString() == parts[index]) {
-        fontType = value;
-        break;
-      }
+      lastPointLeft = parts[index++] == "true";
+      lastPointEnabled = parts[index++] == "true";
+
+      zoom = parts[index++] == "true";
+      setsShow = parts[index++] == "true";
+      sets5 = parts[index++] == "true";
+      setsLeft = int.parse(parts[index++]);
+      setsRight = int.parse(parts[index++]);
+
+      showTime = parts[index++] == "true";
+      showKeeper = parts[index++] == "true";
+      showColors = parts[index++] == "true";
+      showNames = parts[index++] == "true";
+      showSets = parts[index++] == "true";
+      showScores = parts[index++] == "true";
+      showPossession = parts[index++] == "true";
+      showLookParams = parts[index++] == "true";
+      showComment = parts[index++] == "true";
+      showRaw = parts[index++] == "true";
+
+      colorTextLeft = colorTextLeft;
+      colorBackgroundLeft = colorBackgroundLeft;
+      colorTextRight = colorTextRight;
+      colorBackgroundRight = colorBackgroundRight;
+
+      scoreKeeper = parts[index++];
+      reflectorSite = parts[index++];
     }
-    index++;
-
-    index++; // was forceLandscape
-    if (index < parts.length) notify7Enabled = parts[index++] == "true";
-    if (index < parts.length) notify8Enabled = parts[index++] == "true";
-
-    if (index < parts.length) lastPointLeft = parts[index++] == "true";
-    if (index < parts.length) lastPointEnabled = parts[index++] == "true";
-
-    // new since last release so check index
-    if (index < parts.length) zoom = parts[index++] == "true";
-    if (index < parts.length) setsShow = parts[index++] == "true";
-    if (index < parts.length) sets5 = parts[index++] == "true";
-    if (index < parts.length) setsLeft = int.parse(parts[index++]);
-    if (index < parts.length) setsRight = int.parse(parts[index++]);
-
-    if (index < parts.length) scoreKeeper = parts[index++];
-    if (index < parts.length) reflectorSite = parts[index++];
-
-    if (index < parts.length) showTime = parts[index++] == "true";
-    if (index < parts.length) showKeeper = parts[index++] == "true";
-    if (index < parts.length) showColors = parts[index++] == "true";
-    if (index < parts.length) showNames = parts[index++] == "true";
-    if (index < parts.length) showSets = parts[index++] == "true";
-    if (index < parts.length) showScores = parts[index++] == "true";
-    if (index < parts.length) showPossession = parts[index++] == "true";
-    if (index < parts.length) showComment = parts[index++] == "true";
-    if (index < parts.length) showRaw = parts[index++] == "true";
-
-    colorTextLeft = colorTextLeft;
-    colorBackgroundLeft = colorBackgroundLeft;
-    colorTextRight = colorTextRight;
-    colorBackgroundRight = colorBackgroundRight;
-
-    // pendingColorTextLeft = colorTextLeft;
-    // pendingColorBackgroundLeft = colorBackgroundLeft;
-    // pendingColorTextRight = colorTextRight;
-    // pendingColorBackgroundRight = colorBackgroundRight;
   }
 
   //
@@ -223,15 +215,13 @@ class Engine {
 
     int temp = 0;
     String result = "";
-    // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
-    //     0         1       2      3      4      5      6    7  8 9  10  11  12
-    // ie. timestamp,shannon,Them,Us,0,0,10, 8,0
-    //     0         1       2    3  4 5 6   7 8
-    // ie. timepstamp,shannon,{comment}
-    //     0         1        2
     List<String> parts = last.split(",");
 
-    if (parts.length == 13) {
+    // time keeper colorA1 colorA2 colorB1 colorB2 nameA nameB setsA setsB scoreA scoreB possesion font zoom     sets5    setsShow
+    // 0    1      2       3       4       5       6     7     8     9     10     11     12        13   14       15       16
+    //                                                                                   1|2       str  zoomOn|  sets5|   setsShowOn|
+    //                                                                                                  zoomOff  sets3    setsShowOff
+    if (parts.length >= 17) {
       // workaround for back colors, need to debug
       temp = parseReflectorHex(parts[2]);
       if ((temp & 0xff000000) == 0) {
@@ -254,7 +244,14 @@ class Engine {
       valueRight = parseReflectorInt(parts[11]);
 
       lastPointLeft = parseReflectorInt(parts[12]) == 1;
+
+      fontType = stringToFont(parts[13]);
+      zoom = (parts[14] == "zoomOn");
+      sets5 = (parts[15] == "sets5");
+      setsShow = (parts[16] == "setsShowOn");
     }
+    // time keeper comment
+    // 0    1      2
     if (parts.length == 3) {
       result = parts[2];
     }

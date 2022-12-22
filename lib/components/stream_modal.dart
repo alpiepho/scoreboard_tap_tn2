@@ -88,7 +88,7 @@ class _StreamModal extends State<StreamModal> {
       print(message);
     }
     if (names.isNotEmpty) {
-      engine.possibleKeeper = names.join(",");
+      engine.possibleKeepers = names.join(",");
     }
   }
 
@@ -208,15 +208,16 @@ class _StreamModal extends State<StreamModal> {
 
     // RAW
     if (engine.showRaw) {
-      // ie. timestamp,shannon,000000,ffffff,ffffff,000000,Them,Us,0,0, 10, 8,  0
-      //     0         1       2      3      4      5      6    7  8 9  10  11  12
-      // ie. timestamp,shannon,Them,Us,0,0,10, 8,0
-      //     0         1       2    3  4 5 6   7 8
-      // ie. timepstamp,shannon,{comment}
-      //     0         1        2
       List<String> parts = item.split(",");
       List<String> newParts = [];
-      if (parts.length == 13) {
+
+      // time keeper colorA1 colorA2 colorB1 colorB2 nameA nameB setsA setsB scoreA scoreB possesion
+      // 0    1      2       3       4       5       6     7     8     9     10     11     12
+      // time keeper colorA1 colorA2 colorB1 colorB2 nameA nameB setsA setsB scoreA scoreB possesion font zoom     sets5    setsShow
+      // 0    1      2       3       4       5       6     7     8     9     10     11     12        13   14       15       16
+      //                                                                                   1|2       str  zoomOn|  sets5|   setsShowOn|
+      //                                                                                                  zoomOff  sets3    setsShowOff
+      if (parts.length >= 17) {
         if (engine.showTime) {
           newParts.add(parts[0]);
         }
@@ -244,7 +245,15 @@ class _StreamModal extends State<StreamModal> {
         if (engine.showPossession) {
           newParts.add(parts[12]);
         }
+        if (engine.showLookParams) {
+          newParts.add(parts[13]);
+          newParts.add(parts[14]);
+          newParts.add(parts[15]);
+          newParts.add(parts[16]);
+        }
       }
+      // time keeper comment
+      // 0    1      2
       if (parts.length == 3) {
         if (engine.showTime) {
           newParts.add(parts[0]);
@@ -279,8 +288,11 @@ class _StreamModal extends State<StreamModal> {
       String posessionRight = "";
       String comment = "";
 
-      // TODO clean up size (13)
-      if (parts.length == 13) {
+      // time keeper colorA1 colorA2 colorB1 colorB2 nameA nameB setsA setsB scoreA scoreB possesion font zoom     sets5    setsShow
+      // 0    1      2       3       4       5       6     7     8     9     10     11     12        13   14       15       16
+      //                                                                                   1|2       str  zoomOn|  sets5|   setsShowOn|
+      //                                                                                                  zoomOff  sets3    setsShowOff
+      if (parts.length >= 17) {
         if (engine.showTime) {
           timeLeft = parts[0];
         }
@@ -323,7 +335,15 @@ class _StreamModal extends State<StreamModal> {
             posessionRight = " < ";
           }
         }
+        //if (engine.showLookParams) {
+        engine.fontType = engine.stringToFont(parts[13]);
+        engine.zoom = (parts[14] == "zoomOn");
+        engine.sets5 = (parts[15] == "sets5");
+        engine.showSets = (parts[16] == "setsShowOn");
+        //}
       }
+      // time keeper comment
+      // 0    1      2
       if (parts.length == 3) {
         if (engine.showTime) {
           timeLeft = parts[0];
