@@ -180,6 +180,7 @@ class _ScoresPageState extends State<ScoresPage> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
+            // TODO: style this alert
             title: Text(
               keepers[0] + ': ',
               style: kSettingsTextEditStyle,

@@ -165,14 +165,17 @@ mode.
 - [x] double check QR codes
 - [x] remove version 1 of scores
 - [x] fix engine save/get, add version check
+- [x] longer time on reflector?
 
 - [ ] timer for scores refresh?
+- [ ] stream options: clear all, get all...
+- [ ] faster load, try build optimizations
+
 - [ ] style for alert dialogs (scores app only?)
 - [ ] refactor duplicate code sections
 - [ ] fix font size stream (too small)
 - [ ] do we need all settings for stream parts?
 
-- [ ] longer time on reflector?
 - [ ] apple watch?
 - [ ] Jason asked for delay to sync with Youtube at home
 
