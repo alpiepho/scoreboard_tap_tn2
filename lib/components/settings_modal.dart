@@ -539,12 +539,12 @@ class _SettingsModal extends State<SettingsModal> {
       body: Container(
         child: ListView(
           children: <Widget>[
-            Divider(),
+            SizedBox(
+              height: 20,
+            ),
             ...displayTiles,
             ...showTiles,
-            Divider(
-              color: Colors.black,
-            ),
+            SettingsDivider(),
             new ListTile(
               title: new Text(
                 "Reflector Settings:",
@@ -602,9 +602,7 @@ class _SettingsModal extends State<SettingsModal> {
               //trailing: new Icon(Icons.done),
               onTap: onReflector as void Function()?,
             ),
-            Divider(
-              color: Colors.black,
-            ),
+            SettingsDivider(),
             new ListTile(
               title: new Text(
                 'Reflector Site...',
@@ -621,9 +619,7 @@ class _SettingsModal extends State<SettingsModal> {
             //   trailing: new Icon(Icons.help),
             //   onTap: onReflectorSiteKeeper,
             // ),
-            Divider(
-              color: Colors.black,
-            ),
+            SettingsDivider(),
             new ListTile(
               title: new Text(
                 kVersion,
@@ -670,15 +666,27 @@ class _SettingsModal extends State<SettingsModal> {
               trailing: new Icon(Icons.help),
               onTap: onHelp,
             ),
-            Divider(
-              color: Colors.black,
+            SettingsDivider(),
+            SizedBox(
+              height: 100,
             ),
-            Divider(),
-            Divider(),
-            Divider(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class SettingsDivider extends StatelessWidget {
+  const SettingsDivider({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black,
+      height: 2,
     );
   }
 }

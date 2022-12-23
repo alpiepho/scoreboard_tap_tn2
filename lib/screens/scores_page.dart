@@ -173,6 +173,9 @@ class _ScoresPageState extends State<ScoresPage> {
     }
 
     String comment = this._engine.parseLastRefelector(event);
+
+    // TODO: look for links in comment and add "link" button
+
     if (comment.isNotEmpty) {
       var keepers = this._engine.scoreKeeper.split(',');
       showDialog<void>(
