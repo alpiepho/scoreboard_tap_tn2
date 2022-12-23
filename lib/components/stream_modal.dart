@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../constants.dart';
 import '../engine.dart';
 import 'floating_buttons.dart';
@@ -149,6 +150,13 @@ class _StreamModal extends State<StreamModal> {
     await _fetchAll(itemIndex, perPage);
     itemIndex += perPage;
     isLoading = false;
+  }
+
+  Future<void> _launchUrl(String urlString) async {
+    Uri _url = Uri.parse(urlString);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
   }
 
   @override
@@ -356,45 +364,56 @@ class _StreamModal extends State<StreamModal> {
         }
         timeLeft = timeLeft + " " + timeRight;
       }
-
       Widget boxLeft = SizedBox.shrink();
       Widget boxRight = SizedBox.shrink();
       //print(comment.length);
       if (comment.isNotEmpty) {
-        var height = 80.0;
-        if (comment.length > 120) {
-          height = 200.0;
+        var height = (comment.length / 45) * 80.0;
+
+        // look for url links
+        var url = "";
+        if (comment.contains("https://")) {
+          comment += " ";
+          int start = comment.indexOf("https://");
+          int end = comment.indexOf(" ", start);
+          url = comment.substring(start, end);
         }
-        if (comment.length > 240) {
-          height = 400.0;
-        }
+
         boxLeft = SizedBox(
           width: 300.0,
           height: height,
-          child: Column(
-            children: [
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: colorBackgroundLeft,
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: new Text(
-                      comment,
-                      style: kLabelTextStyle_system.copyWith(
-                          color: colorTextLeft, fontSize: 20),
+          child: GestureDetector(
+            child: Column(
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colorBackgroundLeft,
+                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: new Text(
+                        comment,
+                        style: kLabelTextStyle_system.copyWith(
+                            color: colorTextLeft, fontSize: 20),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              new Text(
-                timeLeft,
-                style: kLabelTextStyle_system.copyWith(
-                    color: colorTextLeft, fontSize: 15),
-              ),
-            ],
+                new Text(
+                  timeLeft,
+                  style: kLabelTextStyle_system.copyWith(
+                      color: colorTextLeft, fontSize: 15),
+                ),
+              ],
+            ),
+            onDoubleTap: () {
+              // allow double tap for url if available
+              if (url.isNotEmpty) {
+                _launchUrl(url);
+              }
+            },
           ),
         );
       }

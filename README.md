@@ -172,8 +172,7 @@ mode.
 - [ ] timer for scores refresh?
 - [ ] stream options: clear all, get all...
 
-- [ ] style for alert dialogs (scores app only?)
-- [ ] refactor duplicate code sections
+- [ ] refactor duplicate code sections (like _launch url)
 - [ ] fix font size stream (too small)
 - [ ] do we need all settings for stream parts?
 
