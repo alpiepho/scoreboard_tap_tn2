@@ -4,10 +4,9 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
   "version.json": "48ff1d930aebefdcb339aedc65ba406d",
-"index.html": "dc5b36e06cb10a0ea307d4fe422fe225",
-"/": "dc5b36e06cb10a0ea307d4fe422fe225",
-"main.dart.js": "4905a15c5139ffb9d4d51950f6a40e15",
-"flutter.js": "eb2682e33f25cd8f1fc59011497c35f8",
+"index.html": "e33385d72e9939ae9dd971e18ccc3842",
+"/": "e33385d72e9939ae9dd971e18ccc3842",
+"main.dart.js": "cbc5bbfa902827bd394a8a51a359adc1",
 "favicon.png": "e77f5d3b4801779bc0e4be1f4c06c63a",
 "icons/1024.png": "1f684a8e4694e7d3c9ef5528fd64df7f",
 "icons/60.png": "e25184151b617b00196add26237fdaa9",
@@ -35,21 +34,17 @@ const RESOURCES = {
 "assets/packages/font_awesome_flutter/lib/fonts/fa-brands-400.ttf": "d1722d5cf2c7855862f68edb85e31f88",
 "assets/fonts/MaterialIcons-Regular.otf": "95db9098c58fd6db106f1116bae85a0b",
 "assets/assets/qr-code-tap.png": "7da86777c62198a04088bbe550e9fd59",
-"assets/assets/qr-code-scores.png": "0c229e389751c01cfc96d9a3aaec7165",
-"canvaskit/canvaskit.js": "c2b4e5f3d7a3d82aed024e7249a78487",
-"canvaskit/profiling/canvaskit.js": "ae2949af4efc61d28a4a80fffa1db900",
-"canvaskit/profiling/canvaskit.wasm": "95e736ab31147d1b2c7b25f11d4c32cd",
-"canvaskit/canvaskit.wasm": "4b83d89d9fecbea8ca46f2f760c5a9ba"
+"assets/assets/qr-code-scores.png": "0c229e389751c01cfc96d9a3aaec7165"
 };
 
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = [
-  "https://alpiepho.github.io/scoreboard_tap_tn2/main.dart.js",
-"https://alpiepho.github.io/scoreboard_tap_tn2/index.html",
-"https://alpiepho.github.io/scoreboard_tap_tn2/assets/NOTICES",
-"https://alpiepho.github.io/scoreboard_tap_tn2/assets/AssetManifest.json",
-"https://alpiepho.github.io/scoreboard_tap_tn2/assets/FontManifest.json"];
+  "main.dart.js",
+"index.html",
+"assets/NOTICES",
+"assets/AssetManifest.json",
+"assets/FontManifest.json"];
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
   self.skipWaiting();
