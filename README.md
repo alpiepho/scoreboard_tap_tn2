@@ -166,10 +166,11 @@ mode.
 - [x] remove version 1 of scores
 - [x] fix engine save/get, add version check
 - [x] longer time on reflector?
+- [x] faster load, try build optimizations
+- [x] add link button for urls found in comments (needs to be followed with space or nothing)
 
 - [ ] timer for scores refresh?
 - [ ] stream options: clear all, get all...
-- [ ] faster load, try build optimizations
 
 - [ ] style for alert dialogs (scores app only?)
 - [ ] refactor duplicate code sections

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import '../components/score_card.dart';
 import '../components/score_card_content.dart';
 import '../constants.dart';
@@ -74,36 +75,12 @@ class _ScoresPageState extends State<ScoresPage> {
     });
   }
 
-  // List<String> _list = [
-  //   "2022-08-07_06:42:20,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,1,1,15,5,1",
-  //   "2022-08-07_06:42:20,dude,WOO HOO!",
-  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,15,5,1",
-  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,14,5,1",
-  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,13,5,1",
-  //   "2022-08-07_06:42:15,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,12,5,1",
-  //   "2022-08-07_06:42:11,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,11,5,1",
-  //   "2022-08-07_06:42:03,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,1,11,5,1",
-  //   "2022-08-07_06:41:59,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,11,5,1",
-  //   "2022-08-07_06:41:59,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,10,5,1",
-  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,9,5,1",
-  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,8,5,1",
-  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,7,5,1",
-  //   "2022-08-07_06:41:58,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,6,5,1",
-  //   "2022-08-07_06:41:57,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,5,2",
-  //   "2022-08-07_06:41:57,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,4,2",
-  //   "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,3,2",
-  //   "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,2,2",
-  //   "2022-08-07_06:41:56,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,1,2",
-  //   "2022-08-07_06:41:54,dude,fff44336,ff000000,ff448aff,ff000000,Away2,Home2,0,0,5,0,1",
-  //   "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,5,0,1",
-  //   "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,4,0,1",
-  //   "2022-08-07_06:41:38,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,3,0,1",
-  //   "2022-08-07_06:41:37,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,2,0,1",
-  //   "2022-08-07_06:41:37,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,1,0,1",
-  //   "2022-08-07_06:41:34,dude,fff44336,ff000000,ff448aff,ff000000,Away,Home,0,0,0,0,2",
-  //   "2022-08-07_06:42:20,dude,HERE WE GO!  And the match is about to start",
-  // ];
-  // int _index = -1;
+  Future<void> _launchUrl(String urlString) async {
+    Uri _url = Uri.parse(urlString);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
 
   void _refreshReflector() async {
     if (_engine.reflectorSite.isEmpty || _engine.scoreKeeper.isEmpty) {
@@ -174,7 +151,36 @@ class _ScoresPageState extends State<ScoresPage> {
 
     String comment = this._engine.parseLastRefelector(event);
 
-    // TODO: look for links in comment and add "link" button
+    // look for links in comment and add "link" button
+    List<Widget> actionWidgets = [];
+    String url = "";
+    if (comment.contains("https://")) {
+      comment += " ";
+      int start = comment.indexOf("https://");
+      int end = comment.indexOf(" ", start);
+      url = comment.substring(start, end);
+      if (url.isNotEmpty) {
+        actionWidgets.add(new TextButton(
+          child: Text(
+            'Link',
+            style: kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+          ),
+          onPressed: () {
+            _launchUrl(url);
+          },
+        ));
+      }
+    }
+
+    actionWidgets.add(new TextButton(
+      child: Text(
+        'Done',
+        style: kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    ));
 
     if (comment.isNotEmpty) {
       var keepers = this._engine.scoreKeeper.split(',');
@@ -183,7 +189,6 @@ class _ScoresPageState extends State<ScoresPage> {
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            // TODO: style this alert
             title: Text(
               keepers[0] + ': ',
               style: kSettingsTextEditStyle,
@@ -198,18 +203,7 @@ class _ScoresPageState extends State<ScoresPage> {
                 ],
               ),
             ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'Done',
-                  style:
-                      kSettingsTextEditStyle.copyWith(color: Colors.blueAccent),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
+            actions: actionWidgets,
           );
         },
       );
