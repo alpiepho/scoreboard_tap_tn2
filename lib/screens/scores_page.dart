@@ -83,7 +83,8 @@ class _ScoresPageState extends State<ScoresPage> {
   }
 
   void _refreshReflector() async {
-    if (_engine.reflectorSite.isEmpty || _engine.scoreKeeper.isEmpty) {
+    if (_engine.reflectorSite.isEmpty) {
+      // no sense continuing if reflector site is empty
       return;
     }
 
@@ -92,7 +93,7 @@ class _ScoresPageState extends State<ScoresPage> {
     String encoded;
     Uri _url;
 
-    // Update keepers
+    // Update possible keepers
     urlString = _engine.reflectorSite;
     urlString += "/keepers/json";
 
@@ -112,6 +113,11 @@ class _ScoresPageState extends State<ScoresPage> {
     }
     if (names.isNotEmpty) {
       _engine.possibleKeepers = names.join(",");
+    }
+
+    if (_engine.scoreKeeper.isEmpty) {
+      // no sense continuing if score keeper is empty
+      return;
     }
 
     // Update latest score for first keeper
@@ -139,16 +145,14 @@ class _ScoresPageState extends State<ScoresPage> {
       final data = jsonDecode(response.body);
       print(data);
       event = data['entry'];
-      // FAKE: cycle thru fake_list
-      // if (_index < 0) _index = _list.length - 1;
-      // event = _list[_index];
-      // _index--;
     } catch (exception, message) {
       print(exception);
       print(message);
       return;
     }
 
+    // parseLastRefelector may return comment string if present,
+    // parse for links and show dialog
     String comment = this._engine.parseLastRefelector(event);
 
     // look for links in comment and add "link" button
@@ -221,6 +225,7 @@ class _ScoresPageState extends State<ScoresPage> {
   void _saveReflector() async {
     _fromEngine();
     _saveEngine();
+    _refreshReflector();
     Navigator.of(context).pop();
   }
 

@@ -238,59 +238,59 @@ class _SettingsModal extends State<SettingsModal> {
   //   Navigator.of(context).pop();
   // }
 
-  void onScoresQR() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Scores QR'),
-          content: SingleChildScrollView(
-            child: Container(
-              width: 200,
-              height: 200,
-              child: Image.asset("assets/qr-code-scores.png"),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Done'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void onScoresQR() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Scores QR'),
+  //         content: SingleChildScrollView(
+  //           child: Container(
+  //             width: 200,
+  //             height: 200,
+  //             child: Image.asset("assets/qr-code-scores.png"),
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Done'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
-  void onScoresTapQR() async {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Scores Tap QR'),
-          content: SingleChildScrollView(
-            child: Container(
-              width: 200,
-              height: 200,
-              child: Image.asset("assets/qr-code-tap.png"),
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Done'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void onScoresTapQR() async {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false, // user must tap button!
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Scores Tap QR'),
+  //         content: SingleChildScrollView(
+  //           child: Container(
+  //             width: 200,
+  //             height: 200,
+  //             child: Image.asset("assets/qr-code-tap.png"),
+  //           ),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: const Text('Done'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   // void onScoresLink() async {
   //   _launchUrl('https://alpiepho.github.io/scoreboard_tn2/');
@@ -302,7 +302,13 @@ class _SettingsModal extends State<SettingsModal> {
   //   Navigator.of(context).pop();
   // }
 
-  void onHelp() async {
+  void onScoresHelp() async {
+    _launchUrl(
+        'https://github.com/alpiepho/scoreboard_tn2/blob/master/README.md');
+    Navigator.of(context).pop();
+  }
+
+  void onTapHelp() async {
     _launchUrl(
         'https://github.com/alpiepho/scoreboard_tap_tn2/blob/master/README.md');
     Navigator.of(context).pop();
@@ -396,18 +402,19 @@ class _SettingsModal extends State<SettingsModal> {
           onTap: onShowNamesChanged,
         ),
       );
-      showTiles.add(
-        new ListTile(
-          title: new Text(
-            'Show Sets.',
-            style: kSettingsTextEditStyle,
-          ),
-          trailing: new Icon(
-            engine.showSets ? Icons.check_box : Icons.check_box_outline_blank,
-          ),
-          onTap: onShowSetsChanged,
-        ),
-      );
+      // TBD: fix conflict with show-sets in look parameters, ignore for now
+      // showTiles.add(
+      //   new ListTile(
+      //     title: new Text(
+      //       'Show Sets.',
+      //       style: kSettingsTextEditStyle,
+      //     ),
+      //     trailing: new Icon(
+      //       engine.showSets ? Icons.check_box : Icons.check_box_outline_blank,
+      //     ),
+      //     onTap: onShowSetsChanged,
+      //   ),
+      // );
       showTiles.add(
         new ListTile(
           title: new Text(
@@ -564,8 +571,8 @@ class _SettingsModal extends State<SettingsModal> {
             new ListTile(
               leading: null,
               title: new TextFormField(
-                decoration: new InputDecoration.collapsed(
-                    hintText: 'Add Other Scorekeepers (comma separated list)'),
+                decoration:
+                    new InputDecoration.collapsed(hintText: 'Edit scorekeeper'),
                 autofocus: false,
                 initialValue: engine.scoreKeeper,
                 onChanged: (text) {
@@ -581,7 +588,7 @@ class _SettingsModal extends State<SettingsModal> {
             ),
             new ListTile(
               title: new Text(
-                'Save Other Scorekeepers.',
+                'Save edited scorekeeper.',
                 style: kSettingsTextEditStyle,
               ),
               //trailing: new Icon(Icons.done),
@@ -591,8 +598,8 @@ class _SettingsModal extends State<SettingsModal> {
             new ListTile(
               leading: null,
               title: new TextFormField(
-                decoration: new InputDecoration.collapsed(
-                    hintText: 'Add Other Reflector'),
+                decoration:
+                    new InputDecoration.collapsed(hintText: 'Edit reflector'),
                 autofocus: false,
                 initialValue: initialValueReflector,
                 onChanged: (text) => engine.reflectorSite = text,
@@ -605,7 +612,7 @@ class _SettingsModal extends State<SettingsModal> {
             ),
             new ListTile(
               title: new Text(
-                'Save Other Reflector.',
+                'Save edited reflector.',
                 style: kSettingsTextEditStyle,
               ),
               //trailing: new Icon(Icons.done),
@@ -635,22 +642,22 @@ class _SettingsModal extends State<SettingsModal> {
                 style: kSettingsTextEditStyle,
               ),
             ),
-            new ListTile(
-              title: new Text(
-                'Scores QR...',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.help),
-              onTap: onScoresQR,
-            ),
-            new ListTile(
-              title: new Text(
-                'Scores Tap QR...',
-                style: kSettingsTextEditStyle,
-              ),
-              trailing: new Icon(Icons.help),
-              onTap: onScoresTapQR,
-            ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Scores QR...',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.help),
+            //   onTap: onScoresQR,
+            // ),
+            // new ListTile(
+            //   title: new Text(
+            //     'Scores Tap QR...',
+            //     style: kSettingsTextEditStyle,
+            //   ),
+            //   trailing: new Icon(Icons.help),
+            //   onTap: onScoresTapQR,
+            // ),
             // new ListTile(
             //   title: new Text(
             //     'Scores Link...',
@@ -669,11 +676,19 @@ class _SettingsModal extends State<SettingsModal> {
             // ),
             new ListTile(
               title: new Text(
+                'ScoresTN2 Help...',
+                style: kSettingsTextEditStyle,
+              ),
+              trailing: new Icon(Icons.help),
+              onTap: onScoresHelp,
+            ),
+            new ListTile(
+              title: new Text(
                 'Help...',
                 style: kSettingsTextEditStyle,
               ),
               trailing: new Icon(Icons.help),
-              onTap: onHelp,
+              onTap: onTapHelp,
             ),
             SettingsDivider(),
             SizedBox(

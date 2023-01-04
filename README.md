@@ -1,5 +1,5 @@
 ## Get Application
-Version: 2.2
+Version: 2.2f
 
 GH-Pages site: https://alpiepho.github.io/scoreboard_tap_tn2/
 
@@ -169,12 +169,18 @@ mode.
 - [x] faster load, try build optimizations
 - [x] add link button for urls found in comments (needs to be followed with space or nothing)
 
-- [ ] timer for scores refresh?
-- [ ] stream options: clear all, get all...
+- [ ] stream show sets not working?
 
+- [ ] add debug list to engine and setting to dump, replace print(), add more, setting to enable
+- [ ] fix setting of scorer not taking effect
+- [ ] timer for scores refresh, 0s, 5s, 10s, 30s, 60s
+- [ ] should we removing pending and save for settings (dialogs for text input?)
+- [ ] all settings immediately and save on back?
 - [ ] refactor duplicate code sections (like _launch url)
+- [ ] do we need all settings for stream parts? only for raw
+
 - [ ] fix font size stream (too small)
-- [ ] do we need all settings for stream parts?
+- [ ] stream options: clear all, get all...
 
 - [ ] apple watch?
 - [ ] Jason asked for delay to sync with Youtube at home
