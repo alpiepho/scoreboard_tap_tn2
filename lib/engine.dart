@@ -72,6 +72,9 @@ class Engine {
   // not saved
   String reflectorComment = "";
   String possibleKeepers = "";
+  bool reflectorInterval10 = false;
+  bool reflectorInterval30 = false;
+  bool reflectorInterval60 = false;
 
   Engine();
 
@@ -118,6 +121,10 @@ class Engine {
 
     result += scoreKeeper.toString() + ";";
     result += reflectorSite.toString() + ";";
+
+    result += reflectorInterval10.toString() + ";";
+    result += reflectorInterval30.toString() + ";";
+    result += reflectorInterval60.toString() + ";";
 
     return result;
   }
@@ -191,6 +198,11 @@ class Engine {
 
       scoreKeeper = parts[index++];
       reflectorSite = parts[index++];
+
+      // new without changing version (and clearing current users)
+      if (index < parts.length) reflectorInterval10 = parts[index++] == "true";
+      if (index < parts.length) reflectorInterval30 = parts[index++] == "true";
+      if (index < parts.length) reflectorInterval60 = parts[index++] == "true";
     }
   }
 

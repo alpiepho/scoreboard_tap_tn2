@@ -1,5 +1,5 @@
 ## Get Application
-Version: 2.2f
+Version: 2.2g
 
 GH-Pages site: https://alpiepho.github.io/scoreboard_tap_tn2/
 

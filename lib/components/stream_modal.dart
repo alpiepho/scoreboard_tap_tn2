@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -61,6 +62,8 @@ class _StreamModal extends State<StreamModal> {
   bool isLoading = false;
 
   List<String> items = [];
+
+  Timer _reflectorTimer = new Timer(Duration(seconds: 1), () {});
 
   Future _fetchKeepers() async {
     if (engine.reflectorSite.isEmpty) {
@@ -193,6 +196,25 @@ class _StreamModal extends State<StreamModal> {
     items = [];
     itemIndex = 0;
     _fetch();
+
+    // start timer to auto refrest the reflector
+    _reflectorTimer.cancel();
+    if (engine.reflectorInterval10 ||
+        engine.reflectorInterval30 ||
+        engine.reflectorInterval60) {
+      var seconds = 0;
+      if (engine.reflectorInterval10) seconds += 10;
+      if (engine.reflectorInterval30) seconds += 30;
+      if (engine.reflectorInterval60) seconds += 60;
+      var reflectorInterval = Duration(seconds: seconds);
+      _reflectorTimer = new Timer.periodic(
+        reflectorInterval,
+        (Timer timer) {
+          _refreshReflector();
+        },
+      );
+    }
+
     //Navigator.of(context).pop();
   }
 
@@ -303,6 +325,12 @@ class _StreamModal extends State<StreamModal> {
       if (parts.length >= 17) {
         if (engine.showTime) {
           timeLeft = parts[0];
+          // convert to local time
+          timeLeft = timeLeft.replaceAll("_", "T");
+          var ts = DateTime.parse(timeLeft);
+          timeLeft = ts.toLocal().toString();
+          timeLeft = timeLeft.replaceAll("T", "_");
+          timeLeft = timeLeft.replaceAll(".000", "");
         }
         if (engine.showKeeper) {
           timeRight = parts[1];

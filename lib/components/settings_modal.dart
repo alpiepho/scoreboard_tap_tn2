@@ -95,11 +95,29 @@ class _SettingsModal extends State<SettingsModal> {
     );
   }
 
-  void onZoomChanged() async {
-    if (!this.engine.zoom) {
-      this.engine.zoom = true;
+  void onReflectorInterval10Changed() async {
+    if (!this.engine.reflectorInterval10) {
+      this.engine.reflectorInterval10 = true;
     } else {
-      this.engine.zoom = false;
+      this.engine.reflectorInterval10 = false;
+    }
+    this.onDone();
+  }
+
+  void onReflectorInterval30Changed() async {
+    if (!this.engine.reflectorInterval30) {
+      this.engine.reflectorInterval30 = true;
+    } else {
+      this.engine.reflectorInterval30 = false;
+    }
+    this.onDone();
+  }
+
+  void onReflectorInterval60Changed() async {
+    if (!this.engine.reflectorInterval60) {
+      this.engine.reflectorInterval60 = true;
+    } else {
+      this.engine.reflectorInterval60 = false;
     }
     this.onDone();
   }
@@ -320,40 +338,65 @@ class _SettingsModal extends State<SettingsModal> {
     // var fontStyle = getLabelFont(engine.fontType);
 
     List<Widget> displayTiles = [];
-    if (!engine.streamsMode) {
-      // displayTiles.add(
-      //   new ListTile(
-      //     title: new Text(
-      //       'Change Fonts...',
-      //       style: kSettingsTextEditStyle,
-      //     ),
-      //     onTap: onFontChange,
-      //   ),
-      // );
-      // displayTiles.add(
-      //   new ListTile(
-      //     title: new Text(
-      //       fontString,
-      //       style: fontStyle.copyWith(fontSize: kSettingsTextStyle_fontSize),
-      //     ),
-      //     //onTap: onFontChange,
-      //   ),
-      // );
-      // displayTiles.add(
-      //   new ListTile(
-      //     title: new Text(
-      //       'Zoom.',
-      //       style: kSettingsTextEditStyle,
-      //     ),
-      //     trailing: new Icon(
-      //         engine.zoom ? Icons.check_box : Icons.check_box_outline_blank),
-      //     onTap: onZoomChanged,
-      //   ),
-      // );
-    }
+    displayTiles.add(SettingsDivider());
+    displayTiles.add(new ListTile(
+      title: new Text(
+        "Display Settings:",
+        style: kSettingsTextEditStyle,
+      ),
+    ));
+    displayTiles.add(
+      new ListTile(
+        title: new Text(
+          'Refresh 10s',
+          style: kSettingsTextEditStyle,
+        ),
+        trailing: new Icon(
+          engine.reflectorInterval10
+              ? Icons.check_box
+              : Icons.check_box_outline_blank,
+        ),
+        onTap: onReflectorInterval10Changed,
+      ),
+    );
+    displayTiles.add(
+      new ListTile(
+        title: new Text(
+          'Refresh 30s',
+          style: kSettingsTextEditStyle,
+        ),
+        trailing: new Icon(
+          engine.reflectorInterval30
+              ? Icons.check_box
+              : Icons.check_box_outline_blank,
+        ),
+        onTap: onReflectorInterval30Changed,
+      ),
+    );
+    displayTiles.add(
+      new ListTile(
+        title: new Text(
+          'Refresh 60s',
+          style: kSettingsTextEditStyle,
+        ),
+        trailing: new Icon(
+          engine.reflectorInterval60
+              ? Icons.check_box
+              : Icons.check_box_outline_blank,
+        ),
+        onTap: onReflectorInterval60Changed,
+      ),
+    );
 
     List<Widget> showTiles = [];
     if (engine.streamsMode) {
+      showTiles.add(SettingsDivider());
+      showTiles.add(new ListTile(
+        title: new Text(
+          "Stream Settings:",
+          style: kSettingsTextEditStyle,
+        ),
+      ));
       showTiles.add(
         new ListTile(
           title: new Text(

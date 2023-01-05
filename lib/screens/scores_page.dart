@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -35,6 +36,8 @@ class _ScoresPageState extends State<ScoresPage> {
   int _setsRight = 0;
 
   Engine _engine = Engine();
+
+  Timer _reflectorTimer = new Timer(Duration(seconds: 1), () {});
 
   void _loadEngine() async {
     final prefs = await SharedPreferences.getInstance();
@@ -209,6 +212,24 @@ class _ScoresPageState extends State<ScoresPage> {
             ),
             actions: actionWidgets,
           );
+        },
+      );
+    }
+
+    // start timer to auto refrest the reflector
+    _reflectorTimer.cancel();
+    if (_engine.reflectorInterval10 ||
+        _engine.reflectorInterval30 ||
+        _engine.reflectorInterval60) {
+      var seconds = 0;
+      if (_engine.reflectorInterval10) seconds += 10;
+      if (_engine.reflectorInterval30) seconds += 30;
+      if (_engine.reflectorInterval60) seconds += 60;
+      var reflectorInterval = Duration(seconds: seconds);
+      _reflectorTimer = new Timer.periodic(
+        reflectorInterval,
+        (Timer timer) {
+          _refreshReflector();
         },
       );
     }
