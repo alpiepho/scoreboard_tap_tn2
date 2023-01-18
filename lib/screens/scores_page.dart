@@ -235,6 +235,8 @@ class _ScoresPageState extends State<ScoresPage> {
     }
 
     _fromEngine();
+    // always save the last keeper/score shown
+    _saveEngine();
   }
 
   void _savePending() async {

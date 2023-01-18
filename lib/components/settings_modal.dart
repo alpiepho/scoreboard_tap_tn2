@@ -130,7 +130,9 @@ class _SettingsModal extends State<SettingsModal> {
     if (keepers.contains(name)) {
       keepers.remove(name);
     } else {
-      keepers.add(name);
+      // NOTE: forcing single keeper
+      //keepers.add(name);
+      keepers[0] = name;
     }
     engine.scoreKeeper = keepers.join(",");
     this.onReflector();
@@ -621,6 +623,9 @@ class _SettingsModal extends State<SettingsModal> {
                 onChanged: (text) {
                   // can be comma separated list or *
                   engine.scoreKeeper = text.trim().replaceAll(' ', ',');
+                  // NOTE: forcing single keeper
+                  var parts = engine.scoreKeeper.split(',');
+                  engine.scoreKeeper = parts[0];
                 },
                 style: kSettingsTextEditStyle,
                 cursorColor: kSettingsTextEditCursorColor,
