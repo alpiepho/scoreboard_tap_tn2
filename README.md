@@ -9,6 +9,8 @@ or QR Code:
 
 Then see INSTALL instructions below.
 
+WARNING: this server app was disabled as of 1/14/2024. The code should be usable if re-deployed.
+
 ## SYSTEM OVERVIEW
 
 This application is part of a system that expands the typical scoring keeping phone application.
